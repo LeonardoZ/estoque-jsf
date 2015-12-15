@@ -1,11 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
-	template="/WEB-INF/templates/default.xhtml">
-	<ui:define name="content">
-		<h:outputText value="#{olaBean.meuNome}" />
-	</ui:define>
-</ui:composition>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Estoque JSF</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet name="css/screen.css" />
+	<link type="text/css" rel="stylesheet"
+		href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
+</h:head>
+<h:body>
+	<div class="header">
+
+		<div id="login-dialog">
+			<h1>Login</h1>
+			<h:form id="frm">
+				<p:messages autoUpdate="true" />
+				<h:panelGrid columns="2" styleClass="grid-login">
+					<p:outputLabel value="Usuário" for="usuario" />
+					<p:inputText id="usuario" size="20"
+						value="#{loginBean.nomeUsuario}" />
+					<p:outputLabel value="Senha" for="senha" />
+					<p:password id="senha" size="20" value="#{loginBean.senha}" />
+					<p:outputLabel />
+					<p:commandButton value="Acessar" action="#{loginBean.login}" />
+				</h:panelGrid>
+			</h:form>
+		</div>
+	</div>
+</h:body>
+</html>
+
+

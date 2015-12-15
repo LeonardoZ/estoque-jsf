@@ -1,16 +1,66 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Estoque JSF</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<h:outputStylesheet name="css/screen.css" />
+	<h:outputStylesheet library="css" name="screen.css" />
+
 </h:head>
 <h:body>
+	<div class="header">
+		<h:form>
+			<p:menubar styleClass="top-menu">
+				<p:menuitem value="Home" />
+				<p:menuitem value="Produtos"
+					action="/CadastroCategoria?faces-redirect=true" />
+				<p:menuitem value="Sair"
+					action="/CadastroUnidadeDeMedida?faces-redirect=true" />
+			</p:menubar>
+		</h:form>
+	</div>
 	<div id="container">
-		<ui:insert name="content"></ui:insert>
+		<p:layout style='margin-top:20px'>
+			<p:layoutUnit position="west" minSize="210"
+				style="width:200px;heigth:600px;margin:10px;">
+				<h:form>
+					<p:panelMenu style="width:200px;margin:10px;">
+						<p:submenu label="Mercadoria">
+							<p:menuitem value="Produto" icon="ui-icon-disk" />
+							<p:menuitem value="Categoria" icon="ui-icon-arrowrefresh-1-w" />
+							<p:menuitem value="Unidade de Medida"
+								icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+						<p:submenu label="Colaborador">
+							<p:menuitem value="Fornecedor" icon="ui-icon-arrowrefresh-1-w" />
+							<p:menuitem value="Funcionario" icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+						<p:submenu label="Clientes">
+							<p:menuitem value="Cliente" icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+						<p:separator />
+						<p:submenu label="Movimento">
+							<p:menuitem value="Entrada" icon="ui-icon-arrowrefresh-1-w" />
+							<p:menuitem value="Saída" icon="ui-icon-arrowrefresh-1-w" />
+							<p:menuitem value="Caixa" icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+						<p:menuitem value="Sair" icon="ui-icon-arrowrefresh-1-w" />
+					</p:panelMenu>
+				</h:form>
+			</p:layoutUnit>
+			<p:layoutUnit position="center" maxSize="968"
+				style="width:600px;heigth:800px">
+				<ui:insert name="content">
+
+				</ui:insert>
+			</p:layoutUnit>
+			<p:layoutUnit position="bottom">
+				<footer>Estoque 2015 </footer>
+			</p:layoutUnit>
+		</p:layout>
+
 	</div>
 </h:body>
 </html>

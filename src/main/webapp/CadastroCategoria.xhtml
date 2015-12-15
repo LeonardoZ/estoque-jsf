@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<div class="cadastro">
+			<h:form>
+				<p:fieldset legend="Cadastro de Categoria"
+					style="margin-bottom:20px; width: 500px;">
+					<h:panelGrid columns="1">
+						<p:messages showDetail="true" showSummary="true" showIcon="true" />
+						<p:outputLabel>Descrição</p:outputLabel>
+						<p:inputTextarea size="100" rows="3" styleClass="input-large"
+							value="#{cadastroCategoriaBean.categoria.descricao}" />
+						<p:commandButton value="Salvar"
+							action="#{cadastroCategoriaBean.salvarCategoria}"
+							icon="ui-icon-disk" update="@form" />
+					</h:panelGrid>
+					<p:dataTable id="table"
+						value="#{cadastroCategoriaBean.listarCategorias()}"
+						var="categoria" style="width: 500px;">
+
+						<p:column headerText="Descricão">
+							<h:outputText value="#{categoria.descricao}" />
+						</p:column>
+
+						<p:column>
+							<p:commandButton value="Editar" process="@this" update="@form">
+								<f:setPropertyActionListener value="#{categoria}"
+									target="#{cadastroCategoriaBean.categoria}" />
+
+							</p:commandButton>
+							<p:commandButton value="Remover"
+								action="#{cadastroCategoriaBean.removerCategoria()}"
+								process="@this" update="@all">
+								<f:setPropertyActionListener value="#{categoria}"
+									target="#{cadastroCategoriaBean.categoria}" />
+								<p:confirm header="Remover Categoria"
+									message="Deseja remover a Categoria?" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+
+					<p:confirmDialog id="removerDialog" global="true" showEffect="fade"
+						hideEffect="fade">
+						<h:form>
+							<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check">
+							</p:commandButton>
+
+							<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+								icon="ui-icon-close" />
+						</h:form>
+					</p:confirmDialog>
+				</p:fieldset>
+			</h:form>
+
+
+		</div>
+	</ui:define>
+</ui:composition>
