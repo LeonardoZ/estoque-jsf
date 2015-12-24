@@ -7,22 +7,21 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.leonardoz.estoque.model.Categoria;
-import com.leonardoz.estoque.repository.Categorias;
+import com.leonardoz.estoque.model.Cidade;
+import com.leonardoz.estoque.repository.Localizacoes;
 
 @Named
-@FacesConverter(forClass = Categoria.class)
-public class CategoriaConverter implements Converter {
+@FacesConverter(forClass = Cidade.class)
+public class CidadeConverter implements Converter {
 
 	@Inject
-	private Categorias categorias;
+	private Localizacoes localizacoes;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Categoria retorno = null;
+		Cidade retorno = null;
 		if (value != null && !"".equals(value)) {
-			retorno = categorias.recuperaCategoria(Long.valueOf(value))
-					.orElseThrow(IllegalArgumentException::new);
+			retorno = localizacoes.recuperaCidade(Long.valueOf(value));
 		}
 		return retorno;
 	}
@@ -30,8 +29,8 @@ public class CategoriaConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Categoria categoria = ((Categoria) value);
-			return categoria.getId() == null ? null : categoria.getId().toString();
+			Cidade cidade = ((Cidade) value);
+			return cidade.getId() == null ? null : cidade.getId().toString();
 		}
 		return null;
 	}

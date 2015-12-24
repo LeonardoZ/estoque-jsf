@@ -7,22 +7,21 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.leonardoz.estoque.model.Categoria;
-import com.leonardoz.estoque.repository.Categorias;
+import com.leonardoz.estoque.model.UnidadeDeMedida;
+import com.leonardoz.estoque.repository.UnidadesDeMedida;
 
 @Named
-@FacesConverter(forClass = Categoria.class)
-public class CategoriaConverter implements Converter {
+@FacesConverter(forClass = UnidadeDeMedida.class)
+public class UnidadeDeMedidaConverter implements Converter {
 
 	@Inject
-	private Categorias categorias;
+	private UnidadesDeMedida unidades;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Categoria retorno = null;
+		UnidadeDeMedida retorno = null;
 		if (value != null && !"".equals(value)) {
-			retorno = categorias.recuperaCategoria(Long.valueOf(value))
-					.orElseThrow(IllegalArgumentException::new);
+			retorno = unidades.recuperaUnidadeDeMedida(Long.valueOf(value)).orElseThrow(IllegalArgumentException::new);
 		}
 		return retorno;
 	}
@@ -30,8 +29,8 @@ public class CategoriaConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Categoria categoria = ((Categoria) value);
-			return categoria.getId() == null ? null : categoria.getId().toString();
+			UnidadeDeMedida unidade = ((UnidadeDeMedida) value);
+			return unidade.getId() == null ? null : unidade.getId().toString();
 		}
 		return null;
 	}

@@ -4,6 +4,9 @@ import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
@@ -13,10 +16,11 @@ public class Cnpj {
 	private static final String PADRAO = "\\d{2}.?\\d{3}.?\\d{3}/?\\d{4}-?\\d{2}";
 	private static final Pattern avaliadorDePadrao = Pattern.compile(PADRAO);
 
-	@Column(name = "cnpj", nullable = false, length = 14)
+	@NotNull
+	@Column(name = "cnpj", nullable = false, length = 15)
 	private String valor;
 
-	protected Cnpj() {
+	public Cnpj() {
 
 	}
 
@@ -24,17 +28,27 @@ public class Cnpj {
 		if (valor == null || valor.isEmpty()) {
 			throw new IllegalArgumentException("Cnpj não pode estar vazio.");
 		}
-		if (!cpfValido(valor)) {
+		if (!cnpjValido(valor)) {
 			throw new IllegalArgumentException("Cnpj em formato inválido!");
 		}
-		this.valor = valor.replace(".", "").replace("-", "").replace("/", "");
+		limparValor();
 	}
 
 	public String getValor() {
 		return valor;
 	}
 
-	public static boolean cpfValido(String valor) {
+	@PrePersist
+	public void limparValor() {
+		this.valor = valor.replace(".", "").replace("-", "").replace("/", "");
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+		limparValor();
+	}
+
+	public static boolean cnpjValido(String valor) {
 		return avaliadorDePadrao.matcher(valor).matches();
 	}
 

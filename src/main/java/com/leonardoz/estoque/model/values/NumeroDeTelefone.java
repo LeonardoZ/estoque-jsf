@@ -13,10 +13,10 @@ public class NumeroDeTelefone {
 	private static final String PADRAO = "^(\\(11\\) [9][0-9]{4}-[0-9]{4})|(\\(1[2-9]\\) [5-9][0-9]{3}-[0-9]{4})|(\\([2-9][1-9]\\) [1-9][0-9]{3}-[0-9]{4})$";
 	private static final Pattern avaliadorDePadrao = Pattern.compile(PADRAO);
 
-	@Column(name = "telefone", nullable = false, length = 17)
+	@Column(name = "telefone",  length = 17)
 	private String valor;
 
-	protected NumeroDeTelefone() {
+	public NumeroDeTelefone() {
 
 	}
 
@@ -34,6 +34,10 @@ public class NumeroDeTelefone {
 		return valor;
 	}
 
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+	
 	public static boolean cepValido(String valor) {
 		return avaliadorDePadrao.matcher(valor).matches();
 	}

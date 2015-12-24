@@ -4,11 +4,8 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="EstoquePU" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>com.leonardoz.estoque.model.Produto</class>
-		<class>com.leonardoz.estoque.model.Categoria</class>
-		<class>com.leonardoz.estoque.model.UnidadeDeMedida</class>
-	<properties>
-		<property name="hibernate.archive.autodetection" value="class, hbm" />
+		<properties>
+			<property name="hibernate.archive.autodetection" value="class" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/estoquejsf" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="root" />
@@ -17,6 +14,8 @@
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
+
+		
 		</properties>
 	</persistence-unit>
 </persistence>

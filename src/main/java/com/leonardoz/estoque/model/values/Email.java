@@ -13,10 +13,10 @@ public class Email {
 	private static final String PADRAO = "^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$";
 	private static final Pattern avaliadorDePadrao = Pattern.compile(PADRAO);
 
-	@Column(name = "email", nullable = false, length = 30)
+	@Column(name = "email", length = 30)
 	private String valor;
 
-	protected Email() {
+	public Email() {
 
 	}
 
@@ -36,6 +36,10 @@ public class Email {
 
 	public static boolean emailValido(String valor) {
 		return avaliadorDePadrao.matcher(valor).matches();
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 
 	@Override

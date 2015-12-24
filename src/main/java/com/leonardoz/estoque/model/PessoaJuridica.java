@@ -8,6 +8,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.leonardoz.estoque.model.values.Cnpj;
 import com.leonardoz.estoque.model.values.Email;
@@ -18,17 +19,22 @@ import com.leonardoz.estoque.model.values.NumeroDeTelefone;
 @MappedSuperclass
 public class PessoaJuridica extends Entidade {
 
-	@Column(name = "nome", nullable = false, length = 100)
-	private String nome;
+	private static final long serialVersionUID = 1L;
+
+	@NotEmpty
+	@Column(name = "nome_fantasia", nullable = false, length = 100)
+	private String nomeFantasia;
+
+	@NotEmpty
+	@Column(name = "razao_social", nullable = false, length = 100)
+	private String razaoSocial;
 
 	@Embedded
-	@AttributeOverrides({
-			@AttributeOverride(name = "valor", column = @Column(name = "telefone", nullable = false, length = 17) ) })
+	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "telefone", length = 17) ) })
 	private NumeroDeTelefone telefone;
 
 	@Embedded
-	@AttributeOverrides({
-			@AttributeOverride(name = "valor", column = @Column(name = "celular", nullable = false, length = 17) ) })
+	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "celular", length = 17) ) })
 	private NumeroDeTelefone celular;
 
 	@Embedded
@@ -47,15 +53,44 @@ public class PessoaJuridica extends Entidade {
 	private String obs;
 
 	public PessoaJuridica() {
+		iniciarCampos();
+	}
+
+	public void iniciarCampos() {
+		if (inscricaoEstadual == null)
+			inscricaoEstadual = new InscricaoEstadual();
+
+		if (telefone == null)
+			telefone = new NumeroDeTelefone();
+
+		if (celular == null)
+			celular = new NumeroDeTelefone();
+
+		if (cnpj == null)
+			cnpj = new Cnpj();
+
+		if (endereco == null)
+			endereco = new Endereco();
+
+		if (email == null)
+			email = new Email();
 
 	}
 
-	public String getNome() {
-		return nome;
+	public String getNomeFantasia() {
+		return nomeFantasia;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomeFantasia(String nomeFantasia) {
+		this.nomeFantasia = nomeFantasia;
+	}
+
+	public String getRazaoSocial() {
+		return razaoSocial;
+	}
+
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
 	}
 
 	public Cnpj getCnpj() {
@@ -120,12 +155,15 @@ public class PessoaJuridica extends Entidade {
 			return false;
 		}
 		PessoaJuridica castOther = (PessoaJuridica) other;
-		return new EqualsBuilder().append(nome, castOther.nome).append(cnpj, castOther.cnpj).isEquals();
+		return new EqualsBuilder().append(nomeFantasia, castOther.nomeFantasia)
+				.append(razaoSocial, castOther.razaoSocial).append(cnpj, castOther.cnpj)
+				.append(inscricaoEstadual, castOther.inscricaoEstadual).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(nome).append(cnpj).toHashCode();
+		return new HashCodeBuilder().append(nomeFantasia).append(razaoSocial).append(cnpj).append(inscricaoEstadual)
+				.toHashCode();
 	}
 
 }

@@ -13,7 +13,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Table(name = "cidade")
 public class Cidade extends Entidade {
 
-	@Column(name = "nome", length = 20, nullable = false)
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "nome", length = 30, nullable = false)
 	private String nome;
 
 	@ManyToOne

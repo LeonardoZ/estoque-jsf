@@ -35,7 +35,7 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 
 	public static Dinheiro ZERO = new Dinheiro(0.00);
 	
-	@Column(name="montante_bruto", nullable = false, scale = 2, precision = 10)
+	@Column(name="montante_bruto",  scale = 2, precision = 10)
 	private BigDecimal montanteBruto;
 
 	@Transient
@@ -139,6 +139,10 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 
 	}
 
+	public void setMontanteBruto(BigDecimal montanteBruto) {
+		this.montanteBruto = montanteBruto;
+	}
+	
 	public int dividirParaInteiro(double divisor) {
 		return this.montanteBruto.divideToIntegralValue(BigDecimal.valueOf(divisor)).intValue();
 	}

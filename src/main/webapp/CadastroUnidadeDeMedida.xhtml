@@ -8,7 +8,7 @@
 
 	<ui:define name="content">
 		<div>
-			<p:fieldset legend="Cadastro de Categorias">
+			<p:fieldset legend="Cadastro de Unidade de Medida">
 				<h:form>
 					<h:panelGrid columns="1" styleClass="linha-form-media">
 						<p:messages showSummary="true" showIcon="true" severity="error" />
@@ -16,42 +16,44 @@
 						<p:outputLabel>Descrição</p:outputLabel>
 
 						<p:inputTextarea rows="3" styleClass="input-5 linha-form-pequena"
-							value="#{cadastroCategoriaBean.categoria.descricao}" />
+							value="#{cadastroUnidadeDeMedidaBean.unidadeDeMedida.descricao}" />
 
 					</h:panelGrid>
 
+
 					<div class="linha-form">
 						<p:commandButton value="Salvar" styleClass="elemento"
-							action="#{cadastroCategoriaBean.salvarCategoria}"
+							action="#{cadastroUnidadeDeMedidaBean.salvarUnidadeDeMedida()}"
 							icon="ui-icon-disk" update="@form" />
 
 						<p:commandButton value="Novo" styleClass="elemento"
-							action="#{cadastroCategoriaBean.novaCategoria}"
+							action="#{cadastroUnidadeDeMedidaBean.novaUnidadeDeMedida()}"
 							icon="ui-icon-paper" update="@form" />
 					</div>
 
 
 					<p:dataTable id="table" tableStyleClass="linha-form painel-medio"
-						value="#{cadastroCategoriaBean.listarCategorias()}"
-						var="categoria">
+						value="#{cadastroUnidadeDeMedidaBean.listarUnidadeDeMedidas()}"
+						var="unidade">
 
 						<p:column headerText="Descricão">
-							<h:outputText value="#{categoria.descricao}" />
+							<h:outputText value="#{unidade.descricao}" />
 						</p:column>
 
 						<p:column headerText="Ações" styleClass="text-align:center;">
 							<p:commandButton value="Editar" process="@this" update="@form">
-								<f:setPropertyActionListener value="#{categoria}"
-									target="#{cadastroCategoriaBean.categoria}" />
+								<f:setPropertyActionListener value="#{unidade}"
+									target="#{cadastroUnidadeDeMedidaBean.unidadeDeMedida}" />
 
 							</p:commandButton>
 							<p:commandButton value="Remover"
-								action="#{cadastroCategoriaBean.removerCategoria()}"
+								action="#{cadastroUnidadeDeMedidaBean.removerUnidadeDeMedida()}"
 								process="@this" update="@form">
-								<f:setPropertyActionListener value="#{categoria}"
-									target="#{cadastroCategoriaBean.categoria}" />
-								<p:confirm header="Remover Categoria"
-									message="Deseja remover a Categoria?" icon="ui-icon-alert" />
+								<f:setPropertyActionListener value="#{unidade}"
+									target="#{cadastroUnidadeDeMedidaBean.unidadeDeMedida}" />
+								<p:confirm header="Remover Unidade de Medida?"
+									message="Deseja remover a Unidade de medida?"
+									icon="ui-icon-alert" />
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>

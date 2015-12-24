@@ -13,6 +13,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Table(name = "estado")
 public class Estado extends Entidade {
 
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "nome", length = 20, nullable = false)
 	private String nome;
 

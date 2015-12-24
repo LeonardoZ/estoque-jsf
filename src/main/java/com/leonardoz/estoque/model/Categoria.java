@@ -16,7 +16,7 @@ public class Categoria extends Entidade {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
-	@Size(min = 2, max = 25)
+	@Size(max = 25)
 	@Column(name = "descricao", nullable = false, length = 25)
 	private String descricao;
 

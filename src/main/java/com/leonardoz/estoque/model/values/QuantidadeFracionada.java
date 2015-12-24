@@ -14,7 +14,7 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "quantidade", nullable = false)
+	@Column(name = "quantidade")
 	private BigDecimal valor;
 
 	protected QuantidadeFracionada() {
@@ -39,6 +39,10 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 		}
 	}
 
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+	
 	public QuantidadeFracionada aumentar(BigDecimal valorParaAdicionar) {
 		validarValor(valorParaAdicionar);
 		return new QuantidadeFracionada(valor.add(valorParaAdicionar));

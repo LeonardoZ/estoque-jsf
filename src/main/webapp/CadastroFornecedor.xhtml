@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<div>
+			<p:fieldset legend="Cadastro de Fornecedores">
+				<h:form>
+					<p:messages showSummary="true" showIcon="true" severity="error" />
+					<p:growl showSummary="true" showIcon="true" severity="info,warn" />
+					<p:tabView orientation="left" styleClass="linha-form-media">
+						<p:tab title="Informações Básicas">
+							<div class="ui-grid">
+
+								<!-- Label -->
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Nome fantasia" />
+										<p:inputText
+											value="#{cadastroFornecedorBean.fornecedor.nomeFantasia}"
+											styleClass="input-5" />
+									</div>
+								</div>
+
+
+								<!-- Label -->
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Razão social*" />
+										<p:inputText
+											value="#{cadastroFornecedorBean.fornecedor.razaoSocial}"
+											styleClass="input-5" />
+									</div>
+								</div>
+
+								<!-- Label -->
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-6 pos">
+										<p:outputLabel value="CNPJ*" styleClass="input-3" />
+										<p:inputMask mask="999.999.999/9999-99"
+											styleClass="input-3 center"
+											value="#{cadastroFornecedorBean.fornecedor.cnpj.valor}" />
+									</div>
+									<div class="ui-grid-col-6">
+										<p:outputLabel value="Inscrição estadual*"
+											styleClass="input-3" />
+										<p:inputText styleClass="input-3 center"
+											value="#{cadastroFornecedorBean.fornecedor.inscricaoEstadual.valor}" />
+									</div>
+								</div>
+							</div>
+						</p:tab>
+
+						<p:tab title="Horário de funcionamento">
+							<div class="ui-grid">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-3 pos">
+										<p:outputLabel value="Início"
+											styleClass="input-1" />
+										<p:inputMask mask="99:99" styleClass="input-1 center"
+											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.inicioDoExpediente}">
+											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+									<div class="ui-grid-col-3 pos">
+										<p:outputLabel value="Intervalo"
+											styleClass="input-1" />
+										<p:inputMask mask="99:99" styleClass="input-1 center"
+											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.inicioDoAlmoco}">
+											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+									<div class="ui-grid-col-3 pos">
+										<p:outputLabel value="Fim intervalo" styleClass="input-1" />
+										<p:inputMask mask="99:99" styleClass="input-1 center"
+											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.terminoDoAlmoco}">
+											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+									<div class="ui-grid-col-3">
+										<p:outputLabel value="Término" styleClass="input-1" />
+										<p:inputMask mask="99:99" styleClass="input-1 center"
+											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.terminoDoExpediente }">
+											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:fieldset legend="Dias da semana com expediente">
+											<p:selectManyCheckbox
+												value="#{cadastroFornecedorBean.fornecedor.horarioComercial.diasDaSemana}"
+												converter="#{diaDaSemanaConverter}">
+												<f:selectItems
+													value="#{cadastroFornecedorBean.listaDiasDaSemana()}"
+													var="dia" itemLabel="#{dia}" itemValue="#{dia}" />
+											</p:selectManyCheckbox>
+										</p:fieldset>
+									</div>
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Endereço">
+							<div class="ui-grid">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Rua" styleClass="input-5" />
+										<p:inputText styleClass="input-5"
+											value="#{cadastroFornecedorBean.fornecedor.endereco.rua}" />
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4 pos">
+										<p:outputLabel value="Número" styleClass="input-2" />
+										<p:inputText styleClass="input-2 center"
+											value="#{cadastroFornecedorBean.fornecedor.endereco.numero}" />
+									</div>
+									<div class="ui-grid-col-4 pos">
+										<p:outputLabel value="Bairro" styleClass="input-2" />
+										<p:inputText styleClass="input-2 center"
+											value="#{cadastroFornecedorBean.fornecedor.endereco.bairro}" />
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="CEP" styleClass="input-2" />
+										<p:inputMask mask="99999-999" styleClass="input-2 center"
+											value="#{cadastroFornecedorBean.fornecedor.endereco.cep.valor}" />
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4 pos">
+										<p:outputLabel value="Estado" styleClass="input-2" />
+										<p:selectOneMenu
+											value="#{cadastroFornecedorBean.estadoSelecionado}"
+											filter="true" filterMatchMode="contains" label="Estado"
+											styleClass="input-2">
+											<f:selectItems
+												value="#{cadastroFornecedorBean.listaEstados()}"
+												var="estado" itemValue="#{estado}"
+												itemLabel="#{estado.nome}" />
+
+											<p:ajax
+												listener="#{cadastroFornecedorBean.listarCidadesPorEstado}"
+												event="change" update="cidade" />
+										</p:selectOneMenu>
+									</div>
+									<div class="ui-grid-col-8 pos">
+										<p:outputLabel value="Cidade" styleClass="input-4" />
+										<p:selectOneMenu id="cidade"
+											value="#{cadastroFornecedorBean.fornecedor.endereco.cidade}"
+											filter="true" filterMatchMode="contains" label="Cidade"
+											styleClass="input-4">
+											<f:selectItems
+												value="#{cadastroFornecedorBean.listarCidadesPorEstado()}"
+												var="cidade" itemValue="#{cidade}"
+												itemLabel="#{cidade.nome}" />
+										</p:selectOneMenu>
+
+									</div>
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Contato">
+							<div class="ui-grid">
+
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4 pos">
+										<p:outputLabel value="Telefone 1" styleClass="input-2" />
+										<p:inputMask mask="(99) 9999-9999" styleClass="input-2 center"
+											value="#{cadastroFornecedorBean.fornecedor.telefone.valor}" />
+									</div>
+									<div class="ui-grid-col-4 pos">
+										<p:outputLabel value="Telefone 2" styleClass="input-2" />
+										<p:inputMask mask="(99) 9999-9999" styleClass="input-2 center"
+											value="#{cadastroFornecedorBean.fornecedor.telefone2.valor}" />
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Celular" styleClass="input-2" />
+										<p:inputMask mask="(99) 99999-9999"
+											styleClass="input-2 center"
+											value="#{cadastroFornecedorBean.fornecedor.celular.valor}" />
+									</div>
+								</div>
+
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-6 pos">
+										<p:outputLabel value="E-mail" styleClass="input-3 center" />
+										<p:inputText styleClass="input-3"
+											value="#{cadastroFornecedorBean.fornecedor.email.valor}" />
+									</div>
+									<div class="ui-grid-col-6">
+										<p:outputLabel value="Fax" styleClass="input-3 center" />
+										<p:inputText styleClass="input-3 center"
+											value="#{cadastroFornecedorBean.fornecedor.fax}" />
+									</div>
+								</div>
+
+							</div>
+						</p:tab>
+						<p:tab title="Observação">
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-12 ">
+									<p:outputLabel value="Observações" styleClass="input-5" />
+									<p:inputTextarea styleClass="input-5" rows="10"
+										value="#{cadastroFornecedorBean.fornecedor.obs}" />
+								</div>
+							</div>
+						</p:tab>
+					</p:tabView>
+
+					<div class="linha-form">
+						<p:commandButton value="Salvar" styleClass="elemento"
+							action="#{cadastroFornecedorBean.salvarFornecedor}"
+							icon="ui-icon-disk" update="@form" />
+
+						<p:commandButton value="Novo" styleClass="elemento"
+							action="#{cadastroFornecedorBean.novoFornecedor}"
+							icon="ui-icon-paper" update="@form" />
+
+					</div>
+
+					<p:dataTable id="table" tableStyleClass="linha-form painel-medio"
+						value="#{cadastroFornecedorBean.listarFornecedores()}"
+						var="fornecedor">
+
+						<p:column headerText="Nome fantasia">
+							<h:outputText value="#{fornecedor.nomeFantasia}" />
+						</p:column>
+
+						<p:column headerText="Razão social">
+							<h:outputText value="#{fornecedor.razaoSocial}" />
+						</p:column>
+
+						<p:column headerText="Ações" styleClass="text-align:center;">
+							<p:commandButton value="Detalhes" process="@this" update="@form"
+								action="#{cadastroFornecedorBean.aoSelecionarFornecedor(fornecedor)}">
+							</p:commandButton>
+
+							<p:commandButton value="Editar" process="@this" update="@form"
+								action="#{cadastroFornecedorBean.aoSelecionarFornecedor(fornecedor)}">
+							</p:commandButton>
+
+							<p:commandButton value="Remover"
+								action="#{cadastroFornecedorBean.removerFornecedor(fornecedor)}"
+								process="@this" update="@form">
+								<p:confirm header="Remover Fornecedor"
+									message="Deseja remover o Fornecedor?" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+
+					<p:confirmDialog id="removerDialog" global="true" showEffect="fade"
+						hideEffect="fade">
+						<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check">
+						</p:commandButton>
+
+						<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+							icon="ui-icon-close" />
+					</p:confirmDialog>
+				</h:form>
+			</p:fieldset>
+		</div>
+	</ui:define>
+</ui:composition>

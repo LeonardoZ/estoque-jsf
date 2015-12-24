@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Order;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import com.leonardoz.estoque.model.Categoria;
 import com.leonardoz.estoque.util.Transactional;
@@ -19,33 +19,36 @@ public class Categorias implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private Session sessao;
+	private EntityManager manager;
 
 	@Transactional
 	public void guardarCategoria(Categoria categoria) {
-		if (categoria.getId() != null) {
-			sessao.merge(categoria);
+		if (categoria != null && categoria.getId() != null) {
+			manager.merge(categoria);
 		} else {
-			sessao.persist(categoria);
+			System.out.println("Salvou pow!");
+			manager.persist(categoria);
 		}
-		sessao.flush();
+		manager.flush();
 	}
 
 	@Transactional
 	public void removerCategoria(long idDaCategoria) {
 		Categoria categoria = recuperaCategoria(idDaCategoria).orElseThrow(EntityNotFoundException::new);
-		sessao.delete(categoria);
+		manager.remove(categoria);
 	}
 
 	public Optional<Categoria> recuperaCategoria(Long idDaCategoria) {
-		return Optional.ofNullable((Categoria) sessao.get(Categoria.class, idDaCategoria));
+		return Optional.ofNullable((Categoria) manager.find(Categoria.class, idDaCategoria));
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Categoria> recuperarCategorias() {
-		Criteria criteria = sessao.createCriteria(Categoria.class);
-		criteria.addOrder(Order.asc("descricao"));
-		return criteria.list();
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Categoria> query = builder.createQuery(Categoria.class);
+		Root<Categoria> root = query.from(Categoria.class);
+		query.select(root);
+		query.orderBy(builder.asc(root.get("descricao")));
+		return manager.createQuery(query).getResultList();
 	}
 
 }

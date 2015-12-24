@@ -17,6 +17,8 @@ import com.leonardoz.estoque.model.values.NumeroDeTelefone;
 @MappedSuperclass
 public class PessoaFisica extends Entidade {
 
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "nome", nullable = false, length = 100)
 	private String nome;
 
@@ -30,7 +32,7 @@ public class PessoaFisica extends Entidade {
 			@AttributeOverride(name = "valor", column = @Column(name = "celular", nullable = false, length = 17) ) })
 	private NumeroDeTelefone celular;
 
-	@Column(name = "rg", nullable = false, length = 100)
+	@Column(name = "rg", nullable = false, length = 20)
 	private String rg;
 
 	@Embedded
@@ -43,9 +45,27 @@ public class PessoaFisica extends Entidade {
 	private Endereco endereco;
 
 	public PessoaFisica() {
-
+		iniciarCampos();
 	}
 
+	public void iniciarCampos() {
+		if (cpf == null)
+			cpf = new Cpf();
+
+		if (telefone == null)
+			telefone = new NumeroDeTelefone();
+
+		if (celular == null)
+			celular = new NumeroDeTelefone();
+
+		if (endereco == null)
+			endereco = new Endereco();
+
+		if (email == null)
+			email = new Email();
+
+	}
+	
 	public String getNome() {
 		return nome;
 	}
@@ -94,6 +114,14 @@ public class PessoaFisica extends Entidade {
 		this.celular = celular;
 	}
 
+	public Email getEmail() {
+		return email;
+	}
+	
+	public void setEmail(Email email) {
+		this.email = email;
+	}
+	
 	@Override
 	public boolean equals(final Object other) {
 		if (!(other instanceof PessoaFisica)) {

@@ -14,13 +14,13 @@ import com.leonardoz.estoque.model.Cidade;
 @Embeddable
 public class Endereco {
 
-	@Column(name = "rua", nullable = false, length = 40)
+	@Column(name = "rua", length = 40)
 	private String rua;
 
-	@Column(name = "bairro", nullable = false, length = 25)
+	@Column(name = "bairro", length = 25)
 	private String bairro;
 
-	@Column(name = " numero", nullable = false, length = 8)
+	@Column(name = " numero", length = 8)
 	private String numero;
 
 	@Embedded
@@ -29,6 +29,17 @@ public class Endereco {
 	@ManyToOne
 	@JoinColumn(name = "cidade_id")
 	private Cidade cidade;
+
+	public Endereco() {
+		iniciarCampos();
+	}
+
+	public void iniciarCampos() {
+		if (cep == null)
+			cep = new Cep();
+		if (cidade == null)
+			cidade = new Cidade();
+	}
 
 	public String getRua() {
 		return rua;
@@ -60,6 +71,14 @@ public class Endereco {
 
 	public void setCep(Cep cep) {
 		this.cep = cep;
+	}
+
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 
 	@Override

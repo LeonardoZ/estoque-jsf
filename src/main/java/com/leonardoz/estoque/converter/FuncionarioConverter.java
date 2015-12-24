@@ -7,21 +7,21 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.leonardoz.estoque.model.Categoria;
-import com.leonardoz.estoque.repository.Categorias;
+import com.leonardoz.estoque.model.Funcionario;
+import com.leonardoz.estoque.repository.Funcionarios;
 
 @Named
-@FacesConverter(forClass = Categoria.class)
-public class CategoriaConverter implements Converter {
+@FacesConverter(forClass = Funcionario.class)
+public class FuncionarioConverter implements Converter {
 
 	@Inject
-	private Categorias categorias;
+	private Funcionarios funcionarios;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Categoria retorno = null;
+		Funcionario retorno = null;
 		if (value != null && !"".equals(value)) {
-			retorno = categorias.recuperaCategoria(Long.valueOf(value))
+			retorno = funcionarios.recuperaFuncionario(Long.valueOf(value))
 					.orElseThrow(IllegalArgumentException::new);
 		}
 		return retorno;
@@ -30,9 +30,10 @@ public class CategoriaConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Categoria categoria = ((Categoria) value);
-			return categoria.getId() == null ? null : categoria.getId().toString();
+			Funcionario funcionario = ((Funcionario) value);
+			return funcionario.getId() == null ? null : funcionario.getId().toString();
 		}
 		return null;
 	}
+
 }

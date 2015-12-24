@@ -14,7 +14,7 @@ public class Quantidade implements Serializable, Comparable<Quantidade> {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "quantidade", nullable = false)
+	@Column(name = "quantidade")
 	private BigInteger valor;
 	
 	protected Quantidade() {
@@ -34,6 +34,10 @@ public class Quantidade implements Serializable, Comparable<Quantidade> {
 		this.valor = novoValor;
 	}
 
+	public void setValor(BigInteger valor) {
+		this.valor = valor;
+	}
+	
 	public void validarValor(BigInteger valor) {
 		if (valor.longValue() < 0l) {
 			throw new IllegalArgumentException("Quantia não pode ser negativa");

@@ -31,13 +31,14 @@ public class CadastroCategoriaBean implements Serializable {
 	@PostConstruct
 	public void iniciar() {
 		if (categoria == null) {
-			this.categoria = new Categoria();
+			categoria = new Categoria();
 		}
 	}
 
 	public List<Categoria> listarCategorias() {
 		return categorias.recuperarCategorias();
 	}
+
 
 	public void salvarCategoria() {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -53,8 +54,11 @@ public class CadastroCategoriaBean implements Serializable {
 		}
 	}
 
+	public void novaCategoria() {
+		this.categoria = new Categoria();
+	}
+
 	public void removerCategoria() {
-		System.err.println("REMOVENDO");
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			this.categorias.removerCategoria(Long.valueOf(this.categoria.getId()));

@@ -2,21 +2,54 @@
 
 @charset "utf-8";
 
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;
+	border: 0px !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+	background: #c7cbb6 !important;
+}
+
+.ui-layout-north .ui-layout-unit-content  div {
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+	text-align: center;
+}
+
+.ui-layout-north .ui-layout-unit-content  ul>li>a {
+	height: 20px !important;
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+	align: center !important;;
+}
+
+.ui-tabs-panel {
+	margin-top: 5px! important;
+	padding-top: 0px !important;
+}
+
+.ui-grid-row {
+	margin-bottom: 10px !important;
+}
+
 body {
 	font-size: 12px;
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0px;
 	font-weight: normal;
-	background: #c7cbb6!important ;
+	background: #f0f1eb !important;
 }
 
-header {
+.cabecalho {
 	padding: 5px;
-	margin-bottom: 20px;
-	height: 30px;
-	background-color: #545454;
-	color: #fff;
-	box-shadow: 0px 2px 2px #ccc
+	height: 60px;
+	background: #f0f1eb !important; margin-top : -20px;
+	margin-bottom: 10px;
+	margin-top: -20px; margin-bottom : 10px;
+	color: #f0f1eb;
 }
 
 #conteudo {
@@ -46,10 +79,6 @@ h1 {
 	height: 35px
 }
 
-.top-menu{
-	backgroun-color: #c7cbb6!important ;
-}
-
 #login-dialog {
 	width: 260px;
 	margin: auto;
@@ -65,7 +94,64 @@ h1 {
 	width: 100%
 }
 
-.input-large {
-	display: block;
-	width: 480px;
+.cadastro {
+	margin: 0 auto;
+}
+
+.input-1 {
+	min-width: 100px;
+	max-width: 100px;
+}
+
+.input-2 {
+	min-width: 150px;
+	max-width: 150px;
+}
+
+.input-3 {
+	min-width: 240px;
+	max-width: 240px;
+}
+
+.input-4 {
+	min-width: 345px;
+	max-width: 345px;
+}
+
+.input-5 {
+	min-width: 500px;
+	max-width: 500px;
+}
+
+.pos {
+	margin-right: 0px;
+}
+
+.center {
+	text-align: center;
+}
+
+.linha-form {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.elemento {
+	margin-right: 10px;
+}
+
+.linha-form-pequena {
+	width: 500px;
+}
+
+.linha-form-media {
+	width: 750px;
+}
+
+.painel-medio {
+	min-width: 750px;
+}
+
+.panelGridCenter {
+	margin: 0 auto;
 }

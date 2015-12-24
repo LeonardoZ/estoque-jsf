@@ -4,11 +4,13 @@ import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import javax.persistence.PrePersist;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Embeddable
-public class Cpf {
+public class Cpf implements ValueObject<String> {
 
 	private static final String PADRAO = "(\\d{3}.?\\d{3}.?\\d{3}-?\\d{2})";
 	private static final Pattern avaliadorDePadrao = Pattern.compile(PADRAO);
@@ -16,7 +18,7 @@ public class Cpf {
 	@Column(name = "cpf", nullable = false, length = 11)
 	private String valor;
 
-	protected Cpf() {
+	public Cpf() {
 
 	}
 
@@ -24,9 +26,12 @@ public class Cpf {
 		if (valor == null || valor.isEmpty()) {
 			throw new IllegalArgumentException("Cpf não pode estar vazio.");
 		}
-		if (!cpfValido(valor)) {
-			throw new IllegalArgumentException("Cpf em formato inválido!");
-		}
+		validarValor(valor);
+		limparValor();
+	}
+
+	@PrePersist
+	public void limparValor() {
 		this.valor = valor.replace(".", "").replace("-", "");
 	}
 
@@ -34,8 +39,15 @@ public class Cpf {
 		return valor;
 	}
 
-	public static boolean cpfValido(String valor) {
-		return avaliadorDePadrao.matcher(valor).matches();
+	public void setValor(String valor) {
+		validarValor(valor);
+		this.valor = valor;
+		limparValor();
+	}
+
+	@Override
+	public boolean avaliarValor(String input) {
+		return avaliadorDePadrao.matcher(input).matches();
 	}
 
 	@Override
@@ -51,5 +63,5 @@ public class Cpf {
 	public int hashCode() {
 		return new HashCodeBuilder().append(valor).toHashCode();
 	}
-	
+
 }

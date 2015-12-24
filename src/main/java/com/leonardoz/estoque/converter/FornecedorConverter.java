@@ -7,21 +7,21 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.leonardoz.estoque.model.Categoria;
-import com.leonardoz.estoque.repository.Categorias;
+import com.leonardoz.estoque.model.Fornecedor;
+import com.leonardoz.estoque.repository.Fornecedores;
 
 @Named
-@FacesConverter(forClass = Categoria.class)
-public class CategoriaConverter implements Converter {
+@FacesConverter(forClass = Fornecedor.class)
+public class FornecedorConverter implements Converter {
 
 	@Inject
-	private Categorias categorias;
+	private Fornecedores fornecedores;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Categoria retorno = null;
+		Fornecedor retorno = null;
 		if (value != null && !"".equals(value)) {
-			retorno = categorias.recuperaCategoria(Long.valueOf(value))
+			retorno = fornecedores.recuperaFornecedor(Long.valueOf(value))
 					.orElseThrow(IllegalArgumentException::new);
 		}
 		return retorno;
@@ -30,9 +30,10 @@ public class CategoriaConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Categoria categoria = ((Categoria) value);
-			return categoria.getId() == null ? null : categoria.getId().toString();
+			Fornecedor fornecedor = ((Fornecedor) value);
+			return fornecedor.getId() == null ? null : fornecedor.getId().toString();
 		}
 		return null;
 	}
+
 }

@@ -2,6 +2,8 @@ package com.leonardoz.estoque.model.values;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -9,10 +11,11 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Embeddable
 public class InscricaoEstadual {
 
+	@NotNull
 	@Column(name = "inscricao_estadual", nullable = false, length = 17)
 	private String valor;
 
-	protected InscricaoEstadual() {
+	public InscricaoEstadual() {
 
 	}
 
@@ -20,11 +23,22 @@ public class InscricaoEstadual {
 		if (valor == null || valor.isEmpty()) {
 			throw new IllegalArgumentException("Inscricão Estadual não pode estar vazia.");
 		}
-		this.valor = valor.replace(".", "").replace("-", "").replace("/", "");
+		limparValor();
 	}
 
 	public String getValor() {
 		return valor;
+	}
+
+	public void limparValor() {
+		this.valor = valor.replace(".", "").replace("-", "").replace("/", "");
+
+		System.out.println(valor.length());
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+		limparValor(); 
 	}
 
 	@Override

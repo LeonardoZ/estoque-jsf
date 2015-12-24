@@ -6,25 +6,28 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 @Interceptor
 @Transactional
 public class TransactionInterceptor implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	private @Inject Session session;
+	private @Inject EntityManager manager;
 
 	@AroundInvoke
 	public Object invoke(InvocationContext context) throws Exception {
-		
-		Transaction trx = session.getTransaction();
+		EntityTransaction trx = manager.getTransaction();
 		boolean criador = false;
 		try {
-			// Algaworks JavaEE 7
 			if (!trx.isActive()) {
+				// truque para fazer rollback no que já passou
+				// (senão, um futuro commit, confirmaria até mesmo
+				// operações sem transação)
+				trx.begin();
+				trx.rollback();
+				// agora sim inicia a transação
 				trx.begin();
 				criador = true;
 			}

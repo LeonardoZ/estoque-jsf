@@ -12,6 +12,10 @@ public class Senha {
 	@Column(columnDefinition = "binary(8)", nullable = false)
 	private byte[] salt;
 
+	public Senha() {
+
+	}
+	
 	public byte[] getPasswordHash() {
 		return senhaHash;
 	}

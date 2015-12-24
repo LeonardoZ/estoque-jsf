@@ -13,10 +13,10 @@ public class Cep {
 	private static final String PADRAO = "\\d{5}[-]\\d{2}";
 	private static final Pattern avaliadorDePadrao = Pattern.compile(PADRAO);
 
-	@Column(name = "cep", nullable = false, length = 9)
+	@Column(name = "cep", length = 9)
 	private String valor;
 
-	protected Cep() {
+	public Cep() {
 
 	}
 
@@ -32,6 +32,10 @@ public class Cep {
 
 	public String getValor() {
 		return valor;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 
 	public static boolean cepValido(String valor) {
@@ -51,7 +55,5 @@ public class Cep {
 	public int hashCode() {
 		return new HashCodeBuilder().append(valor).toHashCode();
 	}
-	
-	
 
 }
