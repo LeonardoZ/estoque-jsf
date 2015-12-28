@@ -14,6 +14,8 @@ import com.leonardoz.estoque.produto.categoria.Categoria;
 @Table(name = "unidade_de_medida")
 public class UnidadeDeMedida extends Entidade {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Column(name = "descricao", nullable = false, length = 25)
 	private String descricao;
 

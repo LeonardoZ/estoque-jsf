@@ -4,11 +4,14 @@ import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import com.leonardoz.estoque.modelo.valor.ValueObject;
 
 @Embeddable
-public class Cep {
+public class Cep implements ValueObject<String> {
 
 	private static final String PADRAO = "\\d{5}[-]\\d{2}";
 	private static final Pattern avaliadorDePadrao = Pattern.compile(PADRAO);
@@ -24,9 +27,7 @@ public class Cep {
 		if (valor == null || valor.isEmpty()) {
 			throw new IllegalArgumentException("Cep não pode estar vazio.");
 		}
-		if (!cepValido(valor)) {
-			throw new IllegalArgumentException("Cep em formato inválido!");
-		}
+		validarValor(valor);
 		this.valor = valor;
 	}
 
@@ -38,8 +39,9 @@ public class Cep {
 		this.valor = valor;
 	}
 
-	public static boolean cepValido(String valor) {
-		return avaliadorDePadrao.matcher(valor).matches();
+	@Override
+	public boolean analise(String input) {
+		return avaliadorDePadrao.matcher(input).matches();
 	}
 
 	@Override
@@ -55,5 +57,7 @@ public class Cep {
 	public int hashCode() {
 		return new HashCodeBuilder().append(valor).toHashCode();
 	}
+
+
 
 }

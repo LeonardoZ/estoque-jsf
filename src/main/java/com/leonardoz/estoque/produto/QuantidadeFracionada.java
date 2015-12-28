@@ -26,7 +26,7 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 		this.valor = valor;
 	}
 
-	public QuantidadeFracionada(long valor) {
+	public QuantidadeFracionada(double valor) {
 		super();
 		BigDecimal novoValor = BigDecimal.valueOf(valor);
 		validarValor(novoValor);
@@ -48,7 +48,7 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 		return new QuantidadeFracionada(valor.add(valorParaAdicionar));
 	}
 
-	public QuantidadeFracionada aumentar(long valorParaAdicionar) {
+	public QuantidadeFracionada aumentar(double valorParaAdicionar) {
 		return aumentar(BigDecimal.valueOf(valorParaAdicionar));
 	}
 
@@ -60,7 +60,7 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 		return new QuantidadeFracionada(valor.subtract(valorParaSubtrair));
 	}
 
-	public QuantidadeFracionada diminuir(long valorParaSubtrair) {
+	public QuantidadeFracionada diminuir(double valorParaSubtrair) {
 		return diminuir(BigDecimal.valueOf(valorParaSubtrair));
 	}
 

@@ -20,12 +20,10 @@ public class ProdutorUnidadeDeTrabalho {
 	@Produces
 	@RequestScoped
 	public EntityManager createHibernateSession() {
-		System.out.println("Creating");
 		return factory.createEntityManager();
 	}
 
 	public void closeSession(@Disposes EntityManager manager) {
-		System.out.println("Clossing");
 		try {
 			manager.close();
 		} catch (Exception e) {

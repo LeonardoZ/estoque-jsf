@@ -22,6 +22,7 @@ public class TransactionInterceptor implements Serializable {
 		boolean criador = false;
 		try {
 			if (!trx.isActive()) {
+				// algaworks - thanks!
 				// truque para fazer rollback no que já passou
 				// (senão, um futuro commit, confirmaria até mesmo
 				// operações sem transação)

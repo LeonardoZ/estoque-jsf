@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=primefaces-estoque-theme.jar -DgroupId=com.leonardoz.estoque -DartifactId=primefaces-estoque-theme -Dversion=1.0-SNAPSHOT -Dpackaging=jar

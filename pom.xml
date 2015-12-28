@@ -32,6 +32,12 @@
 			<version>1.0.10</version>
 		</dependency>
 
+		<!-- Siga instruções -->
+		<dependency>
+			<groupId>com.leonardoz.estoque</groupId>
+			<artifactId>primefaces-estoque-theme</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 
 		<!-- Mojarra (implementacao do JSF) -->
 		<dependency>
@@ -90,12 +96,6 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>5.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.bootsfaces</groupId>
-			<artifactId>bootsfaces</artifactId>
-			<version>0.6.6</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- OmniFaces (utilitarios para JSF) -->

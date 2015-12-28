@@ -7,13 +7,12 @@
 	<title>Estoque JSF</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<h:outputStylesheet library="css" name="screen.css" />
-	<h:outputStylesheet library="css" name="screen.css" />
 </h:head>
 <h:body>
 	<h:outputScript library="omnifaces" name="fixviewstate.js"
 		target="head" />
 	<p:layout id="container" fullPage="true">
-		<p:layoutUnit styleClass="cabecalho" position="north" size="60">
+		<p:layoutUnit styleClass="cabecalho painel" position="north" size="40">
 			<h:form>
 				<p:menubar>
 					<p:menuitem value="Home" />
@@ -25,7 +24,7 @@
 		</p:layoutUnit>
 
 		<p:layoutUnit position="west" maxSize="230" resizable="true"
-			minSize="230" collapsible="true">
+			minSize="230" collapsible="true" styleClass="painel">
 			<h:form>
 				<p:panelMenu style="margin:10px;">
 					<p:submenu label="Mercadoria">
@@ -56,7 +55,7 @@
 			</h:form>
 		</p:layoutUnit>
 
-		<p:layoutUnit position="center" resizable="false" minSize="600">
+		<p:layoutUnit position="center" resizable="false" minSize="600"  styleClass="painel">
 			<ui:insert name="content" />
 		</p:layoutUnit>
 

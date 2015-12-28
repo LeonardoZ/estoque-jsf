@@ -1,0 +1,5 @@
+<dependency>
+ <groupId>com.leonardoz.estoque</groupId>
+ <artifactId>primefaces-estoque-theme</artifactId>
+ <version>1.0-SNAPSHOT</version>
+</dependency> 

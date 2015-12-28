@@ -4,51 +4,52 @@ import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.PrePersist;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import com.leonardoz.estoque.modelo.valor.ValueObject;
+import com.leonardoz.estoque.modelo.valor.StringValueObject;
 
+/*
+ * Não considera se o CPF por é valido por motivos de facilitar o desenvolvimento.
+ */
 @Embeddable
-public class Cpf implements ValueObject<String> {
+public class Cpf implements StringValueObject {
 
-	private static final String PADRAO = "(\\d{3}.?\\d{3}.?\\d{3}-?\\d{2})";
+	private static final String PADRAO = "(\\d{3}.?\\d{3}.?\\d{3}-?\\w{1,2})";
 	private static final Pattern avaliadorDePadrao = Pattern.compile(PADRAO);
 
 	@Column(name = "cpf", nullable = false, length = 11)
 	private String valor;
 
 	public Cpf() {
-
 	}
 
 	public Cpf(String valor) {
-		if (valor == null || valor.isEmpty()) {
-			throw new IllegalArgumentException("Cpf não pode estar vazio.");
-		}
 		validarValor(valor);
-		limparValor();
-	}
-
-	@PrePersist
-	public void limparValor() {
-		this.valor = valor.replace(".", "").replace("-", "");
+		setValor(valor);
 	}
 
 	public String getValor() {
 		return valor;
 	}
 
+	public String cpf() {
+		 return new StringBuilder()
+		 		.append(valor.substring(0, 3)).append(".")
+				.append(valor.substring(3, 6)).append(".")
+				.append(valor.substring(6, 9)).append("-")
+				.append(valor.substring(9))
+				.toString();
+	}
+
 	public void setValor(String valor) {
 		validarValor(valor);
-		this.valor = valor;
-		limparValor();
+		this.valor = valor.replace(".", "").replace("-", "");
 	}
 
 	@Override
-	public boolean avaliarValor(String input) {
+	public boolean analise(String input) {
 		return avaliadorDePadrao.matcher(input).matches();
 	}
 

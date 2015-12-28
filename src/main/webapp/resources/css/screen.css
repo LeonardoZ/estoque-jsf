@@ -10,7 +10,6 @@
 
 .ui-layout-north .ui-layout-unit-content {
 	overflow: visible !important;
-	background: #c7cbb6 !important;
 }
 
 .ui-layout-north .ui-layout-unit-content  div {
@@ -27,7 +26,7 @@
 }
 
 .ui-tabs-panel {
-	margin-top: 5px! important;
+	margin-top: 5px ! important;
 	padding-top: 0px !important;
 }
 
@@ -46,14 +45,24 @@ body {
 .cabecalho {
 	padding: 5px;
 	height: 60px;
-	background: #f0f1eb !important; margin-top : -20px;
+	background: #e5e5e5 !important;
+	margin-top: -20px;
 	margin-bottom: 10px;
-	margin-top: -20px; margin-bottom : 10px;
+	margin-top: -20px;
+	margin-bottom: 10px;
 	color: #f0f1eb;
 }
 
 #conteudo {
-	padding: 0px 8px
+	padding: 0px 8px;
+}
+
+#container {
+	
+}
+
+.painel {
+	background: #e5e5e5 !important;
 }
 
 footer {

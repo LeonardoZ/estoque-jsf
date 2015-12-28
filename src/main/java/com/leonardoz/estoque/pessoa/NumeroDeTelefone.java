@@ -4,16 +4,22 @@ import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import com.leonardoz.estoque.modelo.valor.StringValueObject;
 
 @Embeddable
-public class NumeroDeTelefone {
+public class NumeroDeTelefone implements StringValueObject {
 
-	private static final String PADRAO = "^(\\(11\\) [9][0-9]{4}-[0-9]{4})|(\\(1[2-9]\\) [5-9][0-9]{3}-[0-9]{4})|(\\([2-9][1-9]\\) [1-9][0-9]{3}-[0-9]{4})$";
+	private static final String PADRAO = 
+			//(99) 91212-[]
+			"^(\\([1-9][1-9]\\) [0-9][0-9]{4}-[0-9]{4})"
+			+ "|(\\([1-9][1-9]\\) [0-9]{4}-[0-9]{4})$";
 	private static final Pattern avaliadorDePadrao = Pattern.compile(PADRAO);
 
-	@Column(name = "telefone",  length = 17)
+	@Column(name = "telefone", length = 17)
 	private String valor;
 
 	public NumeroDeTelefone() {
@@ -21,13 +27,8 @@ public class NumeroDeTelefone {
 	}
 
 	public NumeroDeTelefone(String valor) {
-		if (valor == null || valor.isEmpty()) {
-			throw new IllegalArgumentException("Telefone não pode estar vazio.");
-		}
-		if (!cepValido(valor)) {
-			throw new IllegalArgumentException("Telefone em formato inválido!");
-		}
-		this.valor = valor;
+		validarValor(valor);
+		setValor(valor);
 	}
 
 	public String getValor() {
@@ -35,10 +36,12 @@ public class NumeroDeTelefone {
 	}
 
 	public void setValor(String valor) {
+		validarValor(valor);
 		this.valor = valor;
 	}
-	
-	public static boolean cepValido(String valor) {
+
+	@Override
+	public boolean analise(String valor) {
 		return avaliadorDePadrao.matcher(valor).matches();
 	}
 
@@ -55,6 +58,5 @@ public class NumeroDeTelefone {
 	public int hashCode() {
 		return new HashCodeBuilder().append(valor).toHashCode();
 	}
-	
-	
+
 }

@@ -2,14 +2,15 @@ package com.leonardoz.estoque.pessoa;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.leonardoz.estoque.modelo.valor.StringValueObject;
+
 @Embeddable
-public class InscricaoEstadual {
+public class InscricaoEstadual implements StringValueObject {
 
 	@NotNull
 	@Column(name = "inscricao_estadual", nullable = false, length = 17)
@@ -20,30 +21,26 @@ public class InscricaoEstadual {
 	}
 
 	public InscricaoEstadual(String valor) {
-		if (valor == null || valor.isEmpty()) {
-			throw new IllegalArgumentException("Inscricão Estadual não pode estar vazia.");
-		}
-		limparValor();
+		validarValor(valor);
+		setValor(valor);
 	}
 
 	public String getValor() {
 		return valor;
 	}
 
-	public void limparValor() {
-		this.valor = valor.replace(".", "").replace("-", "").replace("/", "");
-
-		System.out.println(valor.length());
+	@Override
+	public boolean analise(String input) {
+		return true;
 	}
 
 	public void setValor(String valor) {
 		this.valor = valor;
-		limparValor(); 
 	}
 
 	@Override
 	public boolean equals(final Object other) {
-		if (!(other instanceof Cnpj)) {
+		if (!(other instanceof InscricaoEstadual)) {
 			return false;
 		}
 		InscricaoEstadual castOther = (InscricaoEstadual) other;
@@ -54,4 +51,5 @@ public class InscricaoEstadual {
 	public int hashCode() {
 		return new HashCodeBuilder().append(valor).toHashCode();
 	}
+
 }

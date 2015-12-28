@@ -9,8 +9,10 @@ import javax.persistence.Embeddable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.leonardoz.estoque.modelo.valor.ValueObject;
+
 @Embeddable
-public class Quantidade implements Serializable, Comparable<Quantidade> {
+public class Quantidade implements Serializable, Comparable<Quantidade>, ValueObject<BigInteger> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,10 +40,9 @@ public class Quantidade implements Serializable, Comparable<Quantidade> {
 		this.valor = valor;
 	}
 	
-	public void validarValor(BigInteger valor) {
-		if (valor.longValue() < 0l) {
-			throw new IllegalArgumentException("Quantia não pode ser negativa");
-		}
+	@Override
+	public boolean analise(BigInteger valor) {
+		return valor.longValue() > 0l;
 	}
 
 	public Quantidade aumentar(BigInteger valorParaAdicionar) {

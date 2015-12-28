@@ -26,7 +26,6 @@
 									</div>
 								</div>
 
-
 								<!-- Label -->
 								<div class="ui-grid-row">
 									<div class="ui-grid-col-12">
@@ -54,21 +53,18 @@
 								</div>
 							</div>
 						</p:tab>
-
 						<p:tab title="Horário de funcionamento">
 							<div class="ui-grid">
 								<div class="ui-grid-row">
 									<div class="ui-grid-col-3 pos">
-										<p:outputLabel value="Início"
-											styleClass="input-1" />
+										<p:outputLabel value="Início" styleClass="input-1" />
 										<p:inputMask mask="99:99" styleClass="input-1 center"
 											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.inicioDoExpediente}">
 											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
 										</p:inputMask>
 									</div>
 									<div class="ui-grid-col-3 pos">
-										<p:outputLabel value="Intervalo"
-											styleClass="input-1" />
+										<p:outputLabel value="Intervalo" styleClass="input-1" />
 										<p:inputMask mask="99:99" styleClass="input-1 center"
 											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.inicioDoAlmoco}">
 											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
