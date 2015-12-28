@@ -13,13 +13,14 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.leonardoz.estoque.modelo.entidade.Entidade;
-import com.leonardoz.estoque.modelo.valor.Dinheiro;
 import com.leonardoz.estoque.produto.categoria.Categoria;
 import com.leonardoz.estoque.produto.unidade.UnidadeDeMedida;
 
 @Entity
 @Table(name = "produto")
 public class Produto extends Entidade {
+
+	private static final long serialVersionUID = 1L;
 
 	@Column(name = "codigo", nullable = false, length = 25)
 	private String codigo;
@@ -46,27 +47,19 @@ public class Produto extends Entidade {
 	private Dinheiro precoDeCusto;
 
 	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "markup", nullable = false) ) })
+	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "markup") ) })
 	private QuantidadeFracionada markup;
 
 	@Embedded
-	@AttributeOverrides({
-			@AttributeOverride(name = "valor", column = @Column(name = "estoque_atual", nullable = false) ) })
-	private Quantidade estoqueAtual;
-
-	@Embedded
-	@AttributeOverrides({
-			@AttributeOverride(name = "valor", column = @Column(name = "quantidade_estoque", nullable = false) ) })
+	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "quantidade_estoque") ) })
 	private Quantidade quantidadeEmEstoque;
 
 	@Embedded
-	@AttributeOverrides({
-			@AttributeOverride(name = "valor", column = @Column(name = "limite_minimo_estoque", nullable = false) ) })
+	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "limite_minimo_estoque") ) })
 	private Quantidade limiteMinimoDeEstoque;
 
 	@Embedded
-	@AttributeOverrides({
-			@AttributeOverride(name = "valor", column = @Column(name = "limite_maximo_estoque", nullable = false) ) })
+	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "limite_maximo_estoque") ) })
 	private Quantidade limiteMaximoDeEstoque;
 
 	@Column(name = "observacao")
@@ -105,6 +98,9 @@ public class Produto extends Entidade {
 	}
 
 	public void setPrecoDeVenda(Dinheiro precoDeVenda) {
+		if (precoDeCusto.isMaior(precoDeVenda)) {
+			throw new IllegalArgumentException("Preço de Venda não pode ser menor do que o Preço de Custo!.");
+		}
 		this.precoDeVenda = precoDeVenda;
 	}
 
@@ -122,14 +118,6 @@ public class Produto extends Entidade {
 
 	public void setMarkup(QuantidadeFracionada markup) {
 		this.markup = markup;
-	}
-
-	public Quantidade getEstoqueAtual() {
-		return estoqueAtual;
-	}
-
-	public void setEstoqueAtual(Quantidade estoqueAtual) {
-		this.estoqueAtual = estoqueAtual;
 	}
 
 	public UnidadeDeMedida getUnidadeMedida() {
@@ -172,6 +160,78 @@ public class Produto extends Entidade {
 		this.observacao = observacao;
 	}
 
+	public void aumentarPrecoDeCusto(Dinheiro aumento) {
+		if (aumento.isMaior(Dinheiro.ZERO)) {
+			this.precoDeCusto = this.precoDeCusto.somar(aumento);
+		}
+	}
+
+	public void diminuirPrecoDeCusto(Dinheiro valor) {
+		if (this.precoDeCusto.isMaior(valor)) {
+			this.precoDeCusto = this.precoDeCusto.subtrair(valor);
+		} else {
+			throw new IllegalArgumentException("Custo não pode ser negativo.");
+		}
+	}
+
+	public void aumentarPrecoDeVenda(Dinheiro aumento) {
+		if (aumento.isMaior(Dinheiro.ZERO)) {
+			this.precoDeVenda = this.precoDeVenda.somar(aumento);
+		}
+	}
+
+	public void diminuirPrecoDeVenda(Dinheiro valor) {
+		boolean valorSuficienteParaSubtracao = this.precoDeVenda.isMaior(valor);
+		if (!valorSuficienteParaSubtracao) {
+			throw new IllegalArgumentException("Custo não pode ser negativo.");
+		}
+		Dinheiro novoPrecoVenda = precoDeVenda.subtrair(valor);
+		if (precoDeCusto.isMenor(novoPrecoVenda)) {
+			this.precoDeVenda = novoPrecoVenda;
+		} else {
+			throw new IllegalArgumentException("Preço de Venda não pode ser menor do que o Preço de Custo!.");
+		}
+	}
+
+	public void aumentarLimiteMaximoDeEstoque(Quantidade valor) {
+		this.limiteMaximoDeEstoque = this.limiteMaximoDeEstoque.aumentar(valor);
+	}
+
+	public void diminuirLimiteMaximoDeEstoque(Quantidade valor) {
+		boolean valorSuficienteParaSubtracao = this.limiteMaximoDeEstoque.isMaiorIgual(valor);
+		if (!valorSuficienteParaSubtracao) {
+			throw new IllegalArgumentException("Limite máximo não pode ser negativo.");
+		}
+
+		Quantidade novoValor = this.limiteMaximoDeEstoque.diminuir(valor);
+		boolean maximoMaiorQueMinimo = novoValor.isMaiorIgual(limiteMinimoDeEstoque);
+		if (maximoMaiorQueMinimo) {
+			this.limiteMaximoDeEstoque = novoValor;
+		} else {
+			throw new IllegalArgumentException("Limite máximo não pode meneos que o Limite mínimo.");
+		}
+	}
+
+	public void aumentarLimiteMinimoDeEstoque(Quantidade valor) {
+		Quantidade novoValor = this.limiteMinimoDeEstoque.aumentar(valor);
+		boolean minimoMenorQueMaximo = !novoValor.isMaior(limiteMaximoDeEstoque);
+		if (minimoMenorQueMaximo) {
+			this.limiteMaximoDeEstoque = novoValor;
+		} else {
+			throw new IllegalArgumentException("Limite mínimo não pode meneos que o Limite mínimo.");
+		}
+
+		this.limiteMinimoDeEstoque = this.limiteMinimoDeEstoque.aumentar(valor);
+	}
+
+	public void diminuirLimiteMinimoDeEstoque(Quantidade valor) {
+		boolean valorSuficienteParaSubtracao = this.limiteMinimoDeEstoque.isMaiorIgual(valor);
+		if (!valorSuficienteParaSubtracao) {
+			throw new IllegalArgumentException("Limite máximo não pode ser negativo.");
+		}
+		this.limiteMinimoDeEstoque = this.limiteMinimoDeEstoque.diminuir(valor);
+	}
+
 	@Override
 	public boolean equals(final Object other) {
 		if (!(other instanceof Produto)) {
@@ -180,16 +240,14 @@ public class Produto extends Entidade {
 		Produto castOther = (Produto) other;
 		return new EqualsBuilder().append(codigo, castOther.codigo).append(descricao, castOther.descricao)
 				.append(categoria, castOther.categoria).append(precoDeVenda, castOther.precoDeVenda)
-				.append(precoDeCusto, castOther.precoDeCusto).append(estoqueAtual, castOther.estoqueAtual)
-				.append(unidadeMedida, castOther.unidadeMedida)
+				.append(precoDeCusto, castOther.precoDeCusto).append(unidadeMedida, castOther.unidadeMedida)
 				.append(quantidadeEmEstoque, castOther.quantidadeEmEstoque).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(codigo).append(descricao).append(categoria).append(precoDeVenda)
-				.append(precoDeCusto).append(estoqueAtual).append(unidadeMedida).append(quantidadeEmEstoque)
-				.toHashCode();
+				.append(precoDeCusto).append(unidadeMedida).append(quantidadeEmEstoque).toHashCode();
 	}
 
 }

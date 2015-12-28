@@ -18,7 +18,7 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 
 	@Column(name = "quantidade")
 	private BigInteger valor;
-	
+
 	protected Quantidade() {
 
 	}
@@ -39,10 +39,14 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 	public void setValor(BigInteger valor) {
 		this.valor = valor;
 	}
-	
+
 	@Override
 	public boolean analise(BigInteger valor) {
 		return valor.longValue() > 0l;
+	}
+
+	public Quantidade aumentar(Quantidade valorParaAdicionar) {
+		return aumentar(valorParaAdicionar.getValor());
 	}
 
 	public Quantidade aumentar(BigInteger valorParaAdicionar) {
@@ -64,6 +68,10 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 
 	public Quantidade diminuir(long valorParaSubtrair) {
 		return diminuir(BigInteger.valueOf(valorParaSubtrair));
+	}
+
+	public Quantidade diminuir(Quantidade qtd) {
+		return diminuir(qtd.valor);
 	}
 
 	public BigInteger getValor() {
@@ -88,5 +96,21 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 	public int compareTo(Quantidade o) {
 		return valor.compareTo(o.valor);
 	}
+
+	@Override
+	public String toString() {
+		return valor.toString();
+	}
+
+	public boolean isMaiorIgual(Quantidade qtd) {
+		int compareTo = this.valor.compareTo(qtd.valor);
+		return compareTo == 1 || compareTo == 0;
+	}
+	
+	public boolean isMaior(Quantidade qtd) {
+		int compareTo = this.valor.compareTo(qtd.valor);
+		return compareTo == 1;
+	}
+
 
 }

@@ -1,4 +1,4 @@
-package com.leonardoz.estoque.modelo.valor;
+package com.leonardoz.estoque.produto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -34,19 +34,20 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	private static int MAIOR = 1;
 
 	public static Dinheiro ZERO = new Dinheiro(0.00);
-	
-	@Column(name="montante_bruto",  scale = 2, precision = 10)
+
+	@Column(name = "montante_bruto", scale = 2, precision = 10)
 	private BigDecimal montanteBruto;
 
 	@Transient
-	private Locale ptBr = new Locale("pt", "BR");
+	private static final Locale ptBr = new Locale("pt", "BR");
 
 	@Transient
-	private NumberFormat moedaFormat = NumberFormat.getCurrencyInstance(ptBr); // para moedas
+	private static final NumberFormat moedaFormat = NumberFormat.getCurrencyInstance(ptBr); // para
+																							// moedas
 
-	protected Dinheiro() {
+	public Dinheiro() {
 	}
-	
+
 	public Dinheiro(String dinheiro) {
 		if (dinheiro == null)
 			throw new NullPointerException(Dinheiro.mensagemDinheiroNull);
@@ -61,7 +62,6 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	}
 
 	public Dinheiro(double rawMontante) {
-
 		this.montanteBruto = BigDecimal.valueOf(rawMontante);
 	}
 
@@ -75,7 +75,8 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	}
 
 	public Dinheiro getMontante() {
-		return new Dinheiro(this.montanteBruto.setScale(DECIMAIS, RoundingMode.HALF_UP));
+		BigDecimal novoValor = montanteBruto.setScale(DECIMAIS, RoundingMode.HALF_UP);
+		return new Dinheiro(novoValor);
 	}
 
 	public BigDecimal getMontanteBruto() {
@@ -133,7 +134,6 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	}
 
 	public Dinheiro percentual(double perc) {
-
 		return new Dinheiro(this.montanteBruto.multiply(BigDecimal.valueOf(perc), CONTEXTO)
 				.divide(BigDecimal.valueOf(100), CONTEXTO));
 
@@ -142,7 +142,7 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	public void setMontanteBruto(BigDecimal montanteBruto) {
 		this.montanteBruto = montanteBruto;
 	}
-	
+
 	public int dividirParaInteiro(double divisor) {
 		return this.montanteBruto.divideToIntegralValue(BigDecimal.valueOf(divisor)).intValue();
 	}
@@ -156,21 +156,8 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 
 	}
 
-	public long dividirParaLong(double divisor) {
-		return this.montanteBruto.divideToIntegralValue(BigDecimal.valueOf(divisor)).longValue();
-	}
-
-	public long dividirParaLong(long divisor) {
-		return this.montanteBruto.divideToIntegralValue(BigDecimal.valueOf(divisor)).longValue();
-	}
-
-	public long dividirParaLong(BigDecimal divisor) {
-		return this.montanteBruto.divideToIntegralValue(divisor).longValue();
-
-	}
-
 	public double doubleValue() {
-		return this.getMontante().doubleValue();
+		return this.montanteBruto.doubleValue();
 	}
 
 	public long longValue() {
@@ -203,7 +190,7 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	public int compareTo(Dinheiro dinheiro) {
 		if (dinheiro == null)
 			throw new NullPointerException(Dinheiro.mensagemDinheiroNull);
-		return this.getMontante().compareTo(dinheiro.getMontante());
+		return this.montanteBruto.compareTo(dinheiro.getMontante().montanteBruto);
 	}
 
 	@Override
@@ -222,7 +209,7 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 
 	@Override
 	public String toString() {
-		return this.getMontante().toString();
+		return montanteBruto.toPlainString();
 	}
 
 }

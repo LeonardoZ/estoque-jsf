@@ -8,12 +8,14 @@ import com.leonardoz.estoque.pessoa.CnpjTest;
 import com.leonardoz.estoque.pessoa.CpfTest;
 import com.leonardoz.estoque.pessoa.InscricaoEstadualTest;
 import com.leonardoz.estoque.pessoa.NumeroDeTelefoneTest;
+import com.leonardoz.estoque.produto.DinheiroTest;
+import com.leonardoz.estoque.produto.ProdutoTest;
 import com.leonardoz.estoque.produto.QuantidadeFracionadaTest;
 import com.leonardoz.estoque.produto.QuantidadeTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CnpjTest.class, CpfTest.class, InscricaoEstadualTest.class, NumeroDeTelefoneTest.class,
-		QuantidadeFracionadaTest.class, QuantidadeTest.class })
+@SuiteClasses({ DinheiroTest.class, ProdutoTest.class, CnpjTest.class, CpfTest.class, InscricaoEstadualTest.class,
+		NumeroDeTelefoneTest.class, QuantidadeFracionadaTest.class, QuantidadeTest.class })
 public class TodosTestes {
 
 }
