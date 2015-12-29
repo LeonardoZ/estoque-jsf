@@ -11,45 +11,58 @@ import org.junit.Test;
 public class DinheiroTest {
 
 	@Test
-	public void testDinheiro() {
+	public void testeDinheiro() {
 		assertNotNull(new Dinheiro());
 	}
 
 	@Test
-	public void testDinheiroString() {
+	public void testeDinheiroString() {
 		assertNotNull(new Dinheiro("1.23"));
+	}
+	
+
+	@Test
+	public void testeDinheiroSemCifraoString() {
+		assertNotNull(Dinheiro.deValorFormatado("R$ 1,23"));
+	}
+	
+	@Test
+	public void testeDinheiroFormatadoSimplesString() {
+		Dinheiro valorFormatado = Dinheiro.deValorFormatado("R$ 1,23");
+		String simples = valorFormatado.valorFormatadoSimples();
+		assertEquals("1,23", simples);
 	}
 
 	@Test
-	public void testDinheiroBigDecimal() {
+	public void testeDinheiroBigDecimal() {
 		assertNotNull(new Dinheiro(BigDecimal.valueOf(1.23)));
 	}
 
 	@Test
-	public void testDinheiroDouble() {
+	public void testeDinheiroDouble() {
 		assertNotNull(new Dinheiro(BigDecimal.valueOf(1.23d)));
 	}
 
 	@Test
-	public void testDinheiroLong() {
+	public void testeDinheiroLong() {
 		assertNotNull(new Dinheiro(BigDecimal.valueOf(544)));
 	}
 
 	@Test
-	public void testValorFormatado() {
+	public void testeValorFormatado() {
 		Dinheiro dinheiro = new Dinheiro(1.25);
 		assertEquals("R$ 1,25", dinheiro.valorFormatado());
 	}
 
 	@Test
-	public void testGetMontante() {
+	public void testeGetMontante() {
 		Dinheiro dinheiro = new Dinheiro(1.25);
 		Dinheiro novoDinheiro = dinheiro.getMontante();
 		assertEquals(dinheiro, novoDinheiro);
 	}
 
 	@Test
-	public void testSomar() {
+	public void testeSomar() {
 		Dinheiro dinheiro = new Dinheiro(10.00);
 		Dinheiro valor = new Dinheiro(1.25);
 		Dinheiro sub = dinheiro.somar(valor);
@@ -57,7 +70,7 @@ public class DinheiroTest {
 	}
 
 	@Test
-	public void testSubtrair() {
+	public void testeSubtrair() {
 		Dinheiro dinheiro = new Dinheiro(10.00);
 		Dinheiro valor = new Dinheiro(1.25);
 		Dinheiro sub = dinheiro.subtrair(valor);
@@ -65,104 +78,104 @@ public class DinheiroTest {
 	}
 
 	@Test
-	public void testMultiplicarLong() {
+	public void testeMultiplicarLong() {
 		Dinheiro dinheiro = new Dinheiro(10.00);
 		Dinheiro multi = dinheiro.multiplicar(4.5);
 		assertEquals(45.00d, multi.getMontanteBruto().doubleValue(), 0.01d);
 	}
 
 	@Test
-	public void testMultiplicarDouble() {
+	public void testeMultiplicarDouble() {
 		Dinheiro dinheiro = new Dinheiro(10.00);
 		Dinheiro multi = dinheiro.multiplicar(4);
 		assertEquals(40l, multi.getMontanteBruto().longValue());
 	}
 
 	@Test
-	public void testDividirLong() {
+	public void testeDividirLong() {
 		Dinheiro dinheiro = new Dinheiro(10.00);
 		Dinheiro dividido = dinheiro.dividir(4);
 		assertEquals(new Dinheiro(2.5), dividido);
 	}
 
 	@Test
-	public void testDividirDouble() {
+	public void testeDividirDouble() {
 		Dinheiro dinheiro = new Dinheiro(10.00);
 		Dinheiro dividido = dinheiro.dividir(4.5);
 		assertEquals(new Dinheiro(2.22d).valorFormatado(), dividido.valorFormatado());
 	}
 
 	@Test
-	public void testIsZero() {
+	public void testeIsZero() {
 		Dinheiro dinheiro = new Dinheiro(0);
 		assertTrue(dinheiro.isZero());
 	}
 
 	@Test
-	public void testIsMaior() {
+	public void testeIsMaior() {
 		Dinheiro dinheiro = new Dinheiro(100);
 		Dinheiro maior = new Dinheiro(200);
 		assertTrue(maior.isMaior(dinheiro));
 	}
 
 	@Test
-	public void testIsMenor() {
+	public void testeIsMenor() {
 		Dinheiro dinheiro = new Dinheiro(100);
 		Dinheiro maior = new Dinheiro(200);
 		assertTrue(dinheiro.isMenor(maior));
 	}
 
 	@Test
-	public void testIsMaiorIgual() {
+	public void testeIsMaiorIgual() {
 		Dinheiro dinheiro = new Dinheiro(100);
 		Dinheiro maior = new Dinheiro(100);
 		assertTrue(maior.isMaiorIgual(dinheiro));
 	}
 
 	@Test
-	public void testIsMenorIgual() {
+	public void testeIsMenorIgual() {
 		Dinheiro dinheiro = new Dinheiro(100);
 		Dinheiro maior = new Dinheiro(100);
 		assertTrue(maior.isMenorIgual(dinheiro));
 	}
 
 	@Test
-	public void testPercentual() {
+	public void testePercentual() {
 		Dinheiro dinheiro = new Dinheiro(200);
 		Dinheiro percentual = dinheiro.percentual(50);
 		assertEquals(new Dinheiro(100.0d), percentual);
 	}
 
 	@Test
-	public void testDividirParaInteiroDouble() {
+	public void testeDividirParaInteiroDouble() {
 		Dinheiro dinheiro = new Dinheiro(10);
 		int dividirParaInteiro = dinheiro.dividirParaInteiro(3.5);
 		assertEquals(2, dividirParaInteiro);
 	}
 
 	@Test
-	public void testDividirParaInteiroLong() {
+	public void testeDividirParaInteiroLong() {
 		Dinheiro dinheiro = new Dinheiro(10);
 		int dividirParaInteiro = dinheiro.dividirParaInteiro(3);
 		assertEquals(3, dividirParaInteiro);
 	}
 
 	@Test
-	public void testDividirParaInteiroBigDecimal() {
+	public void testeDividirParaInteiroBigDecimal() {
 		Dinheiro dinheiro = new Dinheiro(10);
 		int dividirParaInteiro = dinheiro.dividirParaInteiro(BigDecimal.valueOf(9));
 		assertEquals(1, dividirParaInteiro);
 	}
 
 	@Test
-	public void testInverter() {
+	public void testeInverter() {
 		Dinheiro dinheiro = new Dinheiro(10);
 		Dinheiro invertido = dinheiro.inverter();
 		assertEquals(new Dinheiro(-10), invertido);
 	}
 
 	@Test
-	public void testMax() {
+	public void testeMax() {
 		Dinheiro dinheiro = new Dinheiro(10);
 		Dinheiro param = new Dinheiro(20);
 		Dinheiro max = dinheiro.max(param);
@@ -170,7 +183,7 @@ public class DinheiroTest {
 	}
 
 	@Test
-	public void testMin() {
+	public void testeMin() {
 		Dinheiro dinheiro = new Dinheiro(10);
 		Dinheiro param = new Dinheiro(20);
 		Dinheiro min = dinheiro.min(param);

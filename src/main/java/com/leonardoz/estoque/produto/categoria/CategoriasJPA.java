@@ -26,7 +26,6 @@ public class CategoriasJPA implements Serializable, Categorias {
 		if (categoria != null && categoria.getId() != null) {
 			manager.merge(categoria);
 		} else {
-			System.out.println("Salvou pow!");
 			manager.persist(categoria);
 		}
 		manager.flush();
@@ -35,12 +34,12 @@ public class CategoriasJPA implements Serializable, Categorias {
 	@Override
 	@Transactional
 	public void removerCategoria(long idDaCategoria) {
-		Categoria categoria = recuperaCategoria(idDaCategoria).orElseThrow(EntityNotFoundException::new);
+		Categoria categoria = recuperarCategoria(idDaCategoria).orElseThrow(EntityNotFoundException::new);
 		manager.remove(categoria);
 	}
 
 	@Override
-	public Optional<Categoria> recuperaCategoria(Long idDaCategoria) {
+	public Optional<Categoria> recuperarCategoria(long idDaCategoria) {
 		return Optional.ofNullable((Categoria) manager.find(Categoria.class, idDaCategoria));
 	}
 

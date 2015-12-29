@@ -9,7 +9,7 @@ public interface Categorias {
 
 	void removerCategoria(long idDaCategoria);
 
-	Optional<Categoria> recuperaCategoria(Long idDaCategoria);
+	Optional<Categoria> recuperarCategoria(long idDaCategoria);
 
 	List<Categoria> recuperarCategorias();
 

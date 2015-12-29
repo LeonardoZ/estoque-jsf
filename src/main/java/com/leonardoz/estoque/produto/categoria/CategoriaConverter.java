@@ -18,7 +18,7 @@ public class CategoriaConverter implements Converter {
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		Categoria retorno = null;
 		if (value != null && !"".equals(value)) {
-			retorno = categorias.recuperaCategoria(Long.valueOf(value))
+			retorno = categorias.recuperarCategoria(Long.valueOf(value))
 					.orElseThrow(IllegalArgumentException::new);
 		}
 		return retorno;

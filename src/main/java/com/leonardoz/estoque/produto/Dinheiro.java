@@ -45,12 +45,24 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	private static final NumberFormat moedaFormat = NumberFormat.getCurrencyInstance(ptBr); // para
 																							// moedas
 
+	public static Dinheiro deValorFormatado(String dinheiro) {
+		if (dinheiro == null)
+			throw new NullPointerException(Dinheiro.mensagemDinheiroNull);
+		String valorLimpo = dinheiro
+							.replace("R$","")
+							.replaceAll(" ","")
+							.replace(".", "").replaceAll(",", ".");
+		return new Dinheiro(valorLimpo);
+	}
+
 	public Dinheiro() {
+		this.montanteBruto = BigDecimal.ZERO;
 	}
 
 	public Dinheiro(String dinheiro) {
 		if (dinheiro == null)
 			throw new NullPointerException(Dinheiro.mensagemDinheiroNull);
+		System.out.println(dinheiro);
 		this.montanteBruto = new BigDecimal(dinheiro);
 	}
 
@@ -70,10 +82,13 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	}
 
 	public String valorFormatado() {
-
 		return moedaFormat.format(this.getMontante());
 	}
 
+	public String valorFormatadoSimples() {
+		return valorFormatado().replace("R$ ", "");
+	}
+	
 	public Dinheiro getMontante() {
 		BigDecimal novoValor = montanteBruto.setScale(DECIMAIS, RoundingMode.HALF_UP);
 		return new Dinheiro(novoValor);
@@ -209,7 +224,7 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 
 	@Override
 	public String toString() {
-		return montanteBruto.toPlainString();
+		return valorFormatadoSimples();
 	}
 
 }

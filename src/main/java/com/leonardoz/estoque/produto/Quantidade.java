@@ -20,7 +20,7 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 	private BigInteger valor;
 
 	protected Quantidade() {
-
+		valor = BigInteger.ZERO;
 	}
 
 	public Quantidade(BigInteger valor) {
@@ -38,6 +38,11 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 
 	public void setValor(BigInteger valor) {
 		this.valor = valor;
+	}
+
+	public static Quantidade deValorFormatado(String valor) {
+		String valorLimpo = valor.replace(".", "").replaceAll(",", ".");
+		return new Quantidade(new BigInteger(valorLimpo));
 	}
 
 	@Override
@@ -106,11 +111,10 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 		int compareTo = this.valor.compareTo(qtd.valor);
 		return compareTo == 1 || compareTo == 0;
 	}
-	
+
 	public boolean isMaior(Quantidade qtd) {
 		int compareTo = this.valor.compareTo(qtd.valor);
 		return compareTo == 1;
 	}
-
 
 }

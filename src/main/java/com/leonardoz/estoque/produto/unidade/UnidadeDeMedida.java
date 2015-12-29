@@ -8,14 +8,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.leonardoz.estoque.modelo.entidade.Entidade;
-import com.leonardoz.estoque.produto.categoria.Categoria;
 
 @Entity
 @Table(name = "unidade_de_medida")
 public class UnidadeDeMedida extends Entidade {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Column(name = "descricao", nullable = false, length = 25)
 	private String descricao;
 
@@ -29,7 +28,7 @@ public class UnidadeDeMedida extends Entidade {
 
 	@Override
 	public boolean equals(final Object other) {
-		if (!(other instanceof Categoria)) {
+		if (!(other instanceof UnidadeDeMedida)) {
 			return false;
 		}
 		UnidadeDeMedida castOther = (UnidadeDeMedida) other;

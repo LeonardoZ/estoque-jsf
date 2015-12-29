@@ -46,9 +46,6 @@ public class Produto extends Entidade {
 			@AttributeOverride(name = "montanteBruto", column = @Column(name = "preco_custo", nullable = false, scale = 2, precision = 10) ) })
 	private Dinheiro precoDeCusto;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "markup") ) })
-	private QuantidadeFracionada markup;
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "valor", column = @Column(name = "quantidade_estoque") ) })
@@ -66,6 +63,20 @@ public class Produto extends Entidade {
 	private String observacao;
 
 	public Produto() {
+		if (categoria == null)
+			categoria = new Categoria();
+		if (unidadeMedida == null)
+			unidadeMedida = new UnidadeDeMedida();
+		if (quantidadeEmEstoque == null)
+			quantidadeEmEstoque = new Quantidade();
+		if (limiteMaximoDeEstoque == null)
+			limiteMaximoDeEstoque = new Quantidade();
+		if (limiteMinimoDeEstoque == null)
+			limiteMinimoDeEstoque = new Quantidade();
+		if (precoDeCusto == null)
+			precoDeCusto = new Dinheiro();
+		if (precoDeVenda == null)
+			precoDeVenda = new Dinheiro();
 
 	}
 
@@ -112,13 +123,6 @@ public class Produto extends Entidade {
 		this.precoDeCusto = precoCusto;
 	}
 
-	public QuantidadeFracionada getMarkup() {
-		return markup;
-	}
-
-	public void setMarkup(QuantidadeFracionada markup) {
-		this.markup = markup;
-	}
 
 	public UnidadeDeMedida getUnidadeMedida() {
 		return unidadeMedida;

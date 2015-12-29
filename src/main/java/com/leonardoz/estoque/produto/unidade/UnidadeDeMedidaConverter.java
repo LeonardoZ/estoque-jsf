@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-@FacesConverter(forClass = UnidadeDeMedida.class)
+@FacesConverter(forClass = UnidadeDeMedida.class, value = "unidadeDeMedidaConverter")
 public class UnidadeDeMedidaConverter implements Converter {
 
 	@Inject

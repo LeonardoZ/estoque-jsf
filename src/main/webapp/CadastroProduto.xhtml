@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<script>
+			function mascara(o, f) {
+				v_obj = o;
+				v_fun = f;
+				setTimeout("execmascara()", 1);
+			}
+			function execmascara() {
+				v_obj.value = v_fun(v_obj.value);
+			}
+			function valor(v) {
+				v = v.replace(/\D/g, "");
+				v = v.replace(/[0-9]{15}/, "inválido");
+				v = v.replace(/(\d{1})(\d{11})$/, "$1.$2"); // coloca ponto antes dos
+				// ultimos 11 digitos
+				v = v.replace(/(\d{1})(\d{8})$/, "$1.$2"); // coloca ponto antes dos
+				// ultimos 8 digitos
+				v = v.replace(/(\d{1})(\d{5})$/, "$1.$2"); // coloca ponto antes dos
+				// ultimos 5 digitos
+				v = v.replace(/(\d{1})(\d{1,2})$/, "$1,$2"); // coloca virgula antes dos
+				// ultimos 2 digitos
+				return v;
+			}
+		</script>
+		<div>
+			<p:fieldset legend="Cadastro de Produtoes">
+				<h:form>
+					<p:messages showSummary="true" showIcon="true" severity="error" />
+					<p:growl showSummary="true" showIcon="true" severity="info,warn" />
+					<p:tabView orientation="left" styleClass="linha-form-media">
+						<p:tab title="Informações Básicas">
+							<div class="ui-grid">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Descrição" />
+										<p:inputText value="#{cadastroProdutoBean.produto.descricao}"
+											styleClass="input-5" />
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-6">
+										<p:outputLabel value="Código do Produto" styleClass="input-3" />
+										<p:inputText styleClass="input-3 center"
+											value="#{cadastroProdutoBean.produto.codigo}" />
+									</div>
+
+									<div class="ui-grid-col-6">
+										<p:outputLabel value="Categoria" styleClass="input-4" />
+										<p:selectOneMenu
+											value="#{cadastroProdutoBean.produto.categoria}"
+											styleClass="input-3" filter="true" filterMatchMode="contains"
+											label="Categoria">
+											<f:selectItems
+												value="#{cadastroProdutoBean.recuperarCategorias()}"
+												var="categoria" itemValue="#{categoria}"
+												itemLabel="#{categoria.descricao}" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Unidade de Medida" styleClass="input-2" />
+										<p:selectOneMenu styleClass="input-2"
+											value="#{cadastroProdutoBean.produto.unidadeMedida}"
+											filter="true" filterMatchMode="contains"
+											label="Unidade de Medida">
+											<f:converter converterId="unidadeDeMedidaConverter" />
+											<f:selectItems
+												value="#{cadastroProdutoBean.recuperarUnidadesDeMedida()}"
+												var="unidade" itemValue="#{unidade}"
+												itemLabel="#{unidade.descricao}" />
+										</p:selectOneMenu>
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Preço de Custo" styleClass="input-2" />
+										<p:inputText onkeypress="mascara(this,valor)"
+											styleClass="input-2"
+											value="#{cadastroProdutoBean.produto.precoDeCusto}" />
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Preço de Venda" styleClass="input-2" />
+										<p:inputText onkeypress="mascara(this,valor)"
+											styleClass="input-2"
+											value="#{cadastroProdutoBean.produto.precoDeVenda}" />
+									</div>
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Estoque">
+							<div class="ui-grid">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Qtd. estoque" styleClass="input-2" />
+										<p:inputText styleClass="input-2 center"
+											value="#{cadastroProdutoBean.produto.quantidadeEmEstoque}" />
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Limite Min. estoque"
+											styleClass="input-2" />
+										<p:inputText styleClass="input-2 center"
+											value="#{cadastroProdutoBean.produto.limiteMinimoDeEstoque}" />
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Limite Max. estoque"
+											styleClass="input-2 " />
+										<p:inputText styleClass="input-2 center"
+											value="#{cadastroProdutoBean.produto.limiteMaximoDeEstoque}" />
+									</div>
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Observação">
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-12 ">
+									<p:outputLabel value="Observações" styleClass="input-5" />
+									<p:inputTextarea styleClass="input-5" rows="10"
+										value="#{cadastroProdutoBean.produto.observacao}" />
+								</div>
+							</div>
+						</p:tab>
+					</p:tabView>
+
+					<div class="linha-form">
+						<p:commandButton value="Salvar" styleClass="elemento"
+							action="#{cadastroProdutoBean.salvarProduto}" icon="ui-icon-disk"
+							update="@form" />
+
+						<p:commandButton value="Novo" styleClass="elemento"
+							action="#{cadastroProdutoBean.novoProduto()}"
+							icon="ui-icon-paper" update="@form" />
+
+					</div>
+
+					<p:dataTable id="table" tableStyleClass="linha-form painel-medio"
+						value="#{cadastroProdutoBean.model}" var="produto"
+						paginator="true" rows="2" paginatorPosition="bottom" lazy="true">
+						>
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{produto.descricao}" />
+						</p:column>
+
+
+						<p:column headerText="Ações" styleClass="text-align:center;">
+							<p:commandButton value="Detalhes" process="@this" update="@form"
+								action="#{cadastroProdutoBean.aoSelecionarProduto(produto)}">
+							</p:commandButton>
+
+							<p:commandButton value="Editar" process="@this" update="@form"
+								action="#{cadastroProdutoBean.aoSelecionarProduto(produto)}">
+							</p:commandButton>
+
+							<p:commandButton value="Remover"
+								action="#{cadastroProdutoBean.removerProduto(produto)}"
+								process="@this" update="@form">
+								<p:confirm header="Remover Produto"
+									message="Deseja remover o Produto?" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+
+					<p:confirmDialog id="removerDialog" global="true" showEffect="fade"
+						hideEffect="fade">
+						<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check">
+						</p:commandButton>
+
+						<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+							icon="ui-icon-close" />
+					</p:confirmDialog>
+				</h:form>
+			</p:fieldset>
+		</div>
+	</ui:define>
+</ui:composition>
