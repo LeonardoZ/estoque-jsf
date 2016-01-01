@@ -13,7 +13,7 @@ public interface Produtos {
 
 	List<Produto> recuperarProdutos();
 	
-	int quantidadeFiltrados(FiltroProduto filtro);
+	int quantosForamFiltrados(FiltroProduto filtro);
 	
 	List<Produto> filtrados(FiltroProduto filtro);
 }

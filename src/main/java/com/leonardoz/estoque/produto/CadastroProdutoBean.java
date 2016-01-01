@@ -61,7 +61,7 @@ public class CadastroProdutoBean implements Serializable {
 				filtroProduto.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
 				filtroProduto.setPropriedadeOrdenacao(sortField);
 
-				setRowCount(produtos.quantidadeFiltrados(filtroProduto));
+				setRowCount(produtos.quantosForamFiltrados(filtroProduto));
 
 				return produtos.filtrados(filtroProduto);
 			}

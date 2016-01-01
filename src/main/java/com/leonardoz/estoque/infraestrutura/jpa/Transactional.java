@@ -1,4 +1,4 @@
-package com.leonardoz.estoque.infraestrutura;
+package com.leonardoz.estoque.infraestrutura.jpa;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -143,6 +143,27 @@
 	</build>
 
 	<profiles>
+		<profile>
+			<id>with-emma</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>emma-maven-plugin</artifactId>
+						<inherited>true</inherited>
+						<executions>
+							<execution>
+								<id>instrument</id>
+								<phase>process-test-classes</phase>
+								<goals>
+									<goal>instrument</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
 	</profiles>
 </project>

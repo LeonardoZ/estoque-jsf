@@ -1,4 +1,4 @@
-package com.leonardoz.estoque.infraestrutura;
+package com.leonardoz.estoque.infraestrutura.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
