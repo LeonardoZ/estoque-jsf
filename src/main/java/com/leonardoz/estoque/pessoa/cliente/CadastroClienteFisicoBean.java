@@ -1,4 +1,4 @@
-package com.leonardoz.estoque.pessoa.funcionario;
+package com.leonardoz.estoque.pessoa.cliente;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,30 +24,29 @@ import com.leonardoz.estoque.pessoa.FiltroPessoaFisica;
 
 @Named
 @ViewScoped
-public class CadastroFuncionarioBean implements Serializable {
+public class CadastroClienteFisicoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Funcionario funcionario = new Funcionario();
+	private ClienteFisico cliente = new ClienteFisico();
 
 	@Inject
-	private Funcionarios funcionarios;
+	private ClientesFisicos clientes;
 
 	@Inject
 	private Localizacoes localizacoes;
 
 	private FiltroPessoaFisica filtro;
-	private LazyDataModel<Funcionario> model;
-
+	private LazyDataModel<ClienteFisico> model;
 	private Estado estadoSelecionado;
 
-	public CadastroFuncionarioBean() {
+	public CadastroClienteFisicoBean() {
 		filtro = new FiltroPessoaFisica();
-		model = new LazyDataModel<Funcionario>() {
+		model = new LazyDataModel<ClienteFisico>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public List<Funcionario> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+			public List<ClienteFisico> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 					Map<String, Object> filters) {
 
 				filtro.setPrimeiroRegistro(first);
@@ -55,71 +54,71 @@ public class CadastroFuncionarioBean implements Serializable {
 				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
 				filtro.setPropriedadeOrdenacao(sortField);
 
-				setRowCount(funcionarios.quantosForamFiltrados(filtro));
+				setRowCount(clientes.quantosForamFiltrados(filtro));
 
-				return funcionarios.filtrados(filtro);
+				return clientes.filtrados(filtro);
 			}
 		};
 	}
 
-	@PostConstruct
-	public void iniciar() {
-		if (funcionario == null) {
-			funcionario = new Funcionario();
-		}
-	}
-
-	public LazyDataModel<Funcionario> getModel() {
+	public LazyDataModel<ClienteFisico> getModel() {
 		return model;
 	}
 
-	public void setModel(LazyDataModel<Funcionario> model) {
+	public void setModel(LazyDataModel<ClienteFisico> model) {
 		this.model = model;
 	}
 
-	public List<Funcionario> listarFuncionarios() {
-		List<Funcionario> funcionariosEncontrados = funcionarios.recuperarFuncionarios();
-		return funcionariosEncontrados;
+	@PostConstruct
+	public void iniciar() {
+		if (cliente == null) {
+			cliente = new ClienteFisico();
+		}
 	}
 
-	public void salvarFuncionario() {
+	public List<ClienteFisico> listarClientesFisicos() {
+		List<ClienteFisico> clientesEncontrados = clientes.recuperarClientesFisicos();
+		return clientesEncontrados;
+	}
+
+	public void salvarClienteFisico() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			this.funcionarios.guardarFuncionario(funcionario);
-			this.funcionario = new Funcionario();
-			context.addMessage(null, new FacesMessage("Funcionario salva com sucesso!"));
+			this.clientes.guardarClienteFisico(cliente);
+			this.cliente = new ClienteFisico();
+			context.addMessage(null, new FacesMessage("ClienteFisico salva com sucesso!"));
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();
-			FacesMessage mensagem = new FacesMessage("Falha ao salvar a funcionario.");
+			FacesMessage mensagem = new FacesMessage("Falha ao salvar a cliente.");
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
 		}
 	}
 
-	public void novoFuncionario() {
-		this.funcionario = new Funcionario();
+	public void novoClienteFisico() {
+		this.cliente = new ClienteFisico();
 	}
 
-	public void removerFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void removerClienteFisico(ClienteFisico cliente) {
+		this.cliente = cliente;
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			this.funcionarios.removerFuncionario(Long.valueOf(this.funcionario.getId()));
-			this.funcionario = new Funcionario();
-			context.addMessage(null, new FacesMessage("Funcionario removida com sucesso!"));
+			this.clientes.removerClienteFisico(Long.valueOf(this.cliente.getId()));
+			this.cliente = new ClienteFisico();
+			context.addMessage(null, new FacesMessage("ClienteFisico removida com sucesso!"));
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();
-			FacesMessage mensagem = new FacesMessage("Falha ao remover o funcionario.");
+			FacesMessage mensagem = new FacesMessage("Falha ao remover o cliente.");
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
 		}
 	}
 
-	public void aoSelecionarFuncionario(Funcionario param) {
-		this.funcionario = param;
-		Optional.ofNullable(this.funcionario.getEndereco().getCidade())
+	public void aoSelecionarClienteFisico(ClienteFisico param) {
+		this.cliente = param;
+		Optional.ofNullable(this.cliente.getEndereco().getCidade())
 				.ifPresent(c -> configuraEstadoSelecionado(c.getEstado()));
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Funcionario selecionado"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ClienteFisico selecionado"));
 	}
 
 	public void configuraEstadoSelecionado(Estado estado) {
@@ -138,12 +137,12 @@ public class CadastroFuncionarioBean implements Serializable {
 		return localizacoes.buscaCidadesPorEstado(estadoSelecionado);
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public ClienteFisico getClienteFisico() {
+		return cliente;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setClienteFisico(ClienteFisico cliente) {
+		this.cliente = cliente;
 	}
 
 	public Estado getEstadoSelecionado() {

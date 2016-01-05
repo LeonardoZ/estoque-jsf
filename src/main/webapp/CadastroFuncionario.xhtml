@@ -142,14 +142,15 @@
 					</div>
 
 					<p:dataTable id="table" tableStyleClass="linha-form painel-medio"
-						value="#{cadastroFuncionarioBean.listarFuncionarios()}"
+						value="#{cadastroFuncionarioBean.model}" 
+						paginator="true" rows="10" paginatorPosition="bottom" lazy="true"
 						var="funcionario">
 
 						<p:column headerText="Nome fantasia">
 							<h:outputText value="#{funcionario.nome}" />
 						</p:column>
 
-						<p:column headerText="Razão social">
+						<p:column headerText="E-mail">
 							<h:outputText value="#{funcionario.email}" />
 						</p:column>
 

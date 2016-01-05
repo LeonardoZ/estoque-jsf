@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<div>
+			<p:panel toggleTitle="Tipo de cliente">
+
+				<h:form>
+					<h3>Cadastro de clientes</h3>
+					<p:selectOneMenu id="tipo-pessoa"
+						value="#{escolheCadastroClienteBean.tipo}"
+						converter="omnifaces.GenericEnumConverter">
+
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}"
+							noSelectionOption="true" />
+						<f:selectItems value="#{escolheCadastroClienteBean.listarTipos()}"
+							var="tipo" itemLabel="#{tipo.pessoa}" itemValue="#{tipo}">
+						</f:selectItems>
+
+						<p:ajax partialSubmit="true" process="@form" update=":client-form"
+							event="change"
+							listener="#{escolheCadastroClienteBean.trocaPainelSelecionado()}" />
+
+					</p:selectOneMenu>
+				</h:form>
+			</p:panel>
+			<h:panelGroup id="client-form" layout="block">
+				<h:panelGroup id="cadastro-cliente-fisico"
+					rendered="#{escolheCadastroClienteBean.cadastroClienteFisicoSelecionado}">
+					<ui:include src="/CadastroClienteFisico.xhtml"></ui:include>
+				</h:panelGroup>
+				<h:panelGroup id="cadastro-cliente-juridico"
+					rendered="#{escolheCadastroClienteBean.cadastroClienteJuridicoSelecionado}">
+					<ui:include src="/CadastroClienteJuridico.xhtml"></ui:include>
+				</h:panelGroup>
+			</h:panelGroup>
+		</div>
+	</ui:define>
+</ui:composition>

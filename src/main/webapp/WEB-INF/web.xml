@@ -9,7 +9,7 @@
 	</context-param>
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>redmond</param-value>
+		<param-value>estoque-theme</param-value>
 	</context-param>
 	<display-name>Estoque JSF</display-name>
 	<servlet>

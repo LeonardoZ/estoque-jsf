@@ -44,7 +44,6 @@ public class Cpf implements StringValueObject {
 	}
 
 	public void setValor(String valor) {
-		validarValor(valor);
 		this.valor = valor.replace(".", "").replace("-", "");
 	}
 

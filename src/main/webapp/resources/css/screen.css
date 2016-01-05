@@ -6,6 +6,7 @@
 	z-index: 20 !important;
 	overflow: visible !important;
 	border: 0px !important;
+	margin-bottom: 20px;
 }
 
 .ui-layout-north .ui-layout-unit-content {
@@ -38,31 +39,83 @@ body {
 	font-size: 12px;
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0px;
+	background: #f7f7f7;
 	font-weight: normal;
-	background: #f0f1eb !important;
 }
 
 .cabecalho {
 	padding: 5px;
 	height: 60px;
-	background: #e5e5e5 !important;
 	margin-top: -20px;
-	margin-bottom: 10px;
-	margin-top: -20px;
-	margin-bottom: 10px;
-	color: #f0f1eb;
+	margin-bottom: 0px;
+}
+
+.menu-topo {
+	color: white;
+	border: 0px;
+	border-radius: 0px;
+	min-height: 40px;
+	margin-top: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+	margin-right: 0px;
+	border: 0px;
+}
+
+.menu-lateral {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	height: 100%; /* Full height */
+	position: fixed; /* Make it stick, even on scroll */
+	overflow: auto;
+	/* Enable scrolling if the sidenav has too much content */
+	min-width: 250px;
+}
+
+.menu-lateral>li {
+	color: white;
+	font-family: verdana;
+	font-size: 1.1em;
+	text-decoration: none;
+	font-size: 1.1em;
+	text-decoration: none;
+	
+}
+
+.menu-lateral>li>a {
+	color: #fff;
+	padding: 8px 0 8px 16px;
+	text-decoration: none;
+	min-height: 20px;
+	min-width: 140px;
+	display: block;
+}
+
+.menu-lateral>li>a:hover {
+	background-color: #fff;
+	color: black;
+}
+
+.menu-1 {
+	background: #457487;
+}
+
+.menu-2 {
+	background: #fff;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+.divisor {
+	margin-left: 10px;
+}
+
+.menu-topo-item {
+	color: white;
 }
 
 #conteudo {
 	padding: 0px 8px;
-}
-
-#container {
-	
-}
-
-.painel {
-	background: #e5e5e5 !important;
 }
 
 footer {

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div>
+		<p:separator />
+		<p:fieldset legend="Cadastro de Clientes Jurídicos">
+			<h:form>
+				<p:messages showSummary="true" showIcon="true" severity="error" />
+				<p:growl showSummary="true" showIcon="true" severity="info,warn" />
+				<p:tabView orientation="left" styleClass="linha-form-media">
+					<p:tab title="Informações Básicas">
+						<div class="ui-grid">
+
+							<!-- Label -->
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-12">
+									<p:outputLabel value="Nome fantasia" />
+									<p:inputText
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.nomeFantasia}"
+										styleClass="input-5" />
+								</div>
+							</div>
+
+							<!-- Label -->
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-12">
+									<p:outputLabel value="Razão social*" />
+									<p:inputText
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.razaoSocial}"
+										styleClass="input-5" />
+								</div>
+							</div>
+
+							<!-- Label -->
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-6 pos">
+									<p:outputLabel value="CNPJ*" styleClass="input-3" />
+									<p:inputMask mask="999.999.999/9999-99"
+										styleClass="input-3 center"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.cnpj.valor}" />
+								</div>
+								<div class="ui-grid-col-6">
+									<p:outputLabel value="Inscrição estadual*" styleClass="input-3" />
+									<p:inputText styleClass="input-3 center"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.inscricaoEstadual.valor}" />
+								</div>
+							</div>
+						</div>
+					</p:tab>
+					<p:tab title="Endereço">
+						<div class="ui-grid">
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-12">
+									<p:outputLabel value="Rua" styleClass="input-5" />
+									<p:inputText styleClass="input-5"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.endereco.rua}" />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-4 pos">
+									<p:outputLabel value="Número" styleClass="input-2" />
+									<p:inputText styleClass="input-2 center"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.endereco.numero}" />
+								</div>
+								<div class="ui-grid-col-4 pos">
+									<p:outputLabel value="Bairro" styleClass="input-2" />
+									<p:inputText styleClass="input-2 center"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.endereco.bairro}" />
+								</div>
+								<div class="ui-grid-col-4">
+									<p:outputLabel value="CEP" styleClass="input-2" />
+									<p:inputMask mask="99999-999" styleClass="input-2 center"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.endereco.cep.valor}" />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-4 pos">
+									<p:outputLabel value="Estado" styleClass="input-2" />
+									<p:selectOneMenu
+										value="#{cadastroClienteJuridicoBean.estadoSelecionado}"
+										filter="true" filterMatchMode="contains" label="Estado"
+										styleClass="input-2">
+										<f:selectItems
+											value="#{cadastroClienteJuridicoBean.listaEstados()}"
+											var="estado" itemValue="#{estado}" itemLabel="#{estado.nome}" />
+
+										<p:ajax
+											listener="#{cadastroClienteJuridicoBean.listarCidadesPorEstado}"
+											event="change" update="cidade" />
+									</p:selectOneMenu>
+								</div>
+								<div class="ui-grid-col-8 pos">
+									<p:outputLabel value="Cidade" styleClass="input-4" />
+									<p:selectOneMenu id="cidade"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.endereco.cidade}"
+										filter="true" filterMatchMode="contains" label="Cidade"
+										styleClass="input-4">
+										<f:selectItems
+											value="#{cadastroClienteJuridicoBean.listarCidadesPorEstado()}"
+											var="cidade" itemValue="#{cidade}" itemLabel="#{cidade.nome}" />
+									</p:selectOneMenu>
+
+								</div>
+							</div>
+						</div>
+					</p:tab>
+					<p:tab title="Contato">
+						<div class="ui-grid">
+
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-4 pos">
+									<p:outputLabel value="Telefone 1" styleClass="input-2" />
+									<p:inputMask mask="(99) 9999-9999" styleClass="input-2 center"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.telefone.valor}" />
+								</div>
+								<div class="ui-grid-col-4">
+									<p:outputLabel value="Celular" styleClass="input-2" />
+									<p:inputMask mask="(99) 99999-9999" styleClass="input-2 center"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.celular.valor}" />
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-12 pos">
+									<p:outputLabel value="E-mail" styleClass="input-3 center" />
+									<p:inputText styleClass="input-5"
+										value="#{cadastroClienteJuridicoBean.clienteJuridico.email.valor}" />
+								</div>
+							</div>
+
+						</div>
+					</p:tab>
+					<p:tab title="Observação">
+						<div class="ui-grid-row">
+							<div class="ui-grid-col-12 ">
+								<p:outputLabel value="Observações" styleClass="input-5" />
+								<p:inputTextarea styleClass="input-5" rows="10"
+									value="#{cadastroClienteJuridicoBean.clienteJuridico.obs}" />
+							</div>
+						</div>
+					</p:tab>
+				</p:tabView>
+
+				<div class="linha-form">
+					<p:commandButton value="Salvar" styleClass="elemento"
+						action="#{cadastroClienteJuridicoBean.salvarClienteJuridico()}"
+						icon="ui-icon-disk" update="@form" />
+
+					<p:commandButton value="Novo" styleClass="elemento"
+						action="#{cadastroClienteJuridicoBean.novoClienteJuridico()}"
+						icon="ui-icon-paper" update="@form" />
+
+				</div>
+
+				<p:dataTable id="table" tableStyleClass="linha-form painel-medio"
+					value="#{cadastroClienteJuridicoBean.model}"
+					paginator="true" rows="10" paginatorPosition="bottom" lazy="true"
+					var="clienteJuridico">
+
+					<p:column headerText="Nome fantasia">
+						<h:outputText value="#{clienteJuridico.nomeFantasia}" />
+					</p:column>
+
+					<p:column headerText="Razão social">
+						<h:outputText value="#{clienteJuridico.razaoSocial}" />
+					</p:column>
+
+					<p:column headerText="Ações" styleClass="text-align:center;">
+						<p:commandButton value="Detalhes" process="@this" update="@form"
+							action="#{cadastroClienteJuridicoBean.aoSelecionarClienteJuridico(clienteJuridico)}">
+						</p:commandButton>
+
+						<p:commandButton value="Editar" process="@this" update="@form"
+							action="#{cadastroClienteJuridicoBean.aoSelecionarClienteJuridico(clienteJuridico)}">
+						</p:commandButton>
+
+						<p:commandButton value="Remover"
+							action="#{cadastroClienteJuridicoBean.removerClienteJuridico(clienteJuridico)}"
+							process="@this" update="@form">
+							<p:confirm header="Remover ClienteJuridico"
+								message="Deseja remover o ClienteJuridico?" icon="ui-icon-alert" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<p:confirmDialog id="removerDialog" global="true" showEffect="fade"
+					hideEffect="fade">
+					<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check">
+					</p:commandButton>
+
+					<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close" />
+				</p:confirmDialog>
+			</h:form>
+		</p:fieldset>
+	</div>
+</ui:composition>

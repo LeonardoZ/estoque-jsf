@@ -36,7 +36,6 @@ public class NumeroDeTelefone implements StringValueObject {
 	}
 
 	public void setValor(String valor) {
-		validarValor(valor);
 		this.valor = valor;
 	}
 

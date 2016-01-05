@@ -22,6 +22,7 @@ public class UnidadesDeMedidaJPA implements Serializable, UnidadesDeMedida {
 	@Inject
 	public UnidadesDeMedidaJPA(GenericDAO<UnidadeDeMedida> dao) {
 		this.dao = dao;
+		this.dao.configurarClasse(UnidadeDeMedida.class);
 	}
 
 	@Override

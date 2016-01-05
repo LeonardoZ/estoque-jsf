@@ -21,6 +21,7 @@ public class CategoriasJPA implements Serializable, Categorias {
 	@Inject
 	public CategoriasJPA(GenericDAO<Categoria> dao) {
 		this.dao = dao;
+		this.dao.configurarClasse(Categoria.class);
 	}
 
 	@Override

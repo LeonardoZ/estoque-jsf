@@ -3,6 +3,8 @@ package com.leonardoz.estoque.pessoa.funcionario;
 import java.util.List;
 import java.util.Optional;
 
+import com.leonardoz.estoque.pessoa.FiltroPessoaFisica;
+
 public interface Funcionarios {
 
 	void guardarFuncionario(Funcionario funcionario);
@@ -12,5 +14,8 @@ public interface Funcionarios {
 	Optional<Funcionario> recuperaFuncionario(Long idDaFuncionario);
 
 	List<Funcionario> recuperarFuncionarios();
-
+	
+	int quantosForamFiltrados(FiltroPessoaFisica filtro);
+	
+	List<Funcionario> filtrados(FiltroPessoaFisica filtro);
 }

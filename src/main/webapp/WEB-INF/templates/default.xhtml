@@ -11,55 +11,51 @@
 <h:body>
 	<h:outputScript library="omnifaces" name="fixviewstate.js"
 		target="head" />
-	<p:layout id="container" fullPage="true">
-		<p:layoutUnit styleClass="cabecalho painel" position="north" size="40">
-			<h:form>
-				<p:menubar>
-					<p:menuitem value="Home" />
-					<p:menuitem value="Produtos" />
-					<p:menuitem value="Sair"
-						action="/CadastroUnidadeDeMedida?faces-redirect=true" />
-				</p:menubar>
-			</h:form>
-		</p:layoutUnit>
+	<div class="ui-grid">
+		<div class="ui-grid-row"
+			style="min-height: 978px; max-height: #457487;">
+			<div class="ui-grid-col-2" style="background: #457487;">
 
-		<p:layoutUnit position="west" maxSize="230" resizable="true"
-			minSize="230" collapsible="true" styleClass="painel">
-			<h:form>
-				<p:panelMenu style="margin:10px;">
-					<p:submenu label="Mercadoria">
-						<p:menuitem value="Produto" icon="fa fa-fw fa-remove" />
-						<p:menuitem value="Categoria" icon="ui-icon-arrowrefresh-1-w"
-							action="/CadastroCategoria?faces-redirect=true" />
-						<p:menuitem value="Unidade de Medida"
-							action="/CadastroUnidadeDeMedida?faces-redirect=true"
-							icon="ui-icon-arrowrefresh-1-w" />
-					</p:submenu>
-					<p:submenu label="Colaborador">
-						<p:menuitem value="Fornecedor" icon="ui-icon-arrowrefresh-1-w"
-							action="/CadastroFornecedor?faces-redirect=true" />
-						<p:menuitem value="Funcionario" icon="ui-icon-arrowrefresh-1-w"
-						action="/CadastroFuncionario?faces-redirect=true"  />
-					</p:submenu>
-					<p:submenu label="Clientes">
-						<p:menuitem value="Cliente" icon="ui-icon-arrowrefresh-1-w" />
-					</p:submenu>
-					<p:separator />
-					<p:submenu label="Movimento">
-						<p:menuitem value="Entrada" icon="ui-icon-arrowrefresh-1-w" />
-						<p:menuitem value="Saída" icon="ui-icon-arrowrefresh-1-w" />
-						<p:menuitem value="Caixa" icon="ui-icon-arrowrefresh-1-w" />
-					</p:submenu>
-					<p:menuitem value="Sair" icon="ui-icon-arrowrefresh-1-w" />
-				</p:panelMenu>
-			</h:form>
-		</p:layoutUnit>
+				<h:form>
+					<ul class="menu-lateral">
+						<li style="text-align: center">
+							<p:graphicImage style="border-bottom: 2px solid white;padding: 0px;"
+								library="img" name="logo.png" />
+						</li>
+						<li><h:commandLink value="Produtos"
+								action="/CadastroProduto?faces-redirect=true" /></li>
+						<li><h:commandLink value="Unidade de Medida"
+								action="/CadastroUnidadeDeMedida?faces-redirect=true" /></li>
+						<li><h:commandLink value="Categoria"
+								action="/CadastroCategoria?faces-redirect=true" /></li>
+						<li><h:commandLink value="Funcionarios"
+								action="/CadastroFuncionario?faces-redirect=true" /></li>
+						<li><h:commandLink value="Clientes"
+								action="/CadastroCliente?faces-redirect=true" /></li>
+						<li><h:commandLink value="Fornecedores"
+								action="/CadastroFornecedor?faces-redirect=true" /></li>
 
-		<p:layoutUnit position="center" resizable="false" minSize="600"  styleClass="painel">
-			<ui:insert name="content" />
-		</p:layoutUnit>
-
-
-	</p:layout>
+					</ul>
+				</h:form>
+			</div>
+			<div class="ui-grid-col-10">
+				<h:form>
+					<p:menubar styleClass="menu-topo menu-2">
+						<p:menuitem value="Home" containerStyleClass="menu-topo-item"
+							style="color: #828282;  font-size: 1.2em"
+							action="/Principal.xhtml?faces-redirect=true" />
+						<p:menuitem value="Produtos"
+							style="color: #828282; font-size: 1.2em"
+							action="/CadastroProdutos.xhtml?faces-redirect=true" />
+						<p:menuitem value="Sair" style="color: #828282; font-size: 1.2em"
+							action="/CadastroUnidadeDeMedida?faces-redirect=true" />
+					</p:menubar>
+				</h:form>
+				<div class="divisor">
+					<ui:insert name="content" />
+				</div>
+			</div>
+		</div>
+	</div>
 </h:body>
 </html>

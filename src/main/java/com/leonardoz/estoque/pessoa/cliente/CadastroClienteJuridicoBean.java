@@ -1,4 +1,4 @@
-package com.leonardoz.estoque.pessoa.fornecedor;
+package com.leonardoz.estoque.pessoa.cliente;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,30 +24,31 @@ import com.leonardoz.estoque.pessoa.FiltroPessoaJuridica;
 
 @Named
 @ViewScoped
-public class CadastroFornecedorBean implements Serializable {
+public class CadastroClienteJuridicoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Fornecedor fornecedor = new Fornecedor();
+	private ClienteJuridico cliente = new ClienteJuridico();
 
 	@Inject
-	private Fornecedores fornecedores;
+	private ClientesJuridicos clientes;
 
 	@Inject
 	private Localizacoes localizacoes;
-
+	
 	private FiltroPessoaJuridica filtro;
-	private LazyDataModel<Fornecedor> model;
+	private LazyDataModel<ClienteJuridico> model;
+	
 	
 	private Estado estadoSelecionado;
 
-	public CadastroFornecedorBean() {
+	public CadastroClienteJuridicoBean() {
 		filtro = new FiltroPessoaJuridica();
-		model = new LazyDataModel<Fornecedor>() {
+		model = new LazyDataModel<ClienteJuridico>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public List<Fornecedor> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+			public List<ClienteJuridico> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 					Map<String, Object> filters) {
 
 				filtro.setPrimeiroRegistro(first);
@@ -55,70 +56,70 @@ public class CadastroFornecedorBean implements Serializable {
 				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
 				filtro.setPropriedadeOrdenacao(sortField);
 
-				setRowCount(fornecedores.quantosForamFiltrados(filtro));
+				setRowCount(clientes.quantosForamFiltrados(filtro));
 
-				return fornecedores.filtrados(filtro);
+				return clientes.filtrados(filtro);
 			}
 		};
 	}
 
 	@PostConstruct
 	public void iniciar() {
-		if (fornecedor == null) {
-			fornecedor = new Fornecedor();
+		if (cliente == null) {
+			cliente = new ClienteJuridico();
 		}
 	}
 	
-	public LazyDataModel<Fornecedor> getModel() {
+	public LazyDataModel<ClienteJuridico> getModel() {
 		return model;
 	}
 	
-	public void setModel(LazyDataModel<Fornecedor> model) {
+	public void setModel(LazyDataModel<ClienteJuridico> model) {
 		this.model = model;
 	}
 
-	public List<Fornecedor> listarFornecedores() {
-		List<Fornecedor> fornecedoresEncontrados = fornecedores.recuperarFornecedores();
-		return fornecedoresEncontrados;
+	public List<ClienteJuridico> listarClientesJuridicos() {
+		List<ClienteJuridico> clientesEncontrados = clientes.recuperarClientesJuridicos();
+		return clientesEncontrados;
 	}
 
-	public void salvarFornecedor() {
+	public void salvarClienteJuridico() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			this.fornecedores.guardarFornecedor(fornecedor);
-			this.fornecedor = new Fornecedor();
-			context.addMessage(null, new FacesMessage("Fornecedor salvo com sucesso!"));
+			this.clientes.guardarClienteJuridico(cliente);
+			this.cliente = new ClienteJuridico();
+			context.addMessage(null, new FacesMessage("Cliente juridico salvo com sucesso!"));
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();
-			FacesMessage mensagem = new FacesMessage("Falha ao salvar o fornecedor.");
+			FacesMessage mensagem = new FacesMessage("Falha ao salvar o cliente.");
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
 		}
 	}
 
-	public void novoFornecedor() {
-		this.fornecedor = new Fornecedor();
+	public void novoClienteJuridico() {
+		this.cliente = new ClienteJuridico();
 	}
 
-	public void removerFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
+	public void removerClienteJuridico(ClienteJuridico cliente) {
+		this.cliente = cliente;
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			this.fornecedores.removerFornecedor(Long.valueOf(this.fornecedor.getId()));
-			this.fornecedor = new Fornecedor();
-			context.addMessage(null, new FacesMessage("Fornecedor removido com sucesso!"));
+			this.clientes.removerClienteJuridico(Long.valueOf(this.cliente.getId()));
+			this.cliente = new ClienteJuridico();
+			context.addMessage(null, new FacesMessage("Cliente Juridico removido com sucesso!"));
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();
-			FacesMessage mensagem = new FacesMessage("Falha ao remover o fornecedor.");
+			FacesMessage mensagem = new FacesMessage("Falha ao remover o cliente.");
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
 		}
 	}
 
-	public void aoSelecionarFornecedor(Fornecedor param) {
-		this.fornecedor = param;
-		Optional.ofNullable(this.fornecedor.getEndereco().getCidade()).ifPresent(c -> configuraEstadoSelecionado(c.getEstado()));
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fornecedor selecionado"));
+	public void aoSelecionarClienteJuridico(ClienteJuridico param) {
+		this.cliente = param;
+		Optional.ofNullable(this.cliente.getEndereco().getCidade()).ifPresent(c -> configuraEstadoSelecionado(c.getEstado()));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cliente jurídico selecionado"));
 	}
 	
 	public void configuraEstadoSelecionado(Estado estado){
@@ -137,12 +138,12 @@ public class CadastroFornecedorBean implements Serializable {
 		return localizacoes.buscaCidadesPorEstado(estadoSelecionado);
 	}
 
-	public Fornecedor getFornecedor() {
-		return fornecedor;
+	public ClienteJuridico getClienteJuridico() {
+		return cliente;
 	}
 
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
+	public void setClienteJuridico(ClienteJuridico cliente) {
+		this.cliente = cliente;
 	}
 
 	public Estado getEstadoSelecionado() {

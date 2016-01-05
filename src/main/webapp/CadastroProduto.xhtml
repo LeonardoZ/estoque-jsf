@@ -31,7 +31,7 @@
 			}
 		</script>
 		<div>
-			<p:fieldset legend="Cadastro de Produtoes">
+			<p:fieldset legend="Cadastro de Produtos">
 				<h:form>
 					<p:messages showSummary="true" showIcon="true" severity="error" />
 					<p:growl showSummary="true" showIcon="true" severity="info,warn" />
@@ -141,8 +141,7 @@
 
 					<p:dataTable id="table" tableStyleClass="linha-form painel-medio"
 						value="#{cadastroProdutoBean.model}" var="produto"
-						paginator="true" rows="2" paginatorPosition="bottom" lazy="true">
-						>
+						paginator="true" rows="10" paginatorPosition="bottom" lazy="true">
 
 						<p:column headerText="Descrição">
 							<h:outputText value="#{produto.descricao}" />

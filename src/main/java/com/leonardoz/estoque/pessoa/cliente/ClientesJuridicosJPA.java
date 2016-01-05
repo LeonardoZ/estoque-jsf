@@ -1,6 +1,5 @@
-package com.leonardoz.estoque.pessoa.fornecedor;
+package com.leonardoz.estoque.pessoa.cliente;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -21,59 +20,45 @@ import com.leonardoz.estoque.infraestrutura.jpa.PaginacaoDaoUtil;
 import com.leonardoz.estoque.infraestrutura.jpa.Transactional;
 import com.leonardoz.estoque.pessoa.FiltroPessoaJuridica;
 
-public class FornecedoresJPA implements Serializable, Fornecedores, EspecificaCriteria<FiltroPessoaJuridica> {
+public class ClientesJuridicosJPA implements ClientesJuridicos, EspecificaCriteria<FiltroPessoaJuridica> {
 
 	private static final long serialVersionUID = 1L;
-
-	private GenericDAO<Fornecedor> dao;
-	private PaginacaoDaoUtil<Fornecedor, FiltroPessoaJuridica> paginacao;
+	private GenericDAO<ClienteJuridico> dao;
+	private PaginacaoDaoUtil<ClienteJuridico, FiltroPessoaJuridica> paginacao;
 
 	@Inject
-	public FornecedoresJPA(GenericDAO<Fornecedor> dao) {
+	public ClientesJuridicosJPA(GenericDAO<ClienteJuridico> dao) {
 		this.dao = dao;
-		this.dao.configurarClasse(Fornecedor.class);
+		this.dao.configurarClasse(ClienteJuridico.class);
 		this.paginacao = new PaginacaoDaoUtil<>(dao, this);
 	}
 
 	@Override
 	@Transactional
-	public void guardarFornecedor(Fornecedor fornecedor) {
-		dao.salvar(fornecedor);
+	public void guardarClienteJuridico(ClienteJuridico cliente) {
+		dao.salvar(cliente);
 	}
 
 	@Override
 	@Transactional
-	public void removerFornecedor(long idDoFornecedor) {
-		dao.remover(idDoFornecedor);
+	public void removerClienteJuridico(long idDoClienteJuridico) {
+		dao.remover(idDoClienteJuridico);
 	}
 
 	@Override
-	public Optional<Fornecedor> recuperaFornecedor(Long idDoFornecedor) {
-		Optional<Fornecedor> entidade = dao.recuperarEntidade(idDoFornecedor);
-		entidade.ifPresent(f -> f.carregarDetalhes());
-		return entidade;
+	public Optional<ClienteJuridico> recuperaClienteJuridico(Long idDoClienteJuridico) {
+		return dao.recuperarEntidade(idDoClienteJuridico);
 	}
 
 	@Override
-	public List<Fornecedor> recuperarFornecedores() {
+	public List<ClienteJuridico> recuperarClientesJuridicos() {
 		EntityManager manager = dao.getManager();
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Fornecedor> query = builder.createQuery(Fornecedor.class);
-		Root<Fornecedor> root = query.from(Fornecedor.class);
+		CriteriaQuery<ClienteJuridico> query = builder.createQuery(ClienteJuridico.class);
+		Root<ClienteJuridico> root = query.from(ClienteJuridico.class);
 		query.select(root).orderBy(builder.asc(root.get("nomeFantasia")));
-		List<Fornecedor> resultado = manager.createQuery(query).getResultList();
-		resultado.forEach(f -> f.carregarDetalhes());
+		List<ClienteJuridico> resultado = manager.createQuery(query).getResultList();
 		return resultado;
-	}
-
-	@Override
-	public int quantosForamFiltrados(FiltroPessoaJuridica filtro) {
-		return paginacao.quantidadeFiltrados(filtro);
-	}
-
-	@Override
-	public List<Fornecedor> filtrados(FiltroPessoaJuridica filtro) {
-		return paginacao.retornaFiltrados(filtro);
 	}
 
 	@Override
@@ -85,6 +70,16 @@ public class FornecedoresJPA implements Serializable, Fornecedores, EspecificaCr
 			}
 			return criteria;
 		};
+	}
+
+	@Override
+	public int quantosForamFiltrados(FiltroPessoaJuridica filtro) {
+		return paginacao.quantidadeFiltrados(filtro);
+	}
+
+	@Override
+	public List<ClienteJuridico> filtrados(FiltroPessoaJuridica filtro) {
+		return paginacao.retornaFiltrados(filtro);
 	}
 
 }

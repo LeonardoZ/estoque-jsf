@@ -26,7 +26,6 @@ public class Cnpj implements StringValueObject {
 	}
 
 	public Cnpj(String valor) {
-		validarValor(valor);
 		setValor(valor);
 	}
 

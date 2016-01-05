@@ -1,4 +1,4 @@
-package com.leonardoz.estoque.infraestrutura;
+package com.leonardoz.estoque.pessoa.cliente;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -6,27 +6,22 @@ import javax.faces.convert.EnumConverter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
 
-import com.leonardoz.estoque.modelo.valor.DiaDaSemana;
+public class TipoPessoaConverter extends EnumConverter {
 
-@Named
-@FacesConverter(forClass = DiaDaSemana.class)
-public class DiaDaSemanaConverter extends EnumConverter {
-
-	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		DiaDaSemana dia = null;
-		if (value != null && !"".equals(value)) {
-			dia = DiaDaSemana.recuperaPorValor(value);
+		TipoPessoa pessoa = null;
+		if (value != null && !value.isEmpty()) {
+			pessoa = TipoPessoa.recuperaPorValor(value);
 		}
-		return dia;
+		return pessoa;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			DiaDaSemana dia = ((DiaDaSemana) value);
-			return dia != null ? dia.getValor() : "";
+			TipoPessoa pessoa = ((TipoPessoa) value);
+			return pessoa != null ? pessoa.getPessoa() : "";
 		}
 		return null;
 	}
