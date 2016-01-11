@@ -47,7 +47,7 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 
 	@Override
 	public boolean analise(BigInteger valor) {
-		return valor.longValue() > 0l;
+		return valor.longValue() > -1;
 	}
 
 	public Quantidade aumentar(Quantidade valorParaAdicionar) {
@@ -83,6 +83,16 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 		return BigInteger.valueOf(valor.longValue());
 	}
 
+	public boolean isMaiorIgual(Quantidade qtd) {
+		int compareTo = this.valor.compareTo(qtd.valor);
+		return compareTo == 1 || compareTo == 0;
+	}
+
+	public boolean isMaior(Quantidade qtd) {
+		int compareTo = this.valor.compareTo(qtd.valor);
+		return compareTo == 1;
+	}
+
 	@Override
 	public boolean equals(final Object other) {
 		if (!(other instanceof Quantidade)) {
@@ -107,14 +117,8 @@ public class Quantidade implements Serializable, Comparable<Quantidade>, ValueOb
 		return valor.toString();
 	}
 
-	public boolean isMaiorIgual(Quantidade qtd) {
-		int compareTo = this.valor.compareTo(qtd.valor);
-		return compareTo == 1 || compareTo == 0;
-	}
-
-	public boolean isMaior(Quantidade qtd) {
-		int compareTo = this.valor.compareTo(qtd.valor);
-		return compareTo == 1;
+	public Quantidade elevadaA(Quantidade n) {
+		return new Quantidade(valor.pow(n.getValor().intValue()));
 	}
 
 }

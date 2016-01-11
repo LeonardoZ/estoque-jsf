@@ -55,5 +55,10 @@ public class Email {
 	public int hashCode() {
 		return new HashCodeBuilder().append(valor).toHashCode();
 	}
+	
+	@Override
+	public String toString() {
+		return valor;
+	}
 
 }

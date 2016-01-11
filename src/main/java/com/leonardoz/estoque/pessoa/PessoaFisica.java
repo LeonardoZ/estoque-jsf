@@ -3,6 +3,7 @@ package com.leonardoz.estoque.pessoa;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 
@@ -21,6 +22,9 @@ public class PessoaFisica extends Entidade {
 	@Column(name = "nome", nullable = false, length = 100)
 	private String nome;
 
+	@Convert(converter = SexoJpaConverter.class)
+	private Sexo sexo;
+
 	@Embedded
 	@AttributeOverrides({
 			@AttributeOverride(name = "valor", column = @Column(name = "telefone", nullable = false, length = 17) ) })
@@ -36,7 +40,7 @@ public class PessoaFisica extends Entidade {
 
 	@Embedded
 	private Cpf cpf;
-	
+
 	@Embedded
 	private Email email;
 
@@ -64,7 +68,7 @@ public class PessoaFisica extends Entidade {
 			email = new Email();
 
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -116,9 +120,17 @@ public class PessoaFisica extends Entidade {
 	public Email getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(Email email) {
 		this.email = email;
+	}
+	
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
 	}
 	
 	@Override

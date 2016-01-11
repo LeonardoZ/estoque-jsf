@@ -70,23 +70,32 @@ body {
 	position: fixed; /* Make it stick, even on scroll */
 	overflow: auto;
 	/* Enable scrolling if the sidenav has too much content */
-	min-width: 250px;
+	margin-left: 5px;
+	min-width: 230px;
 }
 
 .menu-lateral>li {
-	color: white;
 	font-family: verdana;
 	font-size: 1.1em;
 	text-decoration: none;
-	font-size: 1.1em;
+}
+
+.menu-lateral>li.submenu {
+	color: #fff;
+	padding: 8px 0 8px 8px;
+	background: #6599af;
 	text-decoration: none;
-	
+	border-bottom: 1px solid #3f687a;
+	min-height: 20px;
+	min-width: 140px;
+	display: block;
 }
 
 .menu-lateral>li>a {
 	color: #fff;
-	padding: 8px 0 8px 16px;
+	padding: 8px 0 8px 32px;
 	text-decoration: none;
+	border-bottom: 1px solid #3f687a;
 	min-height: 20px;
 	min-width: 140px;
 	display: block;
@@ -98,7 +107,7 @@ body {
 }
 
 .menu-1 {
-	background: #457487;
+	background: #2f4e5b;
 }
 
 .menu-2 {
@@ -163,6 +172,13 @@ h1 {
 .input-1 {
 	min-width: 100px;
 	max-width: 100px;
+}
+
+.btn-add-1 {
+	padding: 0px;
+	margin-top: 0px;
+	min-width: 40px;
+	max-width: 40px;
 }
 
 .input-2 {

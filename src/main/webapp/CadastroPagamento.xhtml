@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<div>
+			<p:fieldset legend="Cadastro de Pagamento">
+				<h:form>
+					<p:messages showSummary="true" showIcon="true" severity="error" />
+					<p:growl showSummary="true" showIcon="true" severity="info,warn" />
+					<p:tabView orientation="left" styleClass="linha-form-media">
+						<p:tab title="Pagamento">
+							<div class="ui-grid">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Valor" />
+										<p:inputText styleClass="input-5"
+											value="#{efetuaPagamentoBean.dto.valor}" />
+									</div>
+								</div>
+
+								<!-- Label -->
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Forma de Pagamento" />
+										<p:selectOneMenu styleClass="input-5"
+											value="#{efetuaPagamentoBean.dto.forma}"
+											converter="omnifaces.GenericEnumConverter">
+											<f:selectItems itemLabel="#{forma.descricao}"
+												itemValue="#{forma}"
+												value="#{efetuaPagamentoBean.formasDePagamento()}"
+												var="forma" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-6 pos">
+										<p:outputLabel value="Entrada" />
+										<p:inputText name="Entrada"
+											value="#{efetuaPagamentoBean.dto.entrada}"
+											styleClass="input-3" />
+									</div>
+									<div class="ui-grid-col-6">
+										<p:outputLabel value="Desconto (%)" />
+										<p:inputText name="desconto"
+											value="#{efetuaPagamentoBean.dto.percentualDeDesconto}"
+											styleClass="input-3  center" />
+									</div>
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Parcelamento">
+							<div class="ui-grid">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-8 pos">
+										<p:outputLabel value="Período" styleClass="input-4" />
+										<p:selectOneMenu styleClass="input-4"
+											value="#{efetuaPagamentoBean.dto.periodo}"
+											converter="omnifaces.GenericEnumConverter">
+											<f:selectItems itemLabel="#{periodo.apresentavel()}"
+												itemValue="#{periodo}"
+												value="#{efetuaPagamentoBean.periodos()}" var="periodo" />
+										</p:selectOneMenu>
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Número de parcelas"
+											styleClass="input-2 center" />
+										<p:inputText name="parcelas"
+											value="#{efetuaPagamentoBean.dto.quantasVezes}"
+											styleClass="input-2 center" />
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-8 pos">
+										<p:outputLabel value="Juros" styleClass="input-4" />
+										<p:selectOneMenu styleClass="input-4"
+											value="#{efetuaPagamentoBean.dto.juros}"
+											converter="omnifaces.GenericEnumConverter">
+											<f:selectItems itemLabel="#{juros}" itemValue="#{juros}"
+												value="#{efetuaPagamentoBean.modalidadeJuros()}" var="juros" />
+										</p:selectOneMenu>
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Taxa de Juros (%)" />
+										<p:inputText name="taxaJuros"
+											value="#{efetuaPagamentoBean.dto.taxa}"
+											styleClass="input-2 center" />
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-8 pos">
+										<p:outputLabel value="Juros do Vencimento (a. d.)" />
+										<p:selectOneMenu styleClass="input-4"
+											value="#{efetuaPagamentoBean.dto.jurosVencimento}"
+											converter="omnifaces.GenericEnumConverter">
+											<f:selectItems itemLabel="#{juros}" itemValue="#{juros}"
+												value="#{efetuaPagamentoBean.modalidadeJuros()}" var="juros" />
+										</p:selectOneMenu>
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Taxa de Juros (%)" />
+										<p:inputText name="taxaJurosVencimento"
+											styleClass="input-2 center"
+											value="#{efetuaPagamentoBean.dto.taxaVencimento}" />
+									</div>
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Resumo">
+							<p:panelGrid columns="2">
+								<p:outputLabel value="Valor" />
+								<p:outputLabel value="R$ 10,00" />
+
+								<p:outputLabel value="Entrada" />
+								<p:outputLabel value="R$ 1,00" />
+							</p:panelGrid>
+							<p:dataList varStatus="a" var="n"
+								value="#{efetuaPagamentoBean.pagamento.parcelas}"
+								itemType="Parcela">
+								<f:facet name="header">
+									Parcelas
+								</f:facet>
+        						#{n.dataVencimento} - #{n.valor}
+							
+							
+							</p:dataList>
+						</p:tab>
+					</p:tabView>
+					<p:dataTable id="table" tableStyleClass="linha-form painel-medio"
+						value="#{efetuaPagamentoBean.pagamentos}" var="pagamento">
+
+						<p:column headerText="Valor a ser pago">
+							<h:outputText value="#{pagamento.valorTotalParaPagar()}" />
+						</p:column>
+
+						<p:column headerText="Ações" styleClass="text-align:center;">
+							<p:commandButton value="Editar" process="@this" update="@form" actionListener="#{efetuaPagamentoBean.aoSelecionarPagamento(pagamento)}">
+
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+					<div class="linha-form">
+						<p:commandButton value="Salvar" styleClass="elemento"
+							action="#{efetuaPagamentoBean.registraPagamento()}"
+							icon="ui-icon-disk" update="@form" />
+					</div>
+
+
+				</h:form>
+			</p:fieldset>
+		</div>
+	</ui:define>
+</ui:composition>

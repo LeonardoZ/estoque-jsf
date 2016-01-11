@@ -18,7 +18,7 @@ public class Endereco {
 	@Column(name = "bairro", length = 25)
 	private String bairro;
 
-	@Column(name = " numero", length = 8)
+	@Column(name = "numero_residencia", length = 8)
 	private String numero;
 
 	@Embedded

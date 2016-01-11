@@ -5,10 +5,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.junit.Test;
 
 public class DinheiroTest {
+
+	public BigDecimal bigDecimalParaTest(double value) {
+		return BigDecimal.valueOf(value).setScale(4, RoundingMode.CEILING);
+	}
 
 	@Test
 	public void testeDinheiro() {
@@ -19,13 +24,12 @@ public class DinheiroTest {
 	public void testeDinheiroString() {
 		assertNotNull(new Dinheiro("1.23"));
 	}
-	
 
 	@Test
 	public void testeDinheiroSemCifraoString() {
 		assertNotNull(Dinheiro.deValorFormatado("R$ 1,23"));
 	}
-	
+
 	@Test
 	public void testeDinheiroFormatadoSimplesString() {
 		Dinheiro valorFormatado = Dinheiro.deValorFormatado("R$ 1,23");
@@ -35,17 +39,17 @@ public class DinheiroTest {
 
 	@Test
 	public void testeDinheiroBigDecimal() {
-		assertNotNull(new Dinheiro(BigDecimal.valueOf(1.23)));
+		assertNotNull(new Dinheiro(bigDecimalParaTest(1.23)));
 	}
 
 	@Test
 	public void testeDinheiroDouble() {
-		assertNotNull(new Dinheiro(BigDecimal.valueOf(1.23d)));
+		assertNotNull(new Dinheiro(bigDecimalParaTest(1.23d)));
 	}
 
 	@Test
 	public void testeDinheiroLong() {
-		assertNotNull(new Dinheiro(BigDecimal.valueOf(544)));
+		assertNotNull(new Dinheiro(bigDecimalParaTest(544)));
 	}
 
 	@Test
@@ -66,7 +70,7 @@ public class DinheiroTest {
 		Dinheiro dinheiro = new Dinheiro(10.00);
 		Dinheiro valor = new Dinheiro(1.25);
 		Dinheiro sub = dinheiro.somar(valor);
-		assertEquals(BigDecimal.valueOf(11.25d), sub.getMontanteBruto());
+		assertEquals(bigDecimalParaTest(11.2500d), sub.getMontanteBruto());
 	}
 
 	@Test
@@ -74,7 +78,7 @@ public class DinheiroTest {
 		Dinheiro dinheiro = new Dinheiro(10.00);
 		Dinheiro valor = new Dinheiro(1.25);
 		Dinheiro sub = dinheiro.subtrair(valor);
-		assertEquals(BigDecimal.valueOf(8.75d), sub.getMontanteBruto());
+		assertEquals(bigDecimalParaTest(8.7500d), sub.getMontanteBruto());
 	}
 
 	@Test
@@ -163,7 +167,7 @@ public class DinheiroTest {
 	@Test
 	public void testeDividirParaInteiroBigDecimal() {
 		Dinheiro dinheiro = new Dinheiro(10);
-		int dividirParaInteiro = dinheiro.dividirParaInteiro(BigDecimal.valueOf(9));
+		int dividirParaInteiro = dinheiro.dividirParaInteiro(bigDecimalParaTest(9));
 		assertEquals(1, dividirParaInteiro);
 	}
 

@@ -36,7 +36,6 @@ public class CadastroUnidadeDeMedidaBean implements Serializable {
 		return unidades.recuperarUnidadeDeMedidas();
 	}
 
-
 	public void salvarUnidadeDeMedida() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
@@ -67,9 +66,9 @@ public class CadastroUnidadeDeMedidaBean implements Serializable {
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
 		}
-
 	}
 
+	
 	public UnidadeDeMedida getUnidadeDeMedida() {
 		return unidade;
 	}

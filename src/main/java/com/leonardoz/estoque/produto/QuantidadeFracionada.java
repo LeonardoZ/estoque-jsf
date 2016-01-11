@@ -2,6 +2,7 @@ package com.leonardoz.estoque.produto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -23,14 +24,19 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 	public QuantidadeFracionada(BigDecimal valor) {
 		super();
 		validarValor(valor);
-		this.valor = valor;
+		this.valor = configuraEscala(valor);
 	}
 
 	public QuantidadeFracionada(double valor) {
 		super();
 		BigDecimal novoValor = BigDecimal.valueOf(valor);
 		validarValor(novoValor);
-		this.valor = novoValor;
+		this.valor = configuraEscala(novoValor);
+
+	}
+
+	private BigDecimal configuraEscala(BigDecimal valor) {
+		return valor.setScale(4, RoundingMode.CEILING);
 	}
 
 	public void validarValor(BigDecimal valor) {
@@ -40,9 +46,9 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 	}
 
 	public void setValor(BigDecimal valor) {
-		this.valor = valor;
+		this.valor = configuraEscala(valor);
 	}
-	
+
 	public QuantidadeFracionada aumentar(BigDecimal valorParaAdicionar) {
 		validarValor(valorParaAdicionar);
 		return new QuantidadeFracionada(valor.add(valorParaAdicionar));
@@ -69,6 +75,29 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 	}
 
 	@Override
+	public int compareTo(QuantidadeFracionada o) {
+		return valor.compareTo(o.valor);
+	}
+
+	public QuantidadeFracionada multiplicar(QuantidadeFracionada taxaPercentual) {
+		return new QuantidadeFracionada(valor.multiply(taxaPercentual.valor));
+	}
+
+	public QuantidadeFracionada dividir(QuantidadeFracionada divisorCentisimal) {
+		return new QuantidadeFracionada(valor.divide(divisorCentisimal.valor));
+	}
+
+	public boolean isMaiorIgual(QuantidadeFracionada qtd) {
+		int compareTo = this.valor.compareTo(qtd.valor);
+		return compareTo == 1 || compareTo == 0;
+	}
+
+	public boolean isMaior(QuantidadeFracionada qtd) {
+		int compareTo = this.valor.compareTo(qtd.valor);
+		return compareTo == 1;
+	}
+
+	@Override
 	public boolean equals(final Object other) {
 		if (!(other instanceof QuantidadeFracionada)) {
 			return false;
@@ -83,8 +112,8 @@ public class QuantidadeFracionada implements Serializable, Comparable<Quantidade
 	}
 
 	@Override
-	public int compareTo(QuantidadeFracionada o) {
-		return valor.compareTo(o.valor);
+	public String toString() {
+		return valor.toString();
 	}
 
 }

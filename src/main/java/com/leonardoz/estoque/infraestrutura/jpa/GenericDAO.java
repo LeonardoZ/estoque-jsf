@@ -22,6 +22,7 @@ public class GenericDAO<T extends Entidade> implements Serializable {
 	private Class<T> classe;
 
 	public GenericDAO() {
+		
 	}
 
 	public Class<T> getClasse() {
@@ -58,7 +59,6 @@ public class GenericDAO<T extends Entidade> implements Serializable {
 		return manager.unwrap(Session.class).createCriteria(classe);
 	}
 
-	
 	public void configurarClasse(Class<T> classe) {
 		this.classe = classe;
 	}

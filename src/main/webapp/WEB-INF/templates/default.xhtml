@@ -14,26 +14,28 @@
 	<div class="ui-grid">
 		<div class="ui-grid-row"
 			style="min-height: 978px; max-height: #457487;">
-			<div class="ui-grid-col-2" style="background: #457487;">
-
+			<div class="ui-grid-col-2 menu-1" style="min-width: 240px;">
 				<h:form>
 					<ul class="menu-lateral">
-						<li style="text-align: center">
-							<p:graphicImage style="border-bottom: 2px solid white;padding: 0px;"
-								library="img" name="logo.png" />
-						</li>
+						<li style="text-align: center"><p:graphicImage
+								style="border-bottom: 2px solid white;padding: 0px;"
+								library="img" name="logo.png" /></li>
+						<li class="submenu"><strong>Estoque</strong></li>
 						<li><h:commandLink value="Produtos"
 								action="/CadastroProduto?faces-redirect=true" /></li>
-						<li><h:commandLink value="Unidade de Medida"
-								action="/CadastroUnidadeDeMedida?faces-redirect=true" /></li>
-						<li><h:commandLink value="Categoria"
-								action="/CadastroCategoria?faces-redirect=true" /></li>
-						<li><h:commandLink value="Funcionarios"
+						<li class="submenu"><strong>Cadastros</strong></li>
+						<li><span class="fa fa-adjust"></span><h:commandLink value="Funcionarios"
 								action="/CadastroFuncionario?faces-redirect=true" /></li>
 						<li><h:commandLink value="Clientes"
 								action="/CadastroCliente?faces-redirect=true" /></li>
 						<li><h:commandLink value="Fornecedores"
 								action="/CadastroFornecedor?faces-redirect=true" /></li>
+						<li class="submenu"><strong>Configurações</strong></li>
+						<li><h:commandLink value="Unidade de Medida"
+								action="/CadastroUnidadeDeMedida?faces-redirect=true" /></li>
+						<li><h:commandLink value="Categoria"
+								action="/CadastroCategoria?faces-redirect=true" /></li>
+
 
 					</ul>
 				</h:form>
@@ -42,7 +44,7 @@
 				<h:form>
 					<p:menubar styleClass="menu-topo menu-2">
 						<p:menuitem value="Home" containerStyleClass="menu-topo-item"
-							style="color: #828282;  font-size: 1.2em"
+							style="color: #828282;  font-size: 1.2em" icon="fa fa-adjust"
 							action="/Principal.xhtml?faces-redirect=true" />
 						<p:menuitem value="Produtos"
 							style="color: #828282; font-size: 1.2em"

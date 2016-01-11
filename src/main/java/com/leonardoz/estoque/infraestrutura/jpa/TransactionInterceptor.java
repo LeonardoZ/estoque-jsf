@@ -41,6 +41,7 @@ public class TransactionInterceptor implements Serializable {
 			throw e;
 		} finally {
 			if (trx != null && trx.isActive() && criador) {
+				System.out.println("Entidade foi comitada");
 				trx.commit();
 			}
 		}

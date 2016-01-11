@@ -57,5 +57,11 @@ public class QuantidadeFracionadaTest {
 		QuantidadeFracionada aumentado = quantidade.diminuir(10_000.11d);
 		assertEquals(4_455.11d, aumentado.getValor().doubleValue(), 0.1d);
 	}
+	
+	@Test
+	public void testeEscala() {
+		QuantidadeFracionada quantidade = new QuantidadeFracionada(14_455.2242947d);
+		assertEquals(new QuantidadeFracionada(14_455.2243d), quantidade);
+	}
 
 }

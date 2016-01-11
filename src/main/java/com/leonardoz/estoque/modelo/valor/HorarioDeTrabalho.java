@@ -14,7 +14,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Embeddable
-public class HorarioComercial {
+public class HorarioDeTrabalho {
 
 	@Temporal(TemporalType.TIME)
 	@Column(name = "inicio_expediente", length = 14)
@@ -38,7 +38,7 @@ public class HorarioComercial {
 	@Transient
 	private DiaDaSemana[] diasDaSemana;
 
-	public HorarioComercial() {
+	public HorarioDeTrabalho() {
 		iniciarCampos();
 	}
 	
@@ -120,10 +120,10 @@ public class HorarioComercial {
 
 	@Override
 	public boolean equals(final Object other) {
-		if (!(other instanceof HorarioComercial)) {
+		if (!(other instanceof HorarioDeTrabalho)) {
 			return false;
 		}
-		HorarioComercial castOther = (HorarioComercial) other;
+		HorarioDeTrabalho castOther = (HorarioDeTrabalho) other;
 		return new EqualsBuilder().append(inicioDoExpediente, castOther.inicioDoExpediente)
 				.append(inicioDoAlmoco, castOther.inicioDoAlmoco).append(terminoDoAlmoco, castOther.terminoDoAlmoco)
 				.append(terminoDoExpediente, castOther.terminoDoExpediente)

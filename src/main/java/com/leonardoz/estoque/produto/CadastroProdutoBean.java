@@ -95,10 +95,6 @@ public class CadastroProdutoBean implements Serializable {
 		}
 	}
 
-	public void novaProduto() {
-		this.produto = new Produto();
-	}
-
 	public void removerProduto() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
@@ -119,6 +115,7 @@ public class CadastroProdutoBean implements Serializable {
 	}
 
 	public List<UnidadeDeMedida> recuperarUnidadesDeMedida() {
+		System.out.println("Carregando unidades");
 		return unidades.recuperarUnidadeDeMedidas();
 	}
 

@@ -7,7 +7,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.leonardoz.estoque.modelo.valor.HorarioComercial;
+import com.leonardoz.estoque.modelo.valor.HorarioDeTrabalho;
 import com.leonardoz.estoque.pessoa.NumeroDeTelefone;
 import com.leonardoz.estoque.pessoa.PessoaJuridica;
 
@@ -22,7 +22,7 @@ public class Fornecedor extends PessoaJuridica {
 	private NumeroDeTelefone telefone2;
 
 	@Embedded
-	private HorarioComercial horarioComercial;
+	private HorarioDeTrabalho horarioTrabalho;
 
 	@Column(name = "fax", length = 20)
 	private String fax;
@@ -33,17 +33,17 @@ public class Fornecedor extends PessoaJuridica {
 
 	public void carregarDetalhes() {
 		super.iniciarCampos();
-		if (horarioComercial == null) {
-			horarioComercial = new HorarioComercial();
+		if (horarioTrabalho == null) {
+			horarioTrabalho = new HorarioDeTrabalho();
 		} else {
-			horarioComercial.carregarDiasDeTrabalho();
+			horarioTrabalho.carregarDiasDeTrabalho();
 		}
 		if (telefone2 == null)
 			telefone2 = new NumeroDeTelefone();
 	}
 
 	public void configurarDetalhes() {
-		horarioComercial.configurarDiasDeTrabalhoEspecificados();
+		horarioTrabalho.configurarDiasDeTrabalhoEspecificados();
 
 	}
 
@@ -55,12 +55,12 @@ public class Fornecedor extends PessoaJuridica {
 		this.telefone2 = telefone2;
 	}
 
-	public HorarioComercial getHorarioComercial() {
-		return horarioComercial;
+	public HorarioDeTrabalho getHorarioTrabalho() {
+		return horarioTrabalho;
 	}
 
-	public void setHorarioComercial(HorarioComercial horarioComercial) {
-		this.horarioComercial = horarioComercial;
+	public void setHorarioTrabalho(HorarioDeTrabalho horarioTrabalho) {
+		this.horarioTrabalho = horarioTrabalho;
 	}
 
 	public String getFax() {

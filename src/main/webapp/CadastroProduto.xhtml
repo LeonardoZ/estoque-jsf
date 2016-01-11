@@ -66,18 +66,33 @@
 									</div>
 								</div>
 								<div class="ui-grid-row">
-									<div class="ui-grid-col-4">
+									<div class="ui-grid-col-3">
 										<p:outputLabel value="Unidade de Medida" styleClass="input-2" />
-										<p:selectOneMenu styleClass="input-2"
-											value="#{cadastroProdutoBean.produto.unidadeMedida}"
-											filter="true" filterMatchMode="contains"
-											label="Unidade de Medida">
-											<f:converter converterId="unidadeDeMedidaConverter" />
-											<f:selectItems
-												value="#{cadastroProdutoBean.recuperarUnidadesDeMedida()}"
-												var="unidade" itemValue="#{unidade}"
-												itemLabel="#{unidade.descricao}" />
-										</p:selectOneMenu>
+										<div>
+											<p:selectOneMenu id="unidade-select" styleClass="input-1"
+												value="#{cadastroProdutoBean.produto.unidadeMedida}"
+												filter="true" filterMatchMode="contains"
+												label="Unidade de Medida">
+												<f:converter converterId="unidadeDeMedidaConverter" />
+												<f:selectItem itemLabel="Adicionar" noSelectionOption="true">
+													
+												</f:selectItem>
+												<f:selectItems
+													value="#{cadastroProdutoBean.recuperarUnidadesDeMedida()}"
+													var="unidade" itemValue="#{unidade}"
+													itemLabel="#{unidade.descricao}" />
+											</p:selectOneMenu>
+									
+										</div>
+
+									</div>
+									<div class="ui-grid-col-1">
+											<p:commandButton value="+" styleClass="btn-add-1"
+												actionListener="#{modalUnidadeDeMedidaBean.cadastrarEmModal()}">
+												<p:ajax event="dialogReturn" update="unidade-select"
+													listener="#{cadastroProdutoBean.recuperarUnidadesDeMedida()}" />
+											</p:commandButton>
+									
 									</div>
 									<div class="ui-grid-col-4">
 										<p:outputLabel value="Preço de Custo" styleClass="input-2" />

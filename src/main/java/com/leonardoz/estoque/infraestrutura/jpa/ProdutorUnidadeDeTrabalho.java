@@ -19,11 +19,13 @@ public class ProdutorUnidadeDeTrabalho {
 
 	@Produces
 	@RequestScoped
-	public EntityManager createHibernateSession() {
+	public EntityManager createEntityManager() {
+		System.err.println("Abrindo");
 		return factory.createEntityManager();
 	}
 
 	public void closeSession(@Disposes EntityManager manager) {
+		System.err.println("Fechando");
 		try {
 			manager.close();
 		} catch (Exception e) {

@@ -48,37 +48,37 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	public static Dinheiro deValorFormatado(String dinheiro) {
 		if (dinheiro == null)
 			throw new NullPointerException(Dinheiro.mensagemDinheiroNull);
-		String valorLimpo = dinheiro
-							.replace("R$","")
-							.replaceAll(" ","")
-							.replace(".", "").replaceAll(",", ".");
+		String valorLimpo = dinheiro.replace("R$", "").replaceAll(" ", "").replace(".", "").replaceAll(",", ".");
 		return new Dinheiro(valorLimpo);
 	}
 
 	public Dinheiro() {
-		this.montanteBruto = BigDecimal.ZERO;
+		this.montanteBruto = configuraEscala(BigDecimal.ZERO);
+	}
+
+	private BigDecimal configuraEscala(BigDecimal valor) {
+		return valor.setScale(4, RoundingMode.CEILING);
 	}
 
 	public Dinheiro(String dinheiro) {
 		if (dinheiro == null)
 			throw new NullPointerException(Dinheiro.mensagemDinheiroNull);
-		System.out.println(dinheiro);
-		this.montanteBruto = new BigDecimal(dinheiro);
+		this.montanteBruto = configuraEscala(new BigDecimal(dinheiro));
 	}
 
 	public Dinheiro(BigDecimal rawMontante) {
 		if (rawMontante == null)
 			throw new NullPointerException("Montante nao pode ser null");
 
-		this.montanteBruto = rawMontante;
+		this.montanteBruto = configuraEscala(rawMontante);
 	}
 
 	public Dinheiro(double rawMontante) {
-		this.montanteBruto = BigDecimal.valueOf(rawMontante);
+		this.montanteBruto = configuraEscala(BigDecimal.valueOf(rawMontante));
 	}
 
 	public Dinheiro(long rawMontante) {
-		this.montanteBruto = BigDecimal.valueOf(rawMontante);
+		this.montanteBruto = configuraEscala(BigDecimal.valueOf(rawMontante));
 	}
 
 	public String valorFormatado() {
@@ -88,7 +88,7 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	public String valorFormatadoSimples() {
 		return valorFormatado().replace("R$ ", "");
 	}
-	
+
 	public Dinheiro getMontante() {
 		BigDecimal novoValor = montanteBruto.setScale(DECIMAIS, RoundingMode.HALF_UP);
 		return new Dinheiro(novoValor);
@@ -155,7 +155,7 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 	}
 
 	public void setMontanteBruto(BigDecimal montanteBruto) {
-		this.montanteBruto = montanteBruto;
+		this.montanteBruto = configuraEscala(montanteBruto);
 	}
 
 	public int dividirParaInteiro(double divisor) {
@@ -168,7 +168,10 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 
 	public int dividirParaInteiro(BigDecimal divisor) {
 		return this.montanteBruto.divideToIntegralValue(divisor).intValue();
+	}
 
+	public BigDecimal arredondado() {
+		return montanteBruto.setScale(2, RoundingMode.CEILING);
 	}
 
 	public double doubleValue() {
@@ -224,7 +227,7 @@ public class Dinheiro extends Number implements Serializable, Comparable<Dinheir
 
 	@Override
 	public String toString() {
-		return valorFormatadoSimples();
+		return montanteBruto.toString();
 	}
 
 }
