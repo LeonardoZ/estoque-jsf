@@ -15,33 +15,33 @@ import com.leonardoz.estoque.modelo.entidade.Entidade;
 @Table(name = "categoria")
 public class Categoria extends Entidade {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@NotNull
-	@Size(max = 25)
-	@Column(name = "descricao", nullable = false, length = 25)
-	private String descricao;
+    @NotNull
+    @Size(max = 25)
+    @Column(name = "descricao", nullable = false, length = 25)
+    private String descricao;
 
-	public String getDescricao() {
-		return descricao;
+    public String getDescricao() {
+	return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+	this.descricao = descricao;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+	if (!(other instanceof Categoria)) {
+	    return false;
 	}
+	Categoria castOther = (Categoria) other;
+	return new EqualsBuilder().append(descricao, castOther.descricao).isEquals();
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	@Override
-	public boolean equals(final Object other) {
-		if (!(other instanceof Categoria)) {
-			return false;
-		}
-		Categoria castOther = (Categoria) other;
-		return new EqualsBuilder().append(descricao, castOther.descricao).isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(descricao).toHashCode();
-	}
+    @Override
+    public int hashCode() {
+	return new HashCodeBuilder().append(descricao).toHashCode();
+    }
 
 }

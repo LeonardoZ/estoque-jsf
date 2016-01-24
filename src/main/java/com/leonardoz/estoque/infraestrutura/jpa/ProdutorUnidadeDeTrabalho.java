@@ -11,25 +11,24 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class ProdutorUnidadeDeTrabalho {
 
-	private EntityManagerFactory factory;
+    private EntityManagerFactory factory;
 
-	public ProdutorUnidadeDeTrabalho() {
-		this.factory = Persistence.createEntityManagerFactory("EstoquePU");
-	}
+    public ProdutorUnidadeDeTrabalho() {
+	this.factory = Persistence.createEntityManagerFactory("EstoquePU");
+    }
 
-	@Produces
-	@RequestScoped
-	public EntityManager createEntityManager() {
-		System.err.println("Abrindo");
-		return factory.createEntityManager();
-	}
+    @Produces
+    @RequestScoped
+    public EntityManager createEntityManager() {
+	EntityManager createEntityManager = factory.createEntityManager();
+	return createEntityManager;
+    }
 
-	public void closeSession(@Disposes EntityManager manager) {
-		System.err.println("Fechando");
-		try {
-			manager.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    public void closeSession(@Disposes EntityManager manager) {
+	try {
+	    manager.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
 	}
+    }
 }

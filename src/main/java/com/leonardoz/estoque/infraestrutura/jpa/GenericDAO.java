@@ -14,53 +14,53 @@ import com.leonardoz.estoque.modelo.entidade.Entidade;
 
 public class GenericDAO<T extends Entidade> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject
-	private EntityManager manager;
+    @Inject
+    private EntityManager manager;
 
-	private Class<T> classe;
+    private Class<T> classe;
 
-	public GenericDAO() {
-		
+    public GenericDAO() {
+
+    }
+
+    public Class<T> getClasse() {
+	return classe;
+    }
+
+    public void salvar(T entidade) {
+	if (entidade != null && entidade.getId() != null) {
+	    manager.merge(entidade);
+	} else {
+	    manager.persist(entidade);
 	}
+	manager.flush();
+    }
 
-	public Class<T> getClasse() {
-		return classe;
-	}
+    public void remover(Long id) {
+	T entidade = recuperarEntidade(id).orElseThrow(EntityNotFoundException::new);
+	manager.remove(entidade);
+    }
 
-	public void salvar(T entidade) {
-		if (entidade != null && entidade.getId() != null) {
-			manager.merge(entidade);
-		} else {
-			manager.persist(entidade);
-		}
-		manager.flush();
-	}
+    public Optional<T> recuperarEntidade(long id) {
+	return Optional.ofNullable((T) manager.find(classe, id));
+    }
 
-	public void remover(Long id) {
-		T entidade = recuperarEntidade(id).orElseThrow(EntityNotFoundException::new);
-		manager.remove(entidade);
-	}
+    public EntityManager getManager() {
+	return manager;
+    }
 
-	public Optional<T> recuperarEntidade(long id) {
-		return Optional.ofNullable((T) manager.find(classe, id));
-	}
+    public Session sessao() {
+	return manager.unwrap(Session.class);
+    }
 
-	public EntityManager getManager() {
-		return manager;
-	}
+    public Criteria criteriaHibernate() {
+	return manager.unwrap(Session.class).createCriteria(classe);
+    }
 
-	public Session sessao() {
-		return manager.unwrap(Session.class);
-	}
-
-	public Criteria criteriaHibernate() {
-		return manager.unwrap(Session.class).createCriteria(classe);
-	}
-
-	public void configurarClasse(Class<T> classe) {
-		this.classe = classe;
-	}
+    public void configurarClasse(Class<T> classe) {
+	this.classe = classe;
+    }
 
 }

@@ -17,90 +17,101 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.leonardoz.estoque.modelo.entidade.Entidade;
 import com.leonardoz.estoque.produto.Dinheiro;
 import com.leonardoz.estoque.produto.Produto;
-import com.leonardoz.estoque.produto.Quantidade;
+import com.leonardoz.estoque.produto.QuantidadeFracionada;
 
 @Entity
 @Table(name = "produto_de_compra")
 public class ProdutoDeCompra extends Entidade implements Comparable<ProdutoDeCompra> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "compra_id")
-	private Compra compra;
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "compra_id", nullable = false)
+    private Compra compra;
 
-	@ManyToOne
-	@JoinColumn(name = "produto_id")
-	private Produto produto;
+    @ManyToOne
+    @JoinColumn(name = "produto_id", nullable = false)
+    private Produto produto;
 
-	@Embedded
-	@AttributeOverrides(@AttributeOverride(name = "valor", column = @Column(name = "quantidade", nullable = false, precision = 10, scale = 2) ))
-	private Quantidade quantidade;
+    @Embedded
+    @AttributeOverrides(@AttributeOverride(name = "valor", column = @Column(name = "quantidade", nullable = false, precision = 10, scale = 4) ))
+    private QuantidadeFracionada quantidade;
 
-	@Embedded
-	@AttributeOverrides(@AttributeOverride(name = "montanteBruto", column = @Column(name = "valor_de_compra", nullable = false, precision = 10, scale = 2) ))
-	private Dinheiro valorDeCompra;
+    @Embedded
+    @AttributeOverrides(@AttributeOverride(name = "montanteBruto", column = @Column(name = "valor_de_compra", nullable = false, precision = 10, scale = 4) ))
+    private Dinheiro valorDeCompra;
 
-	public ProdutoDeCompra() {
+    public ProdutoDeCompra() {
+	quantidade = new QuantidadeFracionada(0);
+    }
 
+    public ProdutoDeCompra(Compra compra, Produto produto, QuantidadeFracionada quantidade) {
+	super();
+	this.compra = compra;
+	this.quantidade = quantidade;
+	setProduto(produto);
+    }
+
+    public Compra getCompra() {
+	return compra;
+    }
+
+    public void setCompra(Compra compra) {
+	this.compra = compra;
+    }
+
+    public Produto getProduto() {
+	return produto;
+    }
+
+    public void setProduto(Produto produto) {
+	this.produto = produto;
+	if (valorDeCompra == null) {
+	    valorDeCompra = produto.getPrecoDeCusto();
 	}
+    }
 
-	public Compra getCompra() {
-		return compra;
-	}
+    public QuantidadeFracionada getQuantidade() {
+	return quantidade;
+    }
 
-	public void setCompra(Compra compra) {
-		this.compra = compra;
-	}
+    public void setQuantidade(QuantidadeFracionada quantidade) {
+	this.quantidade = quantidade;
+    }
 
-	public Produto getProduto() {
-		return produto;
-	}
+    public Dinheiro getValorDeCompra() {
+	return valorDeCompra;
+    }
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
+    public void setValorDeCompra(Dinheiro valorDeCompra) {
+	this.valorDeCompra = valorDeCompra;
+	if (valorDeCompra != null)
+	    this.produto.setPrecoDeCusto(valorDeCompra);
+    }
 
-	public Quantidade getQuantidade() {
-		return quantidade;
-	}
+    public Dinheiro valorTotal() {
+	return valorDeCompra.multiplicar(quantidade.getValor().doubleValue());
+    }
 
-	public void setQuantidade(Quantidade quantidade) {
-		this.quantidade = quantidade;
-	}
+    @Override
+    public int compareTo(final ProdutoDeCompra other) {
+	return new CompareToBuilder().append(produto, other.produto).append(quantidade, other.quantidade)
+		.append(valorDeCompra, other.valorDeCompra).toComparison();
+    }
 
-	public Dinheiro getValorDeCompra() {
-		return valorDeCompra;
+    @Override
+    public boolean equals(final Object other) {
+	if (!(other instanceof ProdutoDeCompra)) {
+	    return false;
 	}
+	ProdutoDeCompra castOther = (ProdutoDeCompra) other;
+	return new EqualsBuilder().append(produto, castOther.produto).append(quantidade, castOther.quantidade)
+		.append(valorDeCompra, castOther.valorDeCompra).isEquals();
+    }
 
-	public void setValorDeCompra(Dinheiro valorDeCompra) {
-		this.valorDeCompra = valorDeCompra;
-		this.produto.setPrecoDeCusto(valorDeCompra);
-	}
-
-	public Dinheiro valorTotal() {
-		return valorDeCompra.multiplicar(quantidade.getValor().doubleValue());
-	}
-	
-	@Override
-	public int compareTo(final ProdutoDeCompra other) {
-		return new CompareToBuilder().append(produto, other.produto).append(quantidade, other.quantidade)
-				.append(valorDeCompra, other.valorDeCompra).toComparison();
-	}
-
-	@Override
-	public boolean equals(final Object other) {
-		if (!(other instanceof ProdutoDeCompra)) {
-			return false;
-		}
-		ProdutoDeCompra castOther = (ProdutoDeCompra) other;
-		return new EqualsBuilder().append(produto, castOther.produto).append(quantidade, castOther.quantidade)
-				.append(valorDeCompra, castOther.valorDeCompra).isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(produto).append(quantidade).append(valorDeCompra).toHashCode();
-	}
+    @Override
+    public int hashCode() {
+	return new HashCodeBuilder().append(produto).append(quantidade).append(valorDeCompra).toHashCode();
+    }
 
 }

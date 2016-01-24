@@ -7,29 +7,7 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 	<ui:define name="content">
-		<script>
-			function mascara(o, f) {
-				v_obj = o;
-				v_fun = f;
-				setTimeout("execmascara()", 1);
-			}
-			function execmascara() {
-				v_obj.value = v_fun(v_obj.value);
-			}
-			function valor(v) {
-				v = v.replace(/\D/g, "");
-				v = v.replace(/[0-9]{15}/, "inválido");
-				v = v.replace(/(\d{1})(\d{11})$/, "$1.$2"); // coloca ponto antes dos
-				// ultimos 11 digitos
-				v = v.replace(/(\d{1})(\d{8})$/, "$1.$2"); // coloca ponto antes dos
-				// ultimos 8 digitos
-				v = v.replace(/(\d{1})(\d{5})$/, "$1.$2"); // coloca ponto antes dos
-				// ultimos 5 digitos
-				v = v.replace(/(\d{1})(\d{1,2})$/, "$1,$2"); // coloca virgula antes dos
-				// ultimos 2 digitos
-				return v;
-			}
-		</script>
+		<h:outputScript library="js" name="decimal.js" />
 		<div>
 			<p:fieldset legend="Cadastro de Produtos">
 				<h:form>
@@ -46,64 +24,71 @@
 									</div>
 								</div>
 								<div class="ui-grid-row">
-									<div class="ui-grid-col-6">
-										<p:outputLabel value="Código do Produto" styleClass="input-3" />
-										<p:inputText styleClass="input-3 center"
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Código do Produto" styleClass="input-5" />
+										<p:inputText styleClass="input-5 center"
 											value="#{cadastroProdutoBean.produto.codigo}" />
 									</div>
+								</div>
 
-									<div class="ui-grid-col-6">
-										<p:outputLabel value="Categoria" styleClass="input-4" />
-										<p:selectOneMenu
-											value="#{cadastroProdutoBean.produto.categoria}"
-											styleClass="input-3" filter="true" filterMatchMode="contains"
-											label="Categoria">
-											<f:selectItems
-												value="#{cadastroProdutoBean.recuperarCategorias()}"
-												var="categoria" itemValue="#{categoria}"
-												itemLabel="#{categoria.descricao}" />
-										</p:selectOneMenu>
-									</div>
+								<div class="ui-grid-row">
+									<p:fragment autoUpdate="true">
+										<div class="ui-grid-col-10">
+											<p:outputLabel value="Categoria" styleClass="input-5" />
+											<p:selectOneMenu id="categoria-select"
+												styleClass="input-5-add"
+												value="#{cadastroProdutoBean.produto.categoria}"
+												filter="true" filterMatchMode="contains" label="Categoria">
+												<f:selectItems
+													value="#{cadastroProdutoBean.recuperarCategorias()}"
+													var="categoria" itemValue="#{categoria}"
+													itemLabel="#{categoria.descricao}" />
+											</p:selectOneMenu>
+										</div>
+										<div class="ui-grid-col-2">
+											<p:commandButton value="+" styleClass="btn-add-1"
+												actionListener="#{modalCategoriaBean.cadastrarEmModal()}">
+												<p:ajax event="dialogReturn" update="categoria-select"
+													listener="#{cadastroProdutoBean.recuperarCategorias()}" />
+											</p:commandButton>
+										</div>
+									</p:fragment>
 								</div>
 								<div class="ui-grid-row">
-									<div class="ui-grid-col-3">
-										<p:outputLabel value="Unidade de Medida" styleClass="input-2" />
-										<div>
-											<p:selectOneMenu id="unidade-select" styleClass="input-1"
+									<p:fragment autoUpdate="true">
+										<div class="ui-grid-col-10">
+											<p:outputLabel value="Unidade de Medida" styleClass="input-5" />
+											<p:selectOneMenu id="unidade-select" styleClass="input-5-add"
 												value="#{cadastroProdutoBean.produto.unidadeMedida}"
 												filter="true" filterMatchMode="contains"
 												label="Unidade de Medida">
 												<f:converter converterId="unidadeDeMedidaConverter" />
-												<f:selectItem itemLabel="Adicionar" noSelectionOption="true">
-													
-												</f:selectItem>
 												<f:selectItems
 													value="#{cadastroProdutoBean.recuperarUnidadesDeMedida()}"
 													var="unidade" itemValue="#{unidade}"
 													itemLabel="#{unidade.descricao}" />
 											</p:selectOneMenu>
-									
 										</div>
-
-									</div>
-									<div class="ui-grid-col-1">
+										<div class="ui-grid-col-2">
 											<p:commandButton value="+" styleClass="btn-add-1"
 												actionListener="#{modalUnidadeDeMedidaBean.cadastrarEmModal()}">
 												<p:ajax event="dialogReturn" update="unidade-select"
 													listener="#{cadastroProdutoBean.recuperarUnidadesDeMedida()}" />
 											</p:commandButton>
-									
-									</div>
-									<div class="ui-grid-col-4">
+										</div>
+									</p:fragment>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-6">
 										<p:outputLabel value="Preço de Custo" styleClass="input-2" />
 										<p:inputText onkeypress="mascara(this,valor)"
-											styleClass="input-2"
+											styleClass="input-3"
 											value="#{cadastroProdutoBean.produto.precoDeCusto}" />
 									</div>
-									<div class="ui-grid-col-4">
+									<div class="ui-grid-col-6">
 										<p:outputLabel value="Preço de Venda" styleClass="input-2" />
 										<p:inputText onkeypress="mascara(this,valor)"
-											styleClass="input-2"
+											styleClass="input-3"
 											value="#{cadastroProdutoBean.produto.precoDeVenda}" />
 									</div>
 								</div>

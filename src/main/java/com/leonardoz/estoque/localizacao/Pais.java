@@ -16,55 +16,57 @@ import com.leonardoz.estoque.modelo.entidade.Entidade;
 @Table(name = "pais")
 public class Pais extends Entidade {
 
-	@Column(name = "nome", length = 20, nullable = false)
-	private String nome;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "sigla", length = 2, nullable = false)
-	private String sigla;
+    @Column(name = "nome", length = 20, nullable = false)
+    private String nome;
 
-	@OneToMany(mappedBy = "pais")
-	private Set<Estado> estados;
+    @Column(name = "sigla", length = 2, nullable = false)
+    private String sigla;
 
-	public Pais() {
+    @OneToMany(mappedBy = "pais")
+    private Set<Estado> estados;
 
+    public Pais() {
+
+    }
+
+    public String getNome() {
+	return nome;
+    }
+
+    public void setNome(String nome) {
+	this.nome = nome;
+    }
+
+    public String getSigla() {
+	return sigla;
+    }
+
+    public void setSigla(String sigla) {
+	this.sigla = sigla;
+    }
+
+    public Set<Estado> getEstados() {
+	return estados;
+    }
+
+    public void setEstados(Set<Estado> estados) {
+	this.estados = estados;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+	if (!(other instanceof Pais)) {
+	    return false;
 	}
+	Pais castOther = (Pais) other;
+	return new EqualsBuilder().append(nome, castOther.nome).append(sigla, castOther.sigla).isEquals();
+    }
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getSigla() {
-		return sigla;
-	}
-
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
-	}
-
-	public Set<Estado> getEstados() {
-		return estados;
-	}
-
-	public void setEstados(Set<Estado> estados) {
-		this.estados = estados;
-	}
-
-	@Override
-	public boolean equals(final Object other) {
-		if (!(other instanceof Pais)) {
-			return false;
-		}
-		Pais castOther = (Pais) other;
-		return new EqualsBuilder().append(nome, castOther.nome).append(sigla, castOther.sigla).isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(nome).append(sigla).toHashCode();
-	}
+    @Override
+    public int hashCode() {
+	return new HashCodeBuilder().append(nome).append(sigla).toHashCode();
+    }
 
 }

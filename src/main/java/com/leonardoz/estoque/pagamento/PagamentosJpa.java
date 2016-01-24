@@ -7,18 +7,17 @@ import com.leonardoz.estoque.infraestrutura.jpa.Transactional;
 
 public class PagamentosJpa implements Pagamentos {
 
-	private GenericDAO<Pagamento> dao;
+    private GenericDAO<Pagamento> dao;
 
-	@Inject
-	public PagamentosJpa(GenericDAO<Pagamento> dao) {
-		this.dao = dao;
-	}
+    @Inject
+    public PagamentosJpa(GenericDAO<Pagamento> dao) {
+	this.dao = dao;
+    }
 
-	@Override
-	@Transactional
-	public void registraPagamento(Pagamento pagamento) {
-		dao.salvar(pagamento);
-	}
-
+    @Override
+    @Transactional
+    public void registraPagamento(Pagamento pagamento) {
+	dao.salvar(pagamento);
+    }
 
 }

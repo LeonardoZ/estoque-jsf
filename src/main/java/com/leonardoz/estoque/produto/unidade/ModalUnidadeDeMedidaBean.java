@@ -15,42 +15,41 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class ModalUnidadeDeMedidaBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private UnidadeDeMedida unidade;
+    private UnidadeDeMedida unidade;
 
-	@Inject
-	private UnidadesDeMedida unidades;
+    @Inject
+    private UnidadesDeMedida unidades;
 
-	@PostConstruct
-	public void iniciar() {
-		if (unidade == null)
-			unidade = new UnidadeDeMedida();
-	}
+    @PostConstruct
+    public void iniciar() {
+	if (unidade == null)
+	    unidade = new UnidadeDeMedida();
+    }
 
-	public void cadastrarEmModal() {
-		Map<String, Object> options = new HashMap<String, Object>();
-		options.put("resizable", false);
-		options.put("draggable", false);
-		options.put("modal", true);
-		RequestContext.getCurrentInstance().openDialog("ModalUnidadeDeMedida", options, null);
-	}
+    public void cadastrarEmModal() {
+	Map<String, Object> options = new HashMap<String, Object>();
+	options.put("resizable", false);
+	options.put("draggable", true);
+	options.put("modal", true);
+	RequestContext.getCurrentInstance().openDialog("ModalUnidadeDeMedida", options, null);
+    }
 
-	public void concluirModal() {
-		System.out.println("Cadastrando Unidade");
-		this.unidades.guardarUnidadeDeMedida(unidade);
-		fecharModal();
-	}
+    public void concluirModal() {
+	this.unidades.guardarUnidadeDeMedida(unidade);
+	fecharModal();
+    }
 
-	public void fecharModal() {
-		RequestContext.getCurrentInstance().closeDialog(null);
-	}
+    public void fecharModal() {
+	RequestContext.getCurrentInstance().closeDialog(null);
+    }
 
-	public UnidadeDeMedida getUnidade() {
-		return unidade;
-	}
+    public UnidadeDeMedida getUnidade() {
+	return unidade;
+    }
 
-	public void setUnidade(UnidadeDeMedida unidade) {
-		this.unidade = unidade;
-	}
+    public void setUnidade(UnidadeDeMedida unidade) {
+	this.unidade = unidade;
+    }
 }

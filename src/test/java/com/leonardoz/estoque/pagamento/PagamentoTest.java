@@ -48,7 +48,7 @@ public class PagamentoTest {
 				.valorPagamento(new Dinheiro(10_200))
 				.descontoDoValorPagamento(Porcentagem.de(5)).gerarPagamento();
 
-		assertEquals(new Dinheiro(9_690.00), pagamento.valorTotalParaPagar());
+		assertEquals(new Dinheiro(9_690.00), pagamento.valorLiquido());
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class PagamentoTest {
 				.valorDeEntrada(new Dinheiro(200.55))
 				.gerarPagamento();
 
-		assertEquals(new Dinheiro(9_489.45), pagamento.valorTotalParaPagar());
+		assertEquals(new Dinheiro(9_489.45), pagamento.valorLiquido());
 	}
 
 	@Test

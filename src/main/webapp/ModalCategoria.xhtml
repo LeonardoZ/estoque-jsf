@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Cadastro de Categoria</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet library="css" name="screen.css" />
+</h:head>
+<h:body>
+	<div>
+		<h:form>
+			<h:panelGrid columns="1" >
+				<p:messages showSummary="true" showIcon="true" severity="error" />
+				<p:growl showSummary="true" showIcon="true" severity="info,warn" />
+				<p:outputLabel>Descrição</p:outputLabel>
+
+				<p:inputText rows="1" styleClass="input-3"
+					value="#{modalCategoriaBean.categoria.descricao}" />
+			</h:panelGrid>
+
+			<div class="linha-form">
+				<p:commandButton value="Salvar" styleClass="elemento"
+					action="#{modalCategoriaBean.concluirModal()}"
+					icon="ui-icon-disk" update="@form" />
+				<p:commandButton value="Cancelar" styleClass="elemento"
+					action="#{modalCategoriaBean.fecharModal()}"
+					icon="ui-icon-disk" update="@form" />
+			</div>
+		</h:form>
+	</div>
+</h:body>
+</html>

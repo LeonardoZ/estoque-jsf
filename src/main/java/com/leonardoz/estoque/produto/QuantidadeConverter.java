@@ -10,18 +10,20 @@ import javax.inject.Named;
 @FacesConverter(forClass = Quantidade.class)
 public class QuantidadeConverter implements Converter {
 
-	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Quantidade deValorFormatado = null;
-		if (value != null && !value.isEmpty()) {
-			deValorFormatado = Quantidade.deValorFormatado(value);
-		}
-		return deValorFormatado;
+    @Override
+    public Object getAsObject(FacesContext context, UIComponent component, String value) {
+	Quantidade deValorFormatado = null;
+	if (value != null && !value.isEmpty()) {
+	    deValorFormatado = Quantidade.deValorFormatado(value);
 	}
+	return deValorFormatado;
+    }
 
-	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		return ((Quantidade) value).toString();
-	}
+    @Override
+    public String getAsString(FacesContext context, UIComponent component, Object value) {
+	String string = ((Quantidade) value).toString();
+	System.out.println("Qtd: " + string);
+	return string;
+    }
 
 }

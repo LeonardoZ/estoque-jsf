@@ -5,20 +5,20 @@ import java.util.List;
 
 public enum StatusPagamento {
 
-	ABERTO("Aberto"), FINZALIZADO("Finalizado"), CANCELADO("Cancelado");
+    ABERTO("Aberto"), FINZALIZADO("Finalizado"), CANCELADO("Cancelado");
 
-	private String descricao;
+    private String descricao;
 
-	private StatusPagamento(String descricao) {
-		this.descricao = descricao;
-	}
+    private StatusPagamento(String descricao) {
+	this.descricao = descricao;
+    }
 
-	public String getDescricao() {
-		return descricao;
-	}
-	
-	public static List<StatusPagamento> listar(){
-		return Arrays.asList(values());
-	}
+    public String getDescricao() {
+	return descricao;
+    }
+
+    public static List<StatusPagamento> listar() {
+	return Arrays.asList(values());
+    }
 
 }

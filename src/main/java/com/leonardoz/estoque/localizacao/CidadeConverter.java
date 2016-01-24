@@ -11,24 +11,24 @@ import javax.inject.Named;
 @FacesConverter(forClass = Cidade.class)
 public class CidadeConverter implements Converter {
 
-	@Inject
-	private Localizacoes localizacoes;
+    @Inject
+    private Localizacoes localizacoes;
 
-	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Cidade retorno = null;
-		if (value != null && !"".equals(value)) {
-			retorno = localizacoes.recuperaCidade(Long.valueOf(value));
-		}
-		return retorno;
+    @Override
+    public Object getAsObject(FacesContext context, UIComponent component, String value) {
+	Cidade retorno = null;
+	if (value != null && !"".equals(value)) {
+	    retorno = localizacoes.recuperaCidade(Long.valueOf(value));
 	}
+	return retorno;
+    }
 
-	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		if (value != null) {
-			Cidade cidade = ((Cidade) value);
-			return cidade.getId() == null ? null : cidade.getId().toString();
-		}
-		return null;
+    @Override
+    public String getAsString(FacesContext context, UIComponent component, Object value) {
+	if (value != null) {
+	    Cidade cidade = ((Cidade) value);
+	    return cidade.getId() == null ? null : cidade.getId().toString();
 	}
+	return null;
+    }
 }

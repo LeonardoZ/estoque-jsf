@@ -21,62 +21,62 @@ import com.leonardoz.estoque.infraestrutura.jpa.Transactional;
 
 public class ProdutosJPA implements Serializable, Produtos, EspecificaCriteria<FiltroProduto> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private GenericDAO<Produto> dao;
-	private PaginacaoDaoUtil<Produto, FiltroProduto> paginacaoUtil;
+    private GenericDAO<Produto> dao;
+    private PaginacaoDaoUtil<Produto, FiltroProduto> paginacaoUtil;
 
-	@Inject
-	public ProdutosJPA(GenericDAO<Produto> dao) {
-		this.dao = dao;
-		this.dao.configurarClasse(Produto.class);
-		this.paginacaoUtil = new PaginacaoDaoUtil<>(dao, this);
-	}
+    @Inject
+    public ProdutosJPA(GenericDAO<Produto> dao) {
+	this.dao = dao;
+	this.dao.configurarClasse(Produto.class);
+	this.paginacaoUtil = new PaginacaoDaoUtil<>(dao, this);
+    }
 
-	@Override
-	@Transactional
-	public void guardarProduto(Produto produto) {
-		dao.salvar(produto);
-	}
+    @Override
+    @Transactional
+    public void guardarProduto(Produto produto) {
+	dao.salvar(produto);
+    }
 
-	@Override
-	@Transactional
-	public void removerProduto(long idProduto) {
-		dao.remover(idProduto);
-	}
+    @Override
+    @Transactional
+    public void removerProduto(long idProduto) {
+	dao.remover(idProduto);
+    }
 
-	@Override
-	public Optional<Produto> recuperarProduto(long idProduto) {
-		return dao.recuperarEntidade(idProduto);
-	}
+    @Override
+    public Optional<Produto> recuperarProduto(long idProduto) {
+	return dao.recuperarEntidade(idProduto);
+    }
 
-	@Override
-	public List<Produto> recuperarProdutos() {
-		CriteriaBuilder builder = dao.getManager().getCriteriaBuilder();
-		CriteriaQuery<Produto> query = builder.createQuery(Produto.class);
-		Root<Produto> root = query.from(Produto.class);
-		query.select(root);
-		query.orderBy(builder.asc(root.get("descricao")));
-		return dao.getManager().createQuery(query).getResultList();
-	}
+    @Override
+    public List<Produto> recuperarProdutos() {
+	CriteriaBuilder builder = dao.getManager().getCriteriaBuilder();
+	CriteriaQuery<Produto> query = builder.createQuery(Produto.class);
+	Root<Produto> root = query.from(Produto.class);
+	query.select(root);
+	query.orderBy(builder.asc(root.get("descricao")));
+	return dao.getManager().createQuery(query).getResultList();
+    }
 
-	@Override
-	public List<Produto> filtrados(FiltroProduto filtro) {
-		return paginacaoUtil.retornaFiltrados(filtro);
-	}
+    @Override
+    public List<Produto> filtrados(FiltroProduto filtro) {
+	return paginacaoUtil.retornaFiltrados(filtro);
+    }
 
-	@Override
-	public int quantosForamFiltrados(FiltroProduto filtro) {
-		return paginacaoUtil.quantidadeFiltrados(filtro);
-	}
+    @Override
+    public int quantosForamFiltrados(FiltroProduto filtro) {
+	return paginacaoUtil.quantidadeFiltrados(filtro);
+    }
 
-	public BiFunction<FiltroProduto, Criteria, Criteria> especificadorDeCriteria() {
-		return (filtro, criteria) -> {
-			if (filtro.getDescricao() != null && !filtro.getDescricao().isEmpty()) {
-				criteria.add(Restrictions.ilike("descricao", filtro.getDescricao(), MatchMode.ANYWHERE));
-			}
-			return criteria;
-		};
-	}
+    public BiFunction<FiltroProduto, Criteria, Criteria> especificadorDeCriteria() {
+	return (filtro, criteria) -> {
+	    if (filtro.getDescricao() != null && !filtro.getDescricao().isEmpty()) {
+		criteria.add(Restrictions.ilike("descricao", filtro.getDescricao(), MatchMode.ANYWHERE));
+	    }
+	    return criteria;
+	};
+    }
 
 }

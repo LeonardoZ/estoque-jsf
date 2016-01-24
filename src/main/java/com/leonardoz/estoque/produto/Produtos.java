@@ -5,15 +5,15 @@ import java.util.Optional;
 
 public interface Produtos {
 
-	void guardarProduto(Produto produto);
+    void guardarProduto(Produto produto);
 
-	void removerProduto(long idDoProduto);
+    void removerProduto(long idDoProduto);
 
-	Optional<Produto> recuperarProduto(long idDoProduto);
+    Optional<Produto> recuperarProduto(long idDoProduto);
 
-	List<Produto> recuperarProdutos();
-	
-	int quantosForamFiltrados(FiltroProduto filtro);
-	
-	List<Produto> filtrados(FiltroProduto filtro);
+    List<Produto> recuperarProdutos();
+
+    int quantosForamFiltrados(FiltroProduto filtro);
+
+    List<Produto> filtrados(FiltroProduto filtro);
 }

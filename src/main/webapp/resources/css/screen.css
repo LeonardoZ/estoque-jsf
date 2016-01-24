@@ -66,18 +66,20 @@ body {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	border: none;
 	height: 100%; /* Full height */
 	position: fixed; /* Make it stick, even on scroll */
 	overflow: auto;
 	/* Enable scrolling if the sidenav has too much content */
+	min-width: 232px;
 	margin-left: 5px;
-	min-width: 230px;
 }
 
 .menu-lateral>li {
 	font-family: verdana;
 	font-size: 1.1em;
 	text-decoration: none;
+	min-width: 150px;
 }
 
 .menu-lateral>li.submenu {
@@ -102,7 +104,7 @@ body {
 }
 
 .menu-lateral>li>a:hover {
-	background-color: #fff;
+	background-color: #f7f7f7;
 	color: black;
 }
 
@@ -116,7 +118,8 @@ body {
 }
 
 .divisor {
-	margin-left: 10px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 
 .menu-topo-item {
@@ -159,7 +162,7 @@ h1 {
 .grid-login {
 	background-color: #f2f2f2;
 	border-radius: 8px;
-	border: 1px solid #ccc;
+	border: 1px solid #fff;
 	margin-top: 8px;
 	padding: 10px;
 	width: 100%
@@ -170,15 +173,15 @@ h1 {
 }
 
 .input-1 {
-	min-width: 100px;
+	min-width: 40px;
 	max-width: 100px;
 }
 
 .btn-add-1 {
-	padding: 0px;
-	margin-top: 0px;
-	min-width: 40px;
-	max-width: 40px;
+	margin-left: 30px;
+	margin-top: 15px;
+	min-width: 35px;
+	max-width: 35px;
 }
 
 .input-2 {
@@ -196,6 +199,11 @@ h1 {
 	max-width: 345px;
 }
 
+.input-5-add {
+	min-width: 460px;
+	max-width: 460px;
+}
+
 .input-5 {
 	min-width: 500px;
 	max-width: 500px;
@@ -211,7 +219,7 @@ h1 {
 
 .linha-form {
 	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 
 .elemento {
@@ -224,10 +232,28 @@ h1 {
 
 .linha-form-media {
 	width: 750px;
+	height: 380px;
 }
 
 .painel-medio {
 	min-width: 750px;
+	max-width: 1024px;
+}
+
+.credito {
+	font-weight: bolder;
+	color: #34cc44;
+}
+
+.debito {
+	font-weight: bolder;
+	color: #e61a4d;
+}
+
+.painel-lateral {
+	height: 100%;
+	margin-bottom: 100px;
+	position: relative;
 }
 
 .panelGridCenter {

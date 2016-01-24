@@ -5,41 +5,45 @@ import java.util.List;
 
 public enum DiaDaSemana {
 
-	DOMINGO("Domingo"), SEGUNDA("Segunda"), TERCA("Terça"), QUARTA("Quarta"), QUINTA("Quinta"), SEXTA("Sexta"), SABADO(
-			"Sábado");
+    DOMINGO("Domingo"), SEGUNDA("Segunda"), TERCA("Terça"), QUARTA("Quarta"), QUINTA("Quinta"), SEXTA("Sexta"), SABADO(
+	    "Sábado");
 
-	private String valor;
+    private String valor;
 
-	private DiaDaSemana(String valor) {
-		this.valor = valor;
-	}
+    private DiaDaSemana(String valor) {
+	this.valor = valor;
+    }
 
-	public String getValor() {
-		return valor;
-	}
+    public String getValor() {
+	return valor;
+    }
 
-	public void setSigla(String valor) {
-		this.valor = valor;
-	}
+    public String apresentavel() {
+	return valor.substring(0, 5);
+    }
 
-	public static List<DiaDaSemana> listar() {
-		return Arrays.asList(values());
+    public void setSigla(String valor) {
+	this.valor = valor;
+    }
+
+    public static List<DiaDaSemana> listar() {
+	return Arrays.asList(values());
+    }
+
+    public static DiaDaSemana recuperaPorValor(String valor) {
+	DiaDaSemana[] dias = values();
+	for (int i = 0; i < dias.length; i++) {
+	    DiaDaSemana dia = dias[i];
+	    if (dia.valor.equals(valor) || dia.apresentavel().equals(valor)) {
+		return dia;
+	    }
 	}
-	
-	public static DiaDaSemana recuperaPorValor(String valor){
-		DiaDaSemana[] dias = values();
-		for (int i = 0; i < dias.length; i++) {
-			DiaDaSemana dia = dias[i];
-			if(dia.valor.equals(valor)){
-				return dia;
-			}
-		}
-		throw new IllegalArgumentException("Nenhum dia encontrado com o valor especificado.");
-	}
-	
-	@Override
-	public String toString() {
-		return valor;
-	}
+	throw new IllegalArgumentException("Nenhum dia encontrado com o valor especificado.");
+    }
+
+    @Override
+    public String toString() {
+	return valor;
+    }
 
 }

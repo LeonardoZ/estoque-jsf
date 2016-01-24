@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<h:outputScript library="js" name="decimal.js" />
+		<div>
+			<p:fieldset legend="Cadastro de Compra">
+				<p:panelGrid columns="2">
+					<h:form>
+						<p:messages showSummary="true" showIcon="true" showDetail="true" />
+						<p:growl showSummary="true" showIcon="true" severity="info,warn" />
+						<p:fragment autoUpdate="true">
+							<p:tabView orientation="left" styleClass="linha-form-media">
+								<p:tab title="Produtos">
+									<div class="ui-grid">
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-12">
+												<p:outputLabel value="Produto" />
+												<p:selectOneMenu filter="true"
+													converter="#{produtoConverter}" filterMatchMode="contains"
+													id="produtos" label="Produtos" styleClass="input-5"
+													value="#{cadastroCompraBean.produtoSelecionado}">
+													<f:selectItem noSelectionOption="true" itemValue="#{null}" />
+													<f:selectItems var="produto" itemValue="#{produto}"
+														itemLabel="#{produto.descricao}"
+														value="#{cadastroCompraBean.produtos()}" />
+													<p:messages id="erros" showSummary="true" showIcon="true"
+														showDetail="true" />
+
+													<p:ajax event="change" update="valor"
+														listener="#{cadastroCompraBean.aoSelecionarProduto}" />
+												</p:selectOneMenu>
+												<h:message for="produtos" />
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-6 pos">
+												<p:outputLabel value="Valor" />
+												<p:inputMask id="valor" name="valor"
+													onkeypress="mascara(this,valor)"
+													value="#{cadastroCompraBean.produtoDeCompra.valorDeCompra}"
+													styleClass="input-3">
+													<p:ajax event="blur"
+														listener="#{cadastroCompraBean.avaliarSePodeCalcular()}"
+														update=":relatorio" />
+												</p:inputMask>
+											</div>
+											<div class="ui-grid-col-6">
+												<p:outputLabel value="Quantidade" />
+												<p:inputMask name="Quantidade"
+													onkeypress="mascara(this,valor)"
+													value="#{cadastroCompraBean.produtoDeCompra.quantidade}"
+													styleClass="input-3 center" />
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-12 pos">
+												<p:toolbar>
+													<f:facet name="right">
+														<p:commandButton value="Adicionar" partialSubmit="true"
+															update="valorTotal :relatorio"
+															actionListener="#{cadastroCompraBean.adicionarProdutoACompra()}" />
+														<p:commandButton value="Novo" partialSubmit="true"
+															actionListener="#{cadastroCompraBean.novoProdutoDeCompra()}" />
+														<p:commandButton value="Remover" partialSubmit="true"
+															actionListener="#{cadastroCompraBean.removerProdutoDeCompra()}" />
+													</f:facet>
+												</p:toolbar>
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-12 pos">
+												<p:dataList var="produto" itemType="ProdutoDeCompra"
+													value="#{cadastroCompraBean.compra.produtosComprados.produtos}">
+											#{produto.produto.descricao} - #{produto.valorDeCompra} x #{produto.quantidade} = #{produto.valorTotal()}
+										</p:dataList>
+											</div>
+										</div>
+									</div>
+								</p:tab>
+
+								<p:tab title="Informações">
+									<div class="ui-grid">
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-12">
+												<p:outputLabel value="Fornecedor" />
+												<p:selectOneMenu filter="true" filterMatchMode="contains"
+													label="Fornecedor" styleClass="input-5"
+													value="#{cadastroCompraBean.compra.fornecedor}">
+													<f:selectItems var="fornecedor" itemValue="#{fornecedor}"
+														itemLabel="#{fornecedor.nomeFantasia}"
+														value="#{cadastroCompraBean.fornecedores()}" />
+												</p:selectOneMenu>
+											</div>
+										</div>
+
+										<!-- Label -->
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-12">
+												<p:outputLabel value="Número N.F." />
+												<p:inputText name="numeroNF" styleClass="input-5"
+													value="#{cadastroCompraBean.compra.numeroNotaFiscal}" />
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-6 pos">
+												<p:outputLabel value="Frete " />
+												<p:inputMask name="Frete" onkeypress="mascara(this,valor)"
+													value="#{cadastroCompraBean.compra.frete}"
+													styleClass="input-3">
+													<p:ajax event="blur" update=":relatorio" />
+												</p:inputMask>
+											</div>
+										</div>
+									</div>
+								</p:tab>
+
+
+								<p:tab title="Pagamento">
+									<div class="ui-grid">
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-12">
+												<p:outputLabel value="Valor" />
+												<p:inputText id="valorTotal" styleClass="input-5"
+													disabled="true"
+													value="#{cadastroCompraBean.compra.pagamento.valorPagamento}" />
+											</div>
+										</div>
+
+										<!-- Label -->
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-12">
+												<p:outputLabel value="Forma de Pagamento" />
+												<p:selectOneMenu styleClass="input-5"
+													value="#{cadastroCompraBean.compra.pagamento.forma}"
+													converter="omnifaces.GenericEnumConverter">
+													<f:selectItems itemLabel="#{forma.descricao}"
+														itemValue="#{forma}"
+														value="#{cadastroCompraBean.formasDePagamento()}"
+														var="forma" />
+												</p:selectOneMenu>
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-6 pos">
+												<p:outputLabel value="Entrada" />
+												<p:inputMask name="Entrada" onkeypress="mascara(this,valor)"
+													value="#{cadastroCompraBean.compra.pagamento.entrada}"
+													styleClass="input-3">
+													<p:ajax event="blur" update="valor :relatorio" />
+												</p:inputMask>
+											</div>
+											<div class="ui-grid-col-6">
+												<p:outputLabel value="Desconto (%)" />
+												<p:inputMask name="desconto"
+													onkeypress="mascara(this,valor)"
+													value="#{cadastroCompraBean.compra.pagamento.descontoValorPagamento}"
+													styleClass="input-3 center">
+													<p:ajax event="blur" update="valor :relatorio" />
+												</p:inputMask>
+											</div>
+										</div>
+									</div>
+								</p:tab>
+								<p:tab title="Parcelamento">
+									<div class="ui-grid">
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-8 pos">
+												<p:outputLabel value="Período" styleClass="input-4" />
+												<p:selectOneMenu styleClass="input-4"
+													value="#{cadastroCompraBean.compra.pagamento.repeticao.periodo}"
+													converter="omnifaces.GenericEnumConverter">
+													<f:selectItems itemLabel="#{periodo.apresentavel()}"
+														itemValue="#{periodo}"
+														value="#{cadastroCompraBean.periodos()}" var="periodo" />
+												</p:selectOneMenu>
+											</div>
+											<div class="ui-grid-col-4">
+												<p:outputLabel value="Número de parcelas"
+													styleClass="input-2 center" />
+												<p:inputText name="parcelas" id="parcelas"
+													converter="#{quantidadeConverter}"
+													value="#{cadastroCompraBean.compra.pagamento.repeticao.quantasVezes}"
+													styleClass="input-2 center">
+													<p:ajax event="blur"
+														listener="#{cadastroCompraBean.avaliarSePodeCalcular()}"
+														update=":relatorio" />
+												</p:inputText>
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-8 pos">
+												<p:outputLabel value="Juros" styleClass="input-4" />
+												<p:selectOneMenu styleClass="input-4"
+													value="#{cadastroCompraBean.compra.pagamento.repeticao.juros}"
+													converter="omnifaces.GenericEnumConverter">
+													<f:selectItems itemLabel="#{juros}" itemValue="#{juros}"
+														value="#{cadastroCompraBean.modalidadeJuros()}"
+														var="juros" />
+												</p:selectOneMenu>
+											</div>
+											<div class="ui-grid-col-4">
+												<p:outputLabel value="Taxa de Juros (%)" />
+												<p:inputMask name="taxaJuros"
+													onkeypress="mascara(this,valor)"
+													value="#{cadastroCompraBean.compra.pagamento.repeticao.taxa}"
+													styleClass="input-2 center" />
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-8 pos">
+												<p:outputLabel value="Juros do Vencimento (a. d.)" />
+												<p:selectOneMenu styleClass="input-4"
+													value="#{cadastroCompraBean.compra.pagamento.repeticao.jurosVencimento}"
+													converter="omnifaces.GenericEnumConverter">
+													<f:selectItems itemLabel="#{juros}" itemValue="#{juros}"
+														value="#{cadastroCompraBean.modalidadeJuros()}"
+														var="juros" />
+												</p:selectOneMenu>
+											</div>
+											<div class="ui-grid-col-4">
+												<p:outputLabel value="Taxa de Juros (%)" />
+												<p:inputMask name="taxaJurosVencimento"
+													onkeypress="mascara(this,valor)"
+													styleClass="input-2 center"
+													value="#{cadastroCompraBean.compra.pagamento.repeticao.taxaDeJurosDeVencimento}" />
+											</div>
+										</div>
+									</div>
+								</p:tab>
+							</p:tabView>
+						</p:fragment>
+						<div class="linha-form">
+							<p:commandButton value="Salvar" styleClass="elemento"
+								action="#{cadastroCompraBean.salvarCompra()}"
+								icon="ui-icon-disk" update="@form" />
+						</div>
+					</h:form>
+					<p:fragment autoUpdate="true">
+						<h:panelGroup id="relatorio" layout="block"
+							styleClass="painel-lateral">
+							<p:panelGrid layout="grid" columns="1">
+								<p:outputLabel styleClass="credito"
+									value="Valor dos produtos: #{cadastroCompraBean.compra.valorDosProdutos()}" />
+								<p:outputLabel styleClass="credito"
+									value="Frete: #{cadastroCompraBean.compra.frete}" />
+								<p:outputLabel styleClass="debito"
+									value="Desconto (%): #{cadastroCompraBean.compra.pagamento.descontoValorPagamento.percentual()} = 
+								#{cadastroCompraBean.compra.pagamento.valorDoPagamentoComDesconto()} " />
+								<p:outputLabel styleClass="debito"
+									value="Entrada: (#{cadastroCompraBean.compra.pagamento.entrada})" />
+								<p:outputLabel
+									value="Valor líquido: #{cadastroCompraBean.compra.pagamento.valorLiquido()}" />
+							</p:panelGrid>
+							<h:form>
+								<p:commandButton name="calcula" id="calcula"
+									value="Calcular Parcelas" update="lista-parcelas"
+									partialSubmit="true"
+									rendered="#{cadastroCompraBean.podeCalcularParcela}"
+									actionListener="#{cadastroCompraBean.calcularPagamento}" />
+
+								<p:dataTable varStatus="status" var="pagamento"
+									name="lista-parcelas" id="lista-parcelas"
+									emptyMessage="Nenhuma parcela calculada"
+									value="#{cadastroCompra.compra.pagamento.parcelas}">
+									<p:column headerText="Coluna de parcela">
+        									#{pagamento.dataVencimento} - #{pagamento.valor}
+										</p:column>
+								</p:dataTable>
+							</h:form>
+						</h:panelGroup>
+					</p:fragment>
+				</p:panelGrid>
+			</p:fieldset>
+
+		</div>
+	</ui:define>
+</ui:composition>

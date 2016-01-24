@@ -7,11 +7,13 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 	<ui:define name="content">
+		<h:outputScript library="js" name="decimal.js" />
 		<div>
 			<p:fieldset legend="Cadastro de Funcionarios">
 				<h:form>
-					<p:messages showSummary="true" showIcon="true" severity="error" />
-					<p:growl showSummary="true" showIcon="true" severity="info,warn" />
+					<p:messages showDetail="false" showSummary="true" autoUpdate="true" />
+					<p:growl showDetail="true" showSummary="true" showIcon="true"
+						severity="info,warn" />
 					<p:tabView orientation="left" styleClass="linha-form-media">
 						<p:tab title="Informações Básicas">
 							<div class="ui-grid">
@@ -20,7 +22,7 @@
 								<div class="ui-grid-row">
 									<div class="ui-grid-col-12">
 										<p:outputLabel value="Nome*" />
-										<p:inputText
+										<p:inputText label="Nome"
 											value="#{cadastroFuncionarioBean.funcionario.nome}"
 											styleClass="input-5" />
 									</div>
@@ -30,48 +32,308 @@
 								<div class="ui-grid-row">
 									<div class="ui-grid-col-6 pos">
 										<p:outputLabel value="CPF*" styleClass="input-3" />
-										<p:inputMask mask="999.999.999-99" styleClass="input-3 center"
+										<p:inputMask label="CPF" mask="999.999.999-99"
+											styleClass="input-3 center"
 											value="#{cadastroFuncionarioBean.funcionario.cpf.valor}" />
 									</div>
 									<div class="ui-grid-col-6">
 										<p:outputLabel value="RG*" styleClass="input-3" />
-										<p:inputText styleClass="input-3 center"
+										<p:inputText label="RG" styleClass="input-3 center"
 											value="#{cadastroFuncionarioBean.funcionario.rg}" />
+									</div>
+								</div>
+
+								<!-- Label -->
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4 pos">
+										<p:outputLabel value="Nascimento" styleClass="input-2" />
+										<p:inputMask label="Nascimento" mask="99/99/9999"
+											styleClass="input-2 center"
+											value="#{cadastroFuncionarioBean.funcionario.nascimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+									<div class="ui-grid-col-4 pos">
+										<p:outputLabel value="Sexo" styleClass="input-2" />
+										<p:selectOneMenu label="Sexo" styleClass="input-2"
+											value="#{cadastroFuncionarioBean.funcionario.sexo}">
+											<f:selectItems value="#{cadastroFuncionarioBean.sexos()}"
+												var="s" itemLabel="#{s.apresentavel()}" itemValue="#{s}" />
+										</p:selectOneMenu>
+									</div>
+									<div class="ui-grid-col-4">
+										<p:outputLabel value="Habilitação" styleClass="input-2" />
+										<p:selectOneMenu label="Habilitação" styleClass="input-2"
+											value="#{cadastroFuncionarioBean.funcionario.habilitacao}">
+											<f:selectItems
+												value="#{cadastroFuncionarioBean.habilitacoes()}"
+												styleClass="input-2" var="h" itemLabel="#{h.apresentavel()}"
+												itemValue="#{h}" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-12">
+									<p:outputLabel value="Nome do Pai" />
+									<p:inputText label="Nome do Pai"
+										value="#{cadastroFuncionarioBean.funcionario.filiacao.nomeDoPai}"
+										styleClass="input-5" />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-12">
+									<p:outputLabel value="Nome do Mãe" />
+									<p:inputText label="Nome da Mãe"
+										value="#{cadastroFuncionarioBean.funcionario.filiacao.nomeDaMae}"
+										styleClass="input-5" />
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Trabalhistas">
+							<div class="ui-grid">
+
+								<!-- Label -->
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Número CTPS" />
+										<p:inputText label="Número CTPS"
+											value="#{cadastroFuncionarioBean.funcionario.informacaoTrabalhista.numeroCTPS}"
+											styleClass="input-5" />
+									</div>
+								</div>
+
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Série CTPS" />
+										<p:inputText label="Série CTPS"
+											value="#{cadastroFuncionarioBean.funcionario.informacaoTrabalhista.serieCTPS}"
+											styleClass="input-5" />
+									</div>
+								</div>
+
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="PIS/PASESP" />
+										<p:inputText label="PIS/PASESP"
+											value="#{cadastroFuncionarioBean.funcionario.informacaoTrabalhista.pisPASESP}"
+											styleClass="input-5" />
+									</div>
+								</div>
+
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Estado CTPS" />
+										<p:inputText label="Estado CTPS"
+											value="#{cadastroFuncionarioBean.funcionario.informacaoTrabalhista.estadoCTPS}"
+											styleClass="input-5" />
 									</div>
 								</div>
 							</div>
 						</p:tab>
+						<p:tab title="Eleitoral">
+							<div class="ui-grid">
 
+								<!-- Label -->
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Número do Título Eleitor" />
+										<p:inputText label="Nº Título Eleitor"
+											value="#{cadastroFuncionarioBean.funcionario.informacaoEleitoral.numeroTituloEleitoral}"
+											styleClass="input-5" />
+									</div>
+								</div>
+
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Estado Eleitoral" />
+										<p:inputText label="Estado Eleitoral"
+											value="#{cadastroFuncionarioBean.funcionario.informacaoEleitoral.estadoEleitoral}"
+											styleClass="input-5" />
+									</div>
+								</div>
+
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:outputLabel value="Zona Eleitoral" />
+										<p:inputText label="Zona Eleitoral"
+											value="#{cadastroFuncionarioBean.funcionario.informacaoEleitoral.zonaEleitoral}"
+											styleClass="input-5" />
+									</div>
+								</div>
+
+							</div>
+						</p:tab>
+
+						<p:tab title="Contratos">
+							<div class="ui-grid">
+								<p:fragment autoUpdate="true">
+									<div class="ui-grid-row">
+										<div class="ui-grid-col-12">
+											<p:outputLabel value="Contrato*" styleClass="input-5" />
+											<p:inputText styleClass="input-5 center"
+												value="#{cadastroFuncionarioBean.contrato.cargo}"
+												label="Cargo" />
+										</div>
+									</div>
+									<div class="ui-grid-row">
+										<div class="ui-grid-col-4 pos">
+											<p:outputLabel value="Data admissão*" styleClass="input-2" />
+											<p:inputMask mask="99/99/9999" styleClass="input-2 center"
+												value="#{cadastroFuncionarioBean.contrato.admissao}">
+												<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+											</p:inputMask>
+										</div>
+										<div class="ui-grid-col-4 pos">
+											<p:outputLabel value="Data demissão" styleClass="input-2" />
+											<p:inputMask mask="99/99/9999" styleClass="input-2 center"
+												value="#{cadastroFuncionarioBean.contrato.demissao}">
+												<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+											</p:inputMask>
+										</div>
+										<div class="ui-grid-col-4 pos">
+											<p:outputLabel value="Salário Base" styleClass="input-2" />
+											<p:inputMask styleClass="input-2 center"
+												onkeypress="mascara(this,valor)"
+												value="#{cadastroFuncionarioBean.contrato.salarioBase}" />
+										</div>
+									</div>
+									<div class="ui-grid-row" id="part">
+										<div class="ui-grid-col-4 pos">
+											<p:outputLabel value="Tem transporte?" styleClass="input-2" />
+											<p:selectBooleanCheckbox label="Tem transporte?"
+												styleClass="input-2 center"
+												value="#{cadastroFuncionarioBean.contrato.temTransporte}" />
+										</div>
+										<div class="ui-grid-col-4 pos">
+											<p:outputLabel value="Tem alimentação?" styleClass="input-2" />
+											<p:selectBooleanCheckbox label="Tem alimentação?"
+												styleClass="input-2 center"
+												value="#{cadastroFuncionarioBean.contrato.temAlimentacao}" />
+										</div>
+										<div class="ui-grid-col-4 pos">
+											<p:outputLabel value="Quantos filhos?" styleClass="input-2" />
+											<p:inputText styleClass="input-2 center"
+												value="#{cadastroFuncionarioBean.contrato.numeroDeFilhos}" />
+										</div>
+									</div>
+									<div class="ui-grid-row">
+										<div class="ui-grid-col-12">
+											<p:toolbar>
+												<f:facet name="right">
+													<p:commandButton value="Salvar" process="@this"
+														partialSubmit="true"
+														actionListener="#{cadastroFuncionarioBean.salvarContrato()}" />
+													<p:commandButton value="Novo" process="@this"
+														partialSubmit="true"
+														actionListener="#{cadastroFuncionarioBean.novoContrato()}" />
+												</f:facet>
+											</p:toolbar>
+
+										</div>
+									</div>
+									<div class="ui-grid-row">
+										<div class="ui-grid-col-12">
+											<p:dataTable var="contrato" id="tabela" scrollable="true"
+												scrollHeight="170"
+												value="#{cadastroFuncionarioBean.funcionario.contratosDeTrabalho}">
+												<p:column headerText="Admissão">
+													<h:outputText value="#{contrato.admissao}" />
+												</p:column>
+												<p:column headerText="Salário base">
+													<h:outputText value="#{contrato.salarioBase}" />
+												</p:column>
+												<p:column headerText="Ações" styleClass="text-align:center;">
+
+													<p:commandButton value="Editar"
+														action="#{cadastroFuncionarioBean.aoSelecionarContrato(contrato)}">
+													</p:commandButton>
+
+												</p:column>
+											</p:dataTable>
+										</div>
+									</div>
+								</p:fragment>
+							</div>
+						</p:tab>
+						<p:tab title="Expediente">
+							<div class="ui-grid">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-3 pos">
+										<p:outputLabel value="Início" styleClass="input-1" />
+										<p:inputMask mask="99:99" styleClass="input-1 center"
+											value="#{cadastroFuncionarioBean.funcionario.horarioDeTrabalho.inicioDoExpediente}">
+											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+									<div class="ui-grid-col-3 pos">
+										<p:outputLabel value="Intervalo" styleClass="input-1" />
+										<p:inputMask mask="99:99" styleClass="input-1 center"
+											value="#{cadastroFuncionarioBean.funcionario.horarioDeTrabalho.inicioDoAlmoco}">
+											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+									<div class="ui-grid-col-3 pos">
+										<p:outputLabel value="Fim intervalo" styleClass="input-1" />
+										<p:inputMask mask="99:99" styleClass="input-1 center"
+											value="#{cadastroFuncionarioBean.funcionario.horarioDeTrabalho.terminoDoAlmoco}">
+											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+									<div class="ui-grid-col-3">
+										<p:outputLabel value="Término" styleClass="input-1" />
+										<p:inputMask mask="99:99" styleClass="input-1 center"
+											value="#{cadastroFuncionarioBean.funcionario.horarioDeTrabalho.terminoDoExpediente }">
+											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
+										</p:inputMask>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:fieldset legend="Dias da semana com expediente">
+											<p:selectManyCheckbox
+												value="#{cadastroFuncionarioBean.funcionario.horarioDeTrabalho.diasDaSemana}"
+												converter="#{diaDaSemanaConverter}">
+												<f:selectItems
+													value="#{cadastroFornecedorBean.listaDiasDaSemana()}"
+													var="dia" itemLabel="#{dia}" itemValue="#{dia}" />
+											</p:selectManyCheckbox>
+										</p:fieldset>
+									</div>
+								</div>
+							</div>
+						</p:tab>
 						<p:tab title="Endereço">
 							<div class="ui-grid">
 								<div class="ui-grid-row">
 									<div class="ui-grid-col-12">
 										<p:outputLabel value="Rua" styleClass="input-5" />
-										<p:inputText styleClass="input-5"
+										<p:inputText label="Rua" styleClass="input-5"
 											value="#{cadastroFuncionarioBean.funcionario.endereco.rua}" />
 									</div>
 								</div>
 								<div class="ui-grid-row">
 									<div class="ui-grid-col-4 pos">
 										<p:outputLabel value="Número" styleClass="input-2" />
-										<p:inputText styleClass="input-2 center"
+										<p:inputText label="Número" styleClass="input-2 center"
 											value="#{cadastroFuncionarioBean.funcionario.endereco.numero}" />
 									</div>
 									<div class="ui-grid-col-4 pos">
 										<p:outputLabel value="Bairro" styleClass="input-2" />
-										<p:inputText styleClass="input-2 center"
+										<p:inputText label="Bairro" styleClass="input-2 center"
 											value="#{cadastroFuncionarioBean.funcionario.endereco.bairro}" />
 									</div>
 									<div class="ui-grid-col-4">
 										<p:outputLabel value="CEP" styleClass="input-2" />
-										<p:inputMask mask="99999-999" styleClass="input-2 center"
+										<p:inputMask label="CEP" mask="99999-999"
+											styleClass="input-2 center"
 											value="#{cadastroFuncionarioBean.funcionario.endereco.cep.valor}" />
 									</div>
 								</div>
 								<div class="ui-grid-row">
 									<div class="ui-grid-col-4 pos">
 										<p:outputLabel value="Estado" styleClass="input-2" />
-										<p:selectOneMenu
+										<p:selectOneMenu id="estado"
 											value="#{cadastroFuncionarioBean.estadoSelecionado}"
 											filter="true" filterMatchMode="contains" label="Estado"
 											styleClass="input-2">
@@ -96,7 +358,6 @@
 												var="cidade" itemValue="#{cidade}"
 												itemLabel="#{cidade.nome}" />
 										</p:selectOneMenu>
-
 									</div>
 								</div>
 							</div>
@@ -121,7 +382,7 @@
 								<div class="ui-grid-row">
 									<div class="ui-grid-col-12">
 										<p:outputLabel value="E-mail" styleClass="input-3 center" />
-										<p:inputText styleClass="input-5"
+										<p:inputText label="E-mail" styleClass="input-5"
 											value="#{cadastroFuncionarioBean.funcionario.email.valor}" />
 									</div>
 								</div>
@@ -142,9 +403,8 @@
 					</div>
 
 					<p:dataTable id="table" tableStyleClass="linha-form painel-medio"
-						value="#{cadastroFuncionarioBean.model}" 
-						paginator="true" rows="10" paginatorPosition="bottom" lazy="true"
-						var="funcionario">
+						value="#{cadastroFuncionarioBean.model}" paginator="true"
+						rows="10" paginatorPosition="bottom" lazy="true" var="funcionario">
 
 						<p:column headerText="Nome fantasia">
 							<h:outputText value="#{funcionario.nome}" />

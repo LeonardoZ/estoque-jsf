@@ -12,48 +12,50 @@ import com.leonardoz.estoque.modelo.entidade.Entidade;
 @Entity
 public class Usuario extends Entidade {
 
-	@Column(nullable = false, length = 120, unique = true)
-	private String login;
+    private static final long serialVersionUID = 1L;
 
-	@Embedded
-	private Senha senha;
+    @Column(nullable = false, length = 120, unique = true)
+    private String login;
 
-	@Column(nullable = false, length = 120)
-	private String name;
+    @Embedded
+    private Senha senha;
 
-	public Usuario() {
+    @Column(nullable = false, length = 120)
+    private String name;
 
+    public Usuario() {
+
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public void setName(String name) {
+	this.name = name;
+    }
+
+    public String getLogin() {
+	return login;
+    }
+
+    public void setLogin(String login) {
+	this.login = login;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+	if (!(other instanceof Usuario)) {
+	    return false;
 	}
+	Usuario castOther = (Usuario) other;
+	return new EqualsBuilder().append(login, castOther.login).append(senha, castOther.senha)
+		.append(name, castOther.name).isEquals();
+    }
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	@Override
-	public boolean equals(final Object other) {
-		if (!(other instanceof Usuario)) {
-			return false;
-		}
-		Usuario castOther = (Usuario) other;
-		return new EqualsBuilder().append(login, castOther.login).append(senha, castOther.senha)
-				.append(name, castOther.name).isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(login).append(senha).append(name).toHashCode();
-	}
+    @Override
+    public int hashCode() {
+	return new HashCodeBuilder().append(login).append(senha).append(name).toHashCode();
+    }
 
 }

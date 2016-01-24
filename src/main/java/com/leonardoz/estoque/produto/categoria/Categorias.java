@@ -5,12 +5,12 @@ import java.util.Optional;
 
 public interface Categorias {
 
-	void guardarCategoria(Categoria categoria);
+    void guardarCategoria(Categoria categoria);
 
-	void removerCategoria(long idDaCategoria);
+    void removerCategoria(long idDaCategoria);
 
-	Optional<Categoria> recuperarCategoria(long idDaCategoria);
+    Optional<Categoria> recuperarCategoria(long idDaCategoria);
 
-	List<Categoria> recuperarCategorias();
+    List<Categoria> recuperarCategorias();
 
 }

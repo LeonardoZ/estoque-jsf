@@ -13,5 +13,5 @@ import com.leonardoz.estoque.modelo.entidade.Filtro;
  **/
 public interface EspecificaCriteria<T extends Filtro> {
 
-	BiFunction<T, Criteria, Criteria> especificadorDeCriteria();
+    BiFunction<T, Criteria, Criteria> especificadorDeCriteria();
 }

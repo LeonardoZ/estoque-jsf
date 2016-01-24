@@ -13,38 +13,37 @@ import javax.persistence.EntityTransaction;
 @Transactional
 public class TransactionInterceptor implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private @Inject EntityManager manager;
+    private static final long serialVersionUID = 1L;
+    private @Inject EntityManager manager;
 
-	@AroundInvoke
-	public Object invoke(InvocationContext context) throws Exception {
-		EntityTransaction trx = manager.getTransaction();
-		boolean criador = false;
-		try {
-			if (!trx.isActive()) {
-				// algaworks - thanks!
-				// truque para fazer rollback no que já passou
-				// (senão, um futuro commit, confirmaria até mesmo
-				// operações sem transação)
-				trx.begin();
-				trx.rollback();
-				// agora sim inicia a transação
-				trx.begin();
-				criador = true;
-			}
-			return context.proceed();
-		} catch (Exception e) {
-			if (trx != null && criador) {
-				trx.rollback();
-			}
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if (trx != null && trx.isActive() && criador) {
-				System.out.println("Entidade foi comitada");
-				trx.commit();
-			}
-		}
+    @AroundInvoke
+    public Object invoke(InvocationContext context) throws Exception {
+	EntityTransaction trx = manager.getTransaction();
+	boolean criador = false;
+	try {
+	    if (!trx.isActive()) {
+		// algaworks - thanks!
+		// truque para fazer rollback no que já passou
+		// (senão, um futuro commit, confirmaria até mesmo
+		// operações sem transação)
+		trx.begin();
+		trx.rollback();
+		// agora sim inicia a transação
+		trx.begin();
+		criador = true;
+	    }
+	    return context.proceed();
+	} catch (Exception e) {
+	    if (trx != null && criador) {
+		trx.rollback();
+	    }
+	    e.printStackTrace();
+	    throw e;
+	} finally {
+	    if (trx != null && trx.isActive() && criador) {
+		trx.commit();
+	    }
 	}
+    }
 
 }

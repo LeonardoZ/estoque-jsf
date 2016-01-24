@@ -10,38 +10,38 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @MappedSuperclass
-public class Entidade implements Serializable{
+public class Entidade implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private static final long serialVersionUID = 1L;
 
-	public Entidade () {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    public Entidade() {
+
+    }
+
+    public Long getId() {
+	return id;
+    }
+
+    public void setId(Long id) {
+	this.id = id;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+	if (!(other instanceof Entidade)) {
+	    return false;
 	}
+	Entidade castOther = (Entidade) other;
+	return new EqualsBuilder().append(id, castOther.id).isEquals();
+    }
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Override
-	public boolean equals(final Object other) {
-		if (!(other instanceof Entidade)) {
-			return false;
-		}
-		Entidade castOther = (Entidade) other;
-		return new EqualsBuilder().append(id, castOther.id).isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(id).toHashCode();
-	}
+    @Override
+    public int hashCode() {
+	return new HashCodeBuilder().append(id).toHashCode();
+    }
 
 }

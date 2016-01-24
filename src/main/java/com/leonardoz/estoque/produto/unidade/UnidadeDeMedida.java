@@ -13,31 +13,31 @@ import com.leonardoz.estoque.modelo.entidade.Entidade;
 @Table(name = "unidade_de_medida")
 public class UnidadeDeMedida extends Entidade {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "descricao", nullable = false, length = 25)
-	private String descricao;
+    @Column(name = "descricao", nullable = false, length = 25)
+    private String descricao;
 
-	public String getDescricao() {
-		return descricao;
+    public String getDescricao() {
+	return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+	this.descricao = descricao;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+	if (!(other instanceof UnidadeDeMedida)) {
+	    return false;
 	}
+	UnidadeDeMedida castOther = (UnidadeDeMedida) other;
+	return new EqualsBuilder().append(descricao, castOther.descricao).isEquals();
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	@Override
-	public boolean equals(final Object other) {
-		if (!(other instanceof UnidadeDeMedida)) {
-			return false;
-		}
-		UnidadeDeMedida castOther = (UnidadeDeMedida) other;
-		return new EqualsBuilder().append(descricao, castOther.descricao).isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(descricao).toHashCode();
-	}
+    @Override
+    public int hashCode() {
+	return new HashCodeBuilder().append(descricao).toHashCode();
+    }
 
 }

@@ -12,29 +12,29 @@ import javax.persistence.criteria.Root;
 
 public class Localizacoes implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject
-	private EntityManager manager;
+    @Inject
+    private EntityManager manager;
 
-	public Estado recuperaEstado(long id) {
-		return (Estado) manager.find(Estado.class, id);
-	}
+    public Estado recuperaEstado(long id) {
+	return (Estado) manager.find(Estado.class, id);
+    }
 
-	public Cidade recuperaCidade(long id) {
-		return (Cidade) manager.find(Cidade.class, id);
-	}
+    public Cidade recuperaCidade(long id) {
+	return (Cidade) manager.find(Cidade.class, id);
+    }
 
-	public Set<Estado> selecionarTodosEstados() {
-		Pais brasil = (Pais) manager.find(Pais.class, 1l);
-		return brasil.getEstados();
-	}
+    public Set<Estado> selecionarTodosEstados() {
+	Pais brasil = (Pais) manager.find(Pais.class, 1l);
+	return brasil.getEstados();
+    }
 
-	public List<Cidade> buscaCidadesPorEstado(Estado estado) {
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Cidade> query = builder.createQuery(Cidade.class);
-		Root<Cidade> from = query.from(Cidade.class);
-		query.select(from).where(builder.equal(from.get("estado"), estado));
-		return manager.createQuery(query).getResultList();
-	}
+    public List<Cidade> buscaCidadesPorEstado(Estado estado) {
+	CriteriaBuilder builder = manager.getCriteriaBuilder();
+	CriteriaQuery<Cidade> query = builder.createQuery(Cidade.class);
+	Root<Cidade> from = query.from(Cidade.class);
+	query.select(from).where(builder.equal(from.get("estado"), estado));
+	return manager.createQuery(query).getResultList();
+    }
 }

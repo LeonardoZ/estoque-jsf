@@ -7,6 +7,7 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 	<ui:define name="content">
+		<h:outputScript library="js" name="decimal.js" />
 		<div>
 			<p:fieldset legend="Cadastro de Fornecedores">
 				<h:form>
@@ -59,28 +60,28 @@
 									<div class="ui-grid-col-3 pos">
 										<p:outputLabel value="Início" styleClass="input-1" />
 										<p:inputMask mask="99:99" styleClass="input-1 center"
-											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.inicioDoExpediente}">
+											value="#{cadastroFornecedorBean.fornecedor.horarioTrabalho.inicioDoExpediente}">
 											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
 										</p:inputMask>
 									</div>
 									<div class="ui-grid-col-3 pos">
 										<p:outputLabel value="Intervalo" styleClass="input-1" />
 										<p:inputMask mask="99:99" styleClass="input-1 center"
-											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.inicioDoAlmoco}">
+											value="#{cadastroFornecedorBean.fornecedor.horarioTrabalho.inicioDoAlmoco}">
 											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
 										</p:inputMask>
 									</div>
 									<div class="ui-grid-col-3 pos">
 										<p:outputLabel value="Fim intervalo" styleClass="input-1" />
 										<p:inputMask mask="99:99" styleClass="input-1 center"
-											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.terminoDoAlmoco}">
+											value="#{cadastroFornecedorBean.fornecedor.horarioTrabalho.terminoDoAlmoco}">
 											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
 										</p:inputMask>
 									</div>
 									<div class="ui-grid-col-3">
 										<p:outputLabel value="Término" styleClass="input-1" />
 										<p:inputMask mask="99:99" styleClass="input-1 center"
-											value="#{cadastroFornecedorBean.fornecedor.horarioComercial.terminoDoExpediente }">
+											value="#{cadastroFornecedorBean.fornecedor.horarioTrabalho.terminoDoExpediente }">
 											<f:convertDateTime pattern="HH:mm" locale="pt_BR" />
 										</p:inputMask>
 									</div>
@@ -89,7 +90,7 @@
 									<div class="ui-grid-col-12">
 										<p:fieldset legend="Dias da semana com expediente">
 											<p:selectManyCheckbox
-												value="#{cadastroFornecedorBean.fornecedor.horarioComercial.diasDaSemana}"
+												value="#{cadastroFornecedorBean.fornecedor.horarioTrabalho.diasDaSemana}"
 												converter="#{diaDaSemanaConverter}">
 												<f:selectItems
 													value="#{cadastroFornecedorBean.listaDiasDaSemana()}"

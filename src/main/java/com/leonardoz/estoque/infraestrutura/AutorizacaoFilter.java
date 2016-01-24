@@ -13,26 +13,26 @@ import javax.servlet.http.HttpServletResponse;
 
 //@WebFilter("*.xhtml")
 public class AutorizacaoFilter implements Filter {
-	
 
-	@Override
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
-		HttpServletResponse response = (HttpServletResponse) res;
-		HttpServletRequest request = (HttpServletRequest) req;
-//		if (!usuario.isLogado() && !request.getRequestURI().endsWith("/Login.xhtml")
-//				&& !request.getRequestURI().contains("/javax.faces.resource/")) {
-//			response.sendRedirect(request.getContextPath() + "/Login.xhtml");
-//		} else {
-//			chain.doFilter(req, res);
-//		}
-	}
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+	    throws IOException, ServletException {
+	HttpServletResponse response = (HttpServletResponse) res;
+	HttpServletRequest request = (HttpServletRequest) req;
+	// if (!usuario.isLogado() &&
+	// !request.getRequestURI().endsWith("/Login.xhtml")
+	// && !request.getRequestURI().contains("/javax.faces.resource/")) {
+	// response.sendRedirect(request.getContextPath() + "/Login.xhtml");
+	// } else {
+	// chain.doFilter(req, res);
+	// }
+    }
 
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-	}
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+    }
 
-	@Override
-	public void destroy() {
-	}
+    @Override
+    public void destroy() {
+    }
 }

@@ -15,47 +15,47 @@ import com.leonardoz.estoque.modelo.entidade.Entidade;
 @Table(name = "cidade")
 public class Cidade extends Entidade {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "nome", length = 30, nullable = false)
-	private String nome;
+    @Column(name = "nome", length = 30, nullable = false)
+    private String nome;
 
-	@ManyToOne
-	@JoinColumn(name = "estado_id", nullable = false)
-	private Estado estado;
+    @ManyToOne
+    @JoinColumn(name = "estado_id", nullable = false)
+    private Estado estado;
 
-	public Cidade() {
+    public Cidade() {
 
+    }
+
+    public String getNome() {
+	return nome;
+    }
+
+    public void setNome(String nome) {
+	this.nome = nome;
+    }
+
+    public Estado getEstado() {
+	return estado;
+    }
+
+    public void setEstado(Estado estado) {
+	this.estado = estado;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+	if (!(other instanceof Cidade)) {
+	    return false;
 	}
+	Cidade castOther = (Cidade) other;
+	return new EqualsBuilder().append(nome, castOther.nome).append(estado, castOther.estado).isEquals();
+    }
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-
-	@Override
-	public boolean equals(final Object other) {
-		if (!(other instanceof Cidade)) {
-			return false;
-		}
-		Cidade castOther = (Cidade) other;
-		return new EqualsBuilder().append(nome, castOther.nome).append(estado, castOther.estado).isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(nome).append(estado).toHashCode();
-	}
+    @Override
+    public int hashCode() {
+	return new HashCodeBuilder().append(nome).append(estado).toHashCode();
+    }
 
 }

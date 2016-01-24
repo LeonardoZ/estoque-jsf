@@ -3,8 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/templates/default.xhtml">
+	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
 		<div>
@@ -134,7 +133,7 @@
 						value="#{efetuaPagamentoBean.pagamentos}" var="pagamento">
 
 						<p:column headerText="Valor a ser pago">
-							<h:outputText value="#{pagamento.valorTotalParaPagar()}" />
+							<h:outputText value="#{pagamento.valorLiquido()}" />
 						</p:column>
 
 						<p:column headerText="Ações" styleClass="text-align:center;">
